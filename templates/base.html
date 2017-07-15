@@ -1,0 +1,72 @@
+{% load staticfiles %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ABME</title>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/base.css'%}" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+	            {% if user.is_authenticated %}
+	 				<a class="nav-link" href="{% url 'website_home'%}">Home <span class="sr-only"></span></a>
+	            {% else %}
+					<a class="nav-link" href="/">Home <span class="sr-only"></span></a>
+				{% endif %}
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+	            {% if user.is_authenticated %}
+	            <li class="nav-item">
+	              <a class="nav-link" href="{% url 'website_logout' %}">Logout</a>
+	            </li>            
+	            {% else %}
+	            <li class="nav-item">
+	              <a class="nav-link" href="{% url 'website_login' %}">Login</a>
+	            </li>
+	            {% endif %}
+          </ul>
+        </nav>
+        <h3 class="text-muted">ABME</h3>
+      </div>
+
+      <div class="jumbotron">
+      	{% if user.is_authenticated %}
+        <h1 class="display-3">Hello, {{ user }}!</h1>
+        {% else %}
+        <h1 class="display-3">Hello, stranger!</h1>
+        {% endif %}
+
+
+        {% if user.is_authenticated %}
+        <p class="lead">What's up?</p>
+        {% else %}
+        <p class="lead">Try an application and click the button</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up</a></p>
+        {% endif %}
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Mateusz Slisz 2017</p>
+      </footer>
+
+    </div> 
+
+  </body>
+</html>

@@ -1,29 +1,24 @@
+{% extends "base.html" %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Please login</title>
-    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'bootstrap/css/login.css' %}" rel="stylesheet">
-  </head>
-
-  <body>
-
-    <div class="container">
-
-    <form role="form" class="form-signin" method="post" action="{% url 'website_login' %}">
-      <h2 class="form-signin-heading">Please login</h2>
-      {% csrf_token %}
-      {{ form }}
-      <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login" />
-      <input type="hidden" name="next" value="{{ next }}" />
-    </form>
-
-    </div>
-  </body>
-</html>
+{% block content %}
+		<div class="well col-sm-6">
+			<fieldset>
+				<legend>
+					Please login
+				</legend>
+					{% if form.errors %}
+						<p class="text-warning">Your username and password didn't match. Please give us a valid gredential.</p>
+					{% endif %}
+				<div class="panel-body">
+					<form role="form"  method="post" action="{% url 'website_login' %}">
+						{% csrf_token %}
+						{{ form|crispy }}
+						<p><input class="btn btn-primary" type="submit" value="Login" /></p>
+						<input type="hidden" name="next" value="{{ next }}" />
+					</form>
+				</div>
+			</fieldset>
+		</div>
+{% endblock content %}

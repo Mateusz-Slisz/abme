@@ -1,2 +1,19 @@
 {% extends "base.html" %}
+{% block content %}
+      <div class="jumbotron">
+      	{% if user.is_authenticated %}
+        <h1 class="display-3">Hello, {{ user }}!</h1>
+        {% else %}
+        <h1 class="display-3">Hello, stranger!</h1>
+        {% endif %}
+
+
+        {% if user.is_authenticated %}
+        <p class="lead">What's up?</p>
+        {% else %}
+        <p class="lead">Try an application and click the button</p>
+        <p><a class="btn btn-lg btn-success" href="{% url 'user_signup' %}" role="button">Sign up</a></p>
+        {% endif %}
+      </div>
+{% endblock content %}
 

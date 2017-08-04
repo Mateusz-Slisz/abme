@@ -15,7 +15,14 @@
 					<form role="form"  method="post" action="{% url 'website_login' %}">
 						{% csrf_token %}
 						{{ form|crispy }}
-						<p><input class="btn btn-primary" type="submit" value="Login" /></p>
+						<p>
+							<input class="btn btn-success" role="button" type="submit" value="Login" />
+						</p>
+						{% if messages %}
+								{% for message in messages %}
+								<p class="alert alert-success">{{ message }}</p>
+								{% endfor %}
+						{% endif %}
 						<input type="hidden" name="next" value="{{ next }}" />
 					</form>
 				</div>

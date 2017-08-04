@@ -18,6 +18,7 @@ from django.contrib import admin
 from main import views as main_views
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^user/', include('user.urls')),

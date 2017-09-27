@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from main import views as main_views
 from django.contrib.auth import views as auth_views
+from .api import router
 
 
 urlpatterns = [
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^$', main_views.home, name='website_home'),
     url(r'^login/$', auth_views.login, name='website_login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'website_home'} ,name='website_logout'),
+    url(r'^api/', include(router.urls)),
 ]

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="post">
+    {% if messages %}
+        {% for message in messages %}
+            <p class="alert alert-success">{{ message }}<a href="{% url 'user_profile' username=user.username %}">View your profile</a></p>
+        {% endfor %}
+    {% endif %}
+    {% csrf_token %}
+    {{ user_form|crispy}}
+    {{ profile_form|crispy }}
+    <p><input class="btn btn-success" role="button" type="submit" value="Save changes" /></p>
+  </form>
+{% endblock content %}

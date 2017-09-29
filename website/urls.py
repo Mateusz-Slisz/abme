@@ -22,9 +22,9 @@ from .api import router
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user/', include('user.urls')),
     url(r'^$', main_views.home, name='website_home'),
     url(r'^login/$', auth_views.login, name='website_login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'website_home'} ,name='website_logout'),
     url(r'^api/', include(router.urls)),
+    url(r'^', include('user.urls')),
 ]

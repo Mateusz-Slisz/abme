@@ -3,15 +3,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% if messages %}
         {% for message in messages %}
-            <p class="alert alert-success">{{ message }}<a href="{% url 'user_profile' username=user.username %}">View your profile</a></p>
+            <p class="alert alert-success">{{ message }}<a href="{% url 'user_profile' user.username %}">View your profile</a></p>
         {% endfor %}
     {% endif %}
     {% csrf_token %}
     {{ user_form|crispy}}
     {{ profile_form|crispy }}
+    {{ profile.picture }}
     <p><input class="btn btn-success" role="button" type="submit" value="Save changes" /></p>
   </form>
 {% endblock content %}

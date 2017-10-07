@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Your Username: {{ user }}</h1>
+    <h1>Public profile</h1>
+    <h2>Username: {{ user }}</h1>
     <h2>First Name: {{ user.first_name }}</h2>
     <h2>Last Name: {{ user.last_name }}</h2>
     <h2>Email: {{ user.email }}</h2>
+    <h2>Bio: {{ user.profile.bio }}</h2>
+    <h2>Profile picture:<br><img height="200" width="200" src="{{ user.profile.picture.url }}"></h2>
 {% endblock content %}

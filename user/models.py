@@ -8,6 +8,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    picture = models.ImageField(upload_to="photos/", default="photos/none/default.png")
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

@@ -30,18 +30,13 @@ def signup(request):
     return render(request, 'user/signup.html', {'form': f})
 
 
-def profile(request, username):
-    user = User.objects.get(username=username)
-    return render(request, 'user/profile.html')
-
-
 
 @login_required
 @transaction.atomic
 def settings(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -56,3 +51,14 @@ def settings(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
+   
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'user/profile.html', context)

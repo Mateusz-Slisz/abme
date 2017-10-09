@@ -6,7 +6,6 @@ from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.core.urlresolvers import reverse_lazy
 from .forms import CustomUserCreationForm, ProfileForm, UserForm
-from firstapp.models import Game, Move
 from django.contrib.auth.models import User
 from .models import Profile
 from django.db import transaction

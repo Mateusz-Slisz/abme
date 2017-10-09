@@ -28,3 +28,6 @@ YEARS = map(tuplify, range(1990, current_year + 1))
 class Film(models.Model):
     title = models.CharField(max_length=60)
     year = models.IntegerField(choices=YEARS)
+
+    def __str__(self):
+        return self.title

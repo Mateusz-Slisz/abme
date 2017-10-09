@@ -8,11 +8,11 @@ from .models import Profile
 class CustomUserCreationForm(forms.Form):
     username = forms.CharField(label='Enter Username', min_length=4, max_length=20)
     email = forms.EmailField(label='Enter email')
-    password1 = forms.CharField(label='Enter password', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Enter password', widget=forms.PasswordInput, min_length=6)
     password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
 
     def clean_username(self):
-        username = self.cleaned_data['username'].lower()
+        username = self.cleaned_data['username']
         r = User.objects.filter(username=username)
         if r.count():
             raise  ValidationError("Username already exists")
@@ -50,4 +50,4 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('birth_date', 'location', 'bio', 'picture')
+        fields = ('birth_date', 'location', 'bio', 'picture', 'film')

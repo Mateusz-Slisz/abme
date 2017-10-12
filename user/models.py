@@ -10,7 +10,7 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     picture = models.ImageField(upload_to="photos/", default="photos/none/default.png")
-    film = models.ForeignKey(Film, verbose_name="Film", null=True, blank=True)
+    film = models.ManyToManyField(Film, verbose_name="Film", null=True, blank=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

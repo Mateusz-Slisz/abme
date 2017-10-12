@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-# for the class 'SignUpView'
 from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.core.urlresolvers import reverse_lazy
@@ -9,6 +8,8 @@ from .forms import CustomUserCreationForm, ProfileForm, UserForm
 from django.contrib.auth.models import User
 from .models import Profile
 from django.db import transaction
+from api.models import Author, Book, Film
+
 
 @login_required
 def home(request):
@@ -52,12 +53,33 @@ def settings(request):
     })
 
 
+@login_required
+def settings_films(request):
+    films = Film.objects.all()
+
+    context = {
+        'films': films,
+
+    }
+    return render(request, 'user/settings_films.html', context)
+
+
+@login_required
+def settings_books(request):
+    books = Book.objects.all()
+
+    context = {
+        'books': books,
+    }
+    return render(request, 'user/settings_books.html', context)
+
+
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-   
-
+    
     context = {
         'user': user,
     }
-
     return render(request, 'user/profile.html', context)
+
+

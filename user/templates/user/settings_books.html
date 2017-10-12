@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+    <h1 style="border-bottom: 1px solid #e5e5e5">Books</h1>
+    <div class="row">
+    {% for book in books %}
+        <div class="col-sm-6 col-md-4"><br><br>
+            <h2>{{ book.title }}</h2>{{ book.author }}
+            <figure>
+                <img height="281" width="200" src="{{ book.image.url }}" style="border: 1px solid">
+            </figure>
+            <button type="button" class="btn btn-success btn-sm">Add to favourite</button>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

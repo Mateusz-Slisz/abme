@@ -11,11 +11,11 @@ class AuthorSerializer(ModelSerializer):
 class BookSerializer(ModelSerializer):
     class Meta:
         model = Book
-        fields = ('id', 'author', 'title')
+        fields = ('id', 'author', 'title', 'image')
 
 
 class FilmSerializer(ModelSerializer):
     class Meta:
         model = Film
-        fields = ('id', 'title', 'year')
+        fields = ('id', 'title', 'year', 'image')
         

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+    <h1 style="border-bottom: 1px solid #e5e5e5">Cinema</h1>
+    <div class="row">
+    {% for film in films %}
+        <div class="col-sm-6 col-md-4"><br><br>
+            <h2>{{ film.title }}</h2>{{ film.year }}
+            <figure>
+                <img height="281" width="200" src="{{ film.image.url }}" style="border: 1px solid">
+            </figure>
+            <button type="button" class="btn btn-success btn-sm">Add to favourite</button>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

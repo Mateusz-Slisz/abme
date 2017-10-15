@@ -57,24 +57,27 @@ def settings(request):
 def settings_films(request):
     add_film_id = request.GET.get('add_film_id', None)
     del_film_id = request.GET.get('del_film_id', None)
-    
+    activ_user = get_object_or_404(User, username=request.user)
+    activ_profile = get_object_or_404(Profile, user=activ_user)
+
     if request.method == 'GET' and add_film_id is not None:
-        activ_user = get_object_or_404(User, username=request.user)
-        activ_profile = get_object_or_404(Profile, user=activ_user)
         film = get_object_or_404(Film, id=add_film_id)
         activ_profile.film.add(film)
         
+        context = {
+            'film': film,
+        }
+        
     if request.method == 'GET' and del_film_id is not None:
-        activ_user = get_object_or_404(User, username=request.user)
-        activ_profile = get_object_or_404(Profile, user=activ_user)
         film = get_object_or_404(Film, id=del_film_id)
         activ_profile.film.remove(film)
-    
+
+    p_films = activ_profile.film.all()
     films = Film.objects.all()
 
     context = {
         'films': films,
-
+        'p_films': p_films,
     }
     return render(request, 'user/settings_films.html', context)
 

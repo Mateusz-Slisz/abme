@@ -55,6 +55,21 @@ def settings(request):
 
 @login_required
 def settings_films(request):
+    add_film_id = request.GET.get('add_film_id', None)
+    del_film_id = request.GET.get('del_film_id', None)
+    
+    if request.method == 'GET' and add_film_id is not None:
+        activ_user = get_object_or_404(User, username=request.user)
+        activ_profile = get_object_or_404(Profile, user=activ_user)
+        film = get_object_or_404(Film, id=add_film_id)
+        activ_profile.film.add(film)
+        
+    if request.method == 'GET' and del_film_id is not None:
+        activ_user = get_object_or_404(User, username=request.user)
+        activ_profile = get_object_or_404(Profile, user=activ_user)
+        film = get_object_or_404(Film, id=del_film_id)
+        activ_profile.film.remove(film)
+    
     films = Film.objects.all()
 
     context = {
@@ -76,9 +91,13 @@ def settings_books(request):
 
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-    
+
+    var = get_object_or_404(Profile, user=user)
+    film = var.film.all()
+
     context = {
         'user': user,
+        'film': film,
     }
     return render(request, 'user/profile.html', context)
 

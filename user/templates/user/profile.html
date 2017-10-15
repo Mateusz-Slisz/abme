@@ -7,4 +7,10 @@
     <h2>Email: {{ user.email }}</h2>
     <h2>Bio: {{ user.profile.bio }}</h2>
     <h2>Profile picture:<br><img height="200" width="200" src="{{ user.profile.picture.url }}"></h2>
+    {% for film in film %}
+    <h2>{{ film.title }}</h2>
+    <figure>
+        <img height="281" width="200" src="{{ film.image.url }}" style="border: 1px solid">
+    </figure>
+    {% endfor %}
 {% endblock content %}

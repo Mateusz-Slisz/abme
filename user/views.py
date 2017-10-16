@@ -13,7 +13,13 @@ from api.models import Author, Book, Film
 
 @login_required
 def home(request):
-    return render(request, 'user/home.html')
+    activ_user = get_object_or_404(User, username=request.user)
+    activ_profile = get_object_or_404(Profile, user=activ_user)
+
+    context = {
+        'activ_profile': activ_profile,
+    }
+    return render(request, 'user/home.html', context)
 
 
 def signup(request):
@@ -47,10 +53,17 @@ def settings(request):
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'user/settings.html', {
+
+    activ_user = get_object_or_404(User, username=request.user)
+    activ_profile = get_object_or_404(Profile, user=activ_user)
+
+    context = {
         'user_form': user_form,
-        'profile_form': profile_form
-    })
+        'profile_form': profile_form,
+        'activ_profile': activ_profile,
+    }
+
+    return render(request, 'user/settings.html', context)
 
 
 @login_required
@@ -78,29 +91,56 @@ def settings_films(request):
     context = {
         'films': films,
         'p_films': p_films,
+        'activ_profile': activ_profile,
     }
     return render(request, 'user/settings_films.html', context)
 
 
 @login_required
 def settings_books(request):
+    add_book_id = request.GET.get('add_book_id', None)
+    del_book_id = request.GET.get('del_book_id', None)
+    activ_user = get_object_or_404(User, username=request.user)
+    activ_profile = get_object_or_404(Profile, user=activ_user)
+
+    if request.method == 'GET' and add_book_id is not None:
+        book = get_object_or_404(Book, id=add_book_id)
+        activ_profile.book.add(book)
+        
+        context = {
+            'book': book,
+        }
+        
+    if request.method == 'GET' and del_book_id is not None:
+        book = get_object_or_404(Book, id=del_book_id)
+        activ_profile.book.remove(book)
+
+    p_books = activ_profile.book.all()
     books = Book.objects.all()
 
     context = {
         'books': books,
+        'p_books': p_books,
+        'activ_profile': activ_profile,
     }
     return render(request, 'user/settings_books.html', context)
 
 
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-
     var = get_object_or_404(Profile, user=user)
+
     film = var.film.all()
+    book = var.book.all()
+
+    activ_user = get_object_or_404(User, username=request.user)
+    activ_profile = get_object_or_404(Profile, user=activ_user)
 
     context = {
         'user': user,
         'film': film,
+        'book': book,
+        'activ_profile': activ_profile,
     }
     return render(request, 'user/profile.html', context)
 

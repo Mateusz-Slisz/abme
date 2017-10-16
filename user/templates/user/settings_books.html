@@ -7,12 +7,63 @@
     <div class="row">
     {% for book in books %}
         <div class="col-sm-6 col-md-4"><br><br>
-            <h2>{{ book.title }}</h2>{{ book.author }}
+            <h3>{{ book.title }} {{ book.author }}</h3>
+            <h4>{% if book in p_books %}On your list{% endif %}</h4>
             <figure>
                 <img height="281" width="200" src="{{ book.image.url }}" style="border: 1px solid">
             </figure>
-            <button type="button" class="btn btn-success btn-sm">Add to favourite</button>
+            {% if book not in p_books %}
+            <a class="addbutton btn btn-sm btn-success" id="add {{ book.id }} " href="" add_data-catid=" {{ book.id }} ">
+                Add
+            </a>
+            {% endif %}
+            {% if book in p_books %}
+            <a class="delbutton btn btn-sm btn-danger" id="del {{ book.id }} " href="" del_data-catid=" {{ book.id }} ">
+                Del
+            </a>
+            {% endif %}
         </div>
     {% endfor %}
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    $('.addbutton').click(function(){
+    var catid;
+    catid = $(this).attr("add_data-catid");
+    $.ajax(
+    {
+        type:"get",
+        data:{
+                 add_book_id: catid
+        },
+        success: function(data) 
+        {
+            $( '#add'+ catid ).remove();
+            $( '#message' ).text(data);
+            
+        }
+     })
+    });
+    </script>
+
+    <script type="text/javascript">
+        $('.delbutton').click(function(){
+        var catid;
+        catid = $(this).attr("del_data-catid");
+        $.ajax(
+        {
+            type:"get",
+            data:{
+                     del_book_id: catid
+            },
+            success: function(data) 
+            {
+                $( '#del'+ catid ).remove();
+                $( '#message' ).text(data);
+                
+            }
+         })
+        });
+        </script>
 {% endblock %}

@@ -1,10 +1,8 @@
 .main {
-    background-color: #111112;
-    /* background-image: url("https://static.pexels.com/photos/167762/pexels-photo-167762.jpeg"); */
+    background-image: url("https://static.pexels.com/photos/397998/pexels-photo-397998.jpeg");
     background-size: cover;
-    background-repeat: no-repeat;
-    padding-top:80px;
-    padding-bottom:80px;
+    padding-top:300px;
+    padding-bottom:300px;
 }
 
 .extras .col-lg-4 {
@@ -16,11 +14,23 @@
     padding-bottom:80px;
 }
 
-.border {
+.extras-b {
+    padding-top:80px;
+    padding-bottom:80px;
     border-top: 1px #e1e4e8 solid;
 }
 
 .account-reminder {
     font-size: 15px;
     margin-top: 20px;
+}
+
+.footer {
+    padding-top:80px;
+    padding-bottom:40px;
+    background-color: #e1e4e8 ;
+}
+
+a {
+    text-decoration: none !important;
 }

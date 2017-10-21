@@ -1,8 +1,9 @@
 .main {
-    background-image: url("https://static.pexels.com/photos/397998/pexels-photo-397998.jpeg");
-    background-size: cover;
+    background: url("https://static.pexels.com/photos/52971/moon-super-moon-space-science-52971.jpeg") center;
+    background-size:cover;
     padding-top:300px;
     padding-bottom:300px;
+    
 }
 
 .extras .col-lg-4 {

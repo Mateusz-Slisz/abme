@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <link href="{% static 'css/base.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css'%}">
+    <script src="https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
   </head>
-
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
@@ -65,7 +65,7 @@
         <div class="row align-items-center">
           <div class="col-md-6 order-md-1 text-center text-md-left pr-md-5">
             <h1 class="text-white">ABME</h1>
-            <p class="text-white">Hello</p>
+            <p class="text-white"><span id="typed"></span></p>
             <p class="text-white">Try an application and click the button</p>
             <div>
                 <a href="{% url 'user_signup' %}" class="btn btn-outline-primary" role="button" aria-pressed="true">Sign up</a>
@@ -222,6 +222,14 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+      var options = {
+        strings: ["Hello", "Bonjour", "Cześć", "Shalom", "Guten tag","今日は"],
+        typeSpeed: 100,
+        loop: true,
+      }
+      var typed = new Typed("#typed", options);
+    </script>
   </body>
 </html>
 

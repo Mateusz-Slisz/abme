@@ -4,4 +4,7 @@ from django.contrib.auth.models import User
 
 
 def home(request):
-    return render(request, "main/home.html")
+    if request.user.is_authenticated():
+        return render(request, "main/home.html")
+    else:
+        return render(request, "main/home.html")

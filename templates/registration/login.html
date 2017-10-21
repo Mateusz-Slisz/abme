@@ -1,13 +1,30 @@
-{% extends "base.html" %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 
-{% block content %}
-		<div class="well col-sm-6">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ABME</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link href="{% static 'css/base.css'%}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+	<div class="conatiner" style="margin-top:150px;">
+		<div class="row">
+			<div class="col-lg-2 col-md-6 col-6 mr-auto ml-auto">
 			<fieldset>
-				<legend>
-					Please login
-				</legend>
+				<h1 class="text-muted text-center">ABME</h1>
+				<h3 class="text-center">Please login</h3>
 					{% if form.errors %}
 						<p class="text-warning">Your username and password didn't match. Please give us a valid gredential.</p>
 					{% endif %}
@@ -15,17 +32,21 @@
 					<form role="form"  method="post" action="{% url 'website_login' %}">
 						{% csrf_token %}
 						{{ form|crispy }}
-						<p>
-							<input class="btn btn-success" role="button" type="submit" value="Login" />
-						</p>
+						<input class="btn btn-success btn-block" role="button" type="submit" value="Login" style="cursor: pointer;"/>
 						{% if messages %}
-								{% for message in messages %}
-								<p class="alert alert-success">{{ message }}</p>
-								{% endfor %}
+							{% for message in messages %}
+							<p class="alert alert-success">{{ message }}</p>
+							{% endfor %}
 						{% endif %}
 						<input type="hidden" name="next" value="{{ next }}" />
 					</form>
 				</div>
+				<div class="account-reminder">
+					<p>Do not have an account? <a href="{% url 'user_signup' %}">Create an account</a></p>
+				</div>
 			</fieldset>
+			</div>
 		</div>
-{% endblock content %}
+	</div>
+  </body>
+</html>

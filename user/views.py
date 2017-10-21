@@ -133,14 +133,11 @@ def profile(request, username):
     film = var.film.all()
     book = var.book.all()
 
-    activ_user = get_object_or_404(User, username=request.user)
-    activ_profile = get_object_or_404(Profile, user=activ_user)
 
     context = {
         'user': user,
         'film': film,
         'book': book,
-        'activ_profile': activ_profile,
     }
     return render(request, 'user/profile.html', context)
 

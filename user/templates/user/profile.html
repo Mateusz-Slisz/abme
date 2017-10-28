@@ -1,18 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Public profile</h1>
-    <h2>Username: {{ user }}</h1>
-    <h2>First Name: {{ user.first_name }}</h2>
-    <h2>Last Name: {{ user.last_name }}</h2>
-    <h2>Email: {{ user.email }}</h2>
-    <h2>Bio: {{ user.profile.bio }}</h2>
-    <h2>Profile picture:<br><img height="200" width="200" src="{{ user.profile.picture.url }}"></h2>
-    Films
-    {% for film in film %}
-    <h2>{{ film.title }}</h2>
-    {% endfor %}
-    Books
-    {% for book in book %}
-    <h2>{{ book.title }}</h2>
-    {% endfor %}
+    <div class="profile">
+        <div class="row">
+            <div class="col-3">
+                <div class="general">
+                    <img class="rounded" height="200" width="200" src="{{ user.profile.picture.url }}">
+                    <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+                    <p class="text-muted">{{ user.username }}</p>
+                    <p class="h6">{{ user.profile.bio }}</p>
+                    <h6><span class="fa fa-home"></span> {{ user.profile.location }}</h6>
+                    <h6><span class="fa fa-calendar"></span> {{user.profile.birth_date}}</h6>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="bestratefilm">
+                    <h3>Best rated movies</h3>
+                    {% for film in film %}
+                        <div class="col-lg-3 d-inline-block">
+                            <div class="row">
+                                <img src="{{ film.image.url }}" height="60px" width="40px" style="border: 1px solid">
+                                <div>
+                                <h6>{{ film.title|truncatechars:15 }}</h6>
+                                <h6>{{ film.year }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="bestratefilm">
+                    <h3>Best rated Books</h3>
+                        {% for book in book %}
+                        <div class="col-lg-3 d-inline-block">
+                            <div class="row">
+                                <img src="{{ book.image.url }}" height="60px" width="40px" style="border: 1px solid">
+                                <div>
+                                <h6>{{ book.title|truncatechars:15 }}</h6>
+                                <h6>{{ book.author }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

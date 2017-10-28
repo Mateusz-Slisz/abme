@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for film in film %}
+    <h2>{{ film.title }}</h2>
+    {% endfor %}
+{% endblock %}

@@ -141,4 +141,26 @@ def profile(request, username):
     }
     return render(request, 'user/profile.html', context)
 
+def profile_films(request, username):
+    user = get_object_or_404(User, username=username)
+    var = get_object_or_404(Profile, user=user)
 
+    film = var.film.all()
+
+    context = {
+        'user': user,
+        'film': film,
+    }
+    return render(request, 'user/profile_films.html', context)
+
+def profile_books(request, username):
+    user = get_object_or_404(User, username=username)
+    var = get_object_or_404(Profile, user=user)
+
+    book = var.book.all()
+
+    context = {
+        'user': user,
+        'book': book,
+    }
+    return render(request, 'user/profile_books.html', context)

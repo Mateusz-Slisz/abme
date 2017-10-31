@@ -1,4 +1,5 @@
 templates/* linguist-vendored
 static/* linguist-vendored
+user/templates/* linguist-vendored
 books/templates/list/* linguist-vendored
 films/templates/list/* linguist-vendored

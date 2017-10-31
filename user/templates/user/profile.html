@@ -1,46 +1,65 @@
 {% extends "base.html" %}
 {% block content %}
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+            <li class="breadcrumb-item"><a href="{% url 'user_profile_films' user %}">Films</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'user_profile_books' user %}">Books</a></li>
+        </ol>
+    </nav>
     <div class="profile">
         <div class="row">
-            <div class="col-3">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                 <div class="general">
                     <img class="rounded" height="200" width="200" src="{{ user.profile.picture.url }}">
-                    <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+                    <h4>{{ full_name }}</h4>
                     <p class="text-muted">{{ user.username }}</p>
                     <p class="h6">{{ user.profile.bio }}</p>
-                    <h6><span class="fa fa-home"></span> {{ user.profile.location }}</h6>
-                    <h6><span class="fa fa-calendar"></span> {{user.profile.birth_date}}</h6>
+                    {% if user.profile.location %}<h6><span class="fa fa-home"></span> {{ user.profile.location }}</h6>{% endif %}
+                    {% if user.profile.birth_date %}<h6><span class="fa fa-calendar"></span> {{user.profile.birth_date}}</h6>{% endif %}
+                    {% if user.email %}<h6><span class="fa fa-envelope-o"></span> {{user.email}}</h6>{% endif %}
+                    
                 </div>
             </div>
-            <div class="col-9">
-                <div class="bestratefilm">
-                    <h3>Best rated movies</h3>
-                    {% for film in film %}
-                        <div class="col-lg-3 d-inline-block">
-                            <div class="row">
-                                <img src="{{ film.image.url }}" height="60px" width="40px" style="border: 1px solid">
-                                <div>
-                                <h6>{{ film.title|truncatechars:15 }}</h6>
-                                <h6>{{ film.year }}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="bestratefilm">
-                    <h3>Best rated Books</h3>
-                        {% for book in book %}
-                        <div class="col-lg-3 d-inline-block">
-                            <div class="row">
-                                <img src="{{ book.image.url }}" height="60px" width="40px" style="border: 1px solid">
-                                <div>
-                                <h6>{{ book.title|truncatechars:15 }}</h6>
-                                <h6>{{ book.author }}</h6>
-                                </div>
-                            </div>
-                        </div>
+        
+            <div class="col-lg-9 col-md-8 col-sm-6 col-6">
+                {% if film %}
+                <div class="bestratefilms">
+                    <h5>Best rated movies</h5>
+                    <ul class="p-0">
+                    <div class="row">
+                        {% for film in film %}
+                            <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
+                                    <img class="pull-left" src="{{ film.image.url }}" height="60px" width="40px" style="border: 1px solid">
+                                    <div class="pull-left">
+                                    <h6>{{ film.title|truncatechars:15 }}</h6>
+                                    
+                                    <h6 class="text-muted">{{ film.year }}</h6>
+                                    </div>
+                            </li>
                         {% endfor %}
+                    </div>
+                    </ul>
                 </div>
+                {% endif %}
+                {% if book %}
+                <div class="bestratebooks">
+                    <h5>Best rated Books</h5>
+                    <ul class="p-0">
+                        <div class="row">
+                        {% for book in book %}
+                        <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block">
+                                <img class="pull-left" src="{{ book.image.url }}" height="60px" width="40px" style="border: 1px solid">
+                                <div class="pull-left">
+                                <h6>{{ book.title|truncatechars:15 }}</h6>
+                                <h6 class="text-muted">{{ book.author }}</h6>
+                                </div>
+                        </li>
+                        {% endfor %}
+                        </div>
+                    </ul>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

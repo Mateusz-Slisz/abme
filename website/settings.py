@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'api',
+    'films',
+    'books'
 ]
 
 

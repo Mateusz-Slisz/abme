@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+<nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'user_profile' user %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Films</li>
+        <li class="breadcrumb-item"><a href="{% url 'user_profile_books' user %}">Books</a></li>
+    </ol>
+</nav>
     {% for film in film %}
     <h2>{{ film.title }}</h2>
     {% endfor %}

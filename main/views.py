@@ -24,6 +24,6 @@ def home(request):
             return redirect('website_home')
 
     if request.user.is_authenticated():
-        return render(request, "main/home.html")
+        return render(request, "main/home.1.html")
     else:
         return render(request, "main/home.html")

@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.db import transaction
 from api.models import Author, Book, Film
+from films.models import FilmRating
 
 
 @login_required
@@ -70,8 +71,9 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
     full_name = user.first_name + " " + user.last_name
-
+    
     film = var.film.all()
+    ratings = FilmRating.objects.all().filter(user=user)
     book = var.book.all()
 
 
@@ -80,6 +82,7 @@ def profile(request, username):
         'film': film,
         'book': book,
         'full_name': full_name,
+        'ratings': ratings,
     }
     return render(request, 'user/profile.html', context)
 

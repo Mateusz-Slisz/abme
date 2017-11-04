@@ -6,7 +6,8 @@
     <h1 style="border-bottom: 1px solid #e5e5e5">Cinema</h1>
     <div class="row">
     {% for film in films %}
-        <div class="col-sm-6 col-md-4"><br><br>
+        <div class="film col-sm-6 col-md-4 col-lg-3"><br>
+            {{ filmrating.rate }}
             <h3>{{ film.title }} {{ film.year }}</h3>
             <h4>{% if film in p_films %}On your list{% endif %}</h4>
             <figure>
@@ -28,24 +29,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
     <script type="text/javascript">
-    $('.addbutton').click(function(){
-    var catid;
-    catid = $(this).attr("add_data-catid");
-    $.ajax(
-    {
-        type:"get",
-        data:{
-                 add_film_id: catid
-        },
-        success: function(data) 
-        {
-            $( '#add'+ catid ).remove();
-            $( '#message' ).text(data);
-            
-        }
-     })
-    });
-    </script>
+        $('.addbutton').click(function(){
+            var catid;
+            catid = $(this).attr("add_data-catid");
+            $.ajax(
+            {
+                type:"get",
+                data:{
+                         add_film_id: catid
+                },
+                success: function(data) 
+                {
+                    $( '#add'+ catid ).remove();
+                    $( '#message' ).text(data);
+                    
+                }
+             })
+            });
+        </script>
+    
 
     <script type="text/javascript">
         $('.delbutton').click(function(){

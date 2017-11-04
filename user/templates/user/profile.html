@@ -10,11 +10,11 @@
     <div class="profile">
         <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                <div class="general">
+                <div class="general" style="width: 200px;">
                     <img class="rounded" height="200" width="200" src="{{ user.profile.picture.url }}">
                     <h4>{{ full_name }}</h4>
                     <p class="text-muted">{{ user.username }}</p>
-                    <p class="h6">{{ user.profile.bio }}</p>
+                    <p class="h6 pb-2" style="border-bottom: 1px #e1e4e8 solid;">{{ user.profile.bio }}</p>
                     {% if user.profile.location %}<h6><span class="fa fa-home"></span> {{ user.profile.location }}</h6>{% endif %}
                     {% if user.profile.birth_date %}<h6><span class="fa fa-calendar"></span> {{user.profile.birth_date}}</h6>{% endif %}
                     {% if user.email %}<h6><span class="fa fa-envelope-o"></span> {{user.email}}</h6>{% endif %}
@@ -28,15 +28,17 @@
                     <h5>Best rated movies</h5>
                     <ul class="p-0">
                     <div class="row">
-                        {% for film in film %}
-                            <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
-                                    <img class="pull-left" src="{{ film.image.url }}" height="60px" width="40px" style="border: 1px solid">
-                                    <div class="pull-left">
-                                    <h6>{{ film.title|truncatechars:15 }}</h6>
-                                    
-                                    <h6 class="text-muted">{{ film.year }}</h6>
-                                    </div>
-                            </li>
+                        
+                        {% for ratings in ratings %}
+                        <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
+                            
+                            <img class="pull-left" src="{{ ratings.film.image.url }}" height="60px" width="40px" style="border: 1px solid">
+                            <div class="pull-left">
+                            <h6>{{ ratings.film.title|truncatechars:15 }}</h6>
+                            <h6 class="text-muted">{{ ratings.film.year }}</h6>
+                            rate: {{ ratings.rate }}{{ratings.user}}
+                            </div>
+                        </li>
                         {% endfor %}
                     </div>
                     </ul>

@@ -23,20 +23,20 @@
             </div>
         
             <div class="col-lg-9 col-md-8 col-sm-6 col-6">
-                {% if film %}
+                {% if f_ratings %}
                 <div class="bestratefilms">
                     <h5>Best rated movies</h5>
                     <ul class="p-0">
                     <div class="row">
                         
-                        {% for ratings in ratings %}
+                        {% for ratings in f_ratings %}
                         <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
                             
                             <img class="pull-left" src="{{ ratings.film.image.url }}" height="60px" width="40px" style="border: 1px solid">
                             <div class="pull-left">
                             <h6>{{ ratings.film.title|truncatechars:15 }}</h6>
                             <h6 class="text-muted">{{ ratings.film.year }}</h6>
-                            rate: {{ ratings.rate }}{{ratings.user}}
+                            rate: {{ ratings.rate }} {{ ratings.user}}
                             </div>
                         </li>
                         {% endfor %}
@@ -44,17 +44,18 @@
                     </ul>
                 </div>
                 {% endif %}
-                {% if book %}
+                {% if b_ratings %}
                 <div class="bestratebooks">
                     <h5>Best rated Books</h5>
                     <ul class="p-0">
                         <div class="row">
-                        {% for book in book %}
+                        {% for ratings in b_ratings %}
                         <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block">
-                                <img class="pull-left" src="{{ book.image.url }}" height="60px" width="40px" style="border: 1px solid">
+                                <img class="pull-left" src="{{ ratings.book.image.url }}" height="60px" width="40px" style="border: 1px solid">
                                 <div class="pull-left">
-                                <h6>{{ book.title|truncatechars:15 }}</h6>
-                                <h6 class="text-muted">{{ book.author }}</h6>
+                                <h6>{{ ratings.book.title|truncatechars:15 }}</h6>
+                                <h6 class="text-muted">{{ ratings.book.author }}</h6>
+                                rate: {{ ratings.rate }} {{ ratings.user}}
                                 </div>
                         </li>
                         {% endfor %}

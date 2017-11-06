@@ -7,17 +7,22 @@
     <div class="row">
     {% for book in books %}
         <div class="col-sm-6 col-md-4"><br><br>
+            {% for ratings in bookrating %}
+                {% if ratings.book.title in book.title %}
+                    <h6>Rate: {{ ratings.rate }}</h6>
+                {% endif %}
+            {% endfor %}
             <h3>{{ book.title }} {{ book.author }}</h3>
-            <h4>{% if book in p_books %}On your list{% endif %}</h4>
+            <h4>{% if book.title in b%}On your list{% endif %}</h4>
             <figure>
                 <img height="281" width="200" src="{{ book.image.url }}" style="border: 1px solid">
             </figure>
-            {% if book not in p_books %}
+            {% if book.title not in b %}
             <a class="addbutton btn btn-sm btn-success" id="add {{ book.id }} " href="" add_data-catid=" {{ book.id }} ">
                 Add
             </a>
             {% endif %}
-            {% if book in p_books %}
+            {% if book.title in b %}
             <a class="delbutton btn btn-sm btn-danger" id="del {{ book.id }} " href="" del_data-catid=" {{ book.id }} ">
                 Del
             </a>

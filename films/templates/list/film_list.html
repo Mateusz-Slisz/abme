@@ -7,18 +7,24 @@
     <div class="row">
     {% for film in films %}
         <div class="film col-sm-6 col-md-4 col-lg-3"><br>
-            {{ filmrating.rate }}
+            {% for ratings in filmrating %}
+                {% if ratings.film.title in film.title %}
+                    <h6>Rate: {{ ratings.rate }}</h6>
+                {% endif %}
+            {% endfor %}
             <h3>{{ film.title }} {{ film.year }}</h3>
-            <h4>{% if film in p_films %}On your list{% endif %}</h4>
+            {% if film.title in f %}
+            <h5>On your list</h5>
+            {% endif %}
             <figure>
                 <img height="281" width="200" src="{{ film.image.url }}" style="border: 1px solid">
             </figure>
-            {% if film not in p_films %}
+            {% if film.title not in f %}
             <a class="addbutton btn btn-sm btn-success" id="add {{ film.id }} " href="" add_data-catid=" {{ film.id }} ">
                 Add
             </a>
             {% endif %}
-            {% if film in p_films %}
+            {% if film.title in f %}
             <a class="delbutton btn btn-sm btn-danger" id="del {{ film.id }} " href="" del_data-catid=" {{ film.id }} ">
                 Del
             </a>

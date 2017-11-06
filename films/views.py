@@ -19,14 +19,10 @@ def list(request):
 
             if FilmRating.objects.filter(user=activ_user, film=film).exists():
                 filmuser = FilmRating.objects.filter(user=activ_user, film=film)
-                filmuser.update(id=1)
+                filmuser.update(rate=1)
             else:
                 FilmRating.objects.create(user=activ_user, film=film, rate=1)
 
-            context = {
-                'film': film,
-            }
-            
         if request.method == 'GET' and del_film_id is not None:
             film = get_object_or_404(Film, id=del_film_id)
             activ_profile.film.remove(film)
@@ -34,10 +30,14 @@ def list(request):
 
         p_films = activ_profile.film.all()
         films = Film.objects.all()
+        filmrating = FilmRating.objects.filter(user=activ_user)
+        f = filmrating.values_list('film__title', flat=True)
 
         context = {
+            'f': f,
             'films': films,
             'p_films': p_films,
+            'filmrating': filmrating,
             'activ_profile': activ_profile,
         }
         return render(request, 'list/film_list.html', context)

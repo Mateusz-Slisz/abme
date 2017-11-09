@@ -3,8 +3,8 @@ from api.models import Book
 from django.contrib.auth.models import User
 from user.models import Profile
 from .models import BookRating
+from django.db.models import Avg
 
-# Create your views here.
 
 def list(request):
     if request.user.is_authenticated():
@@ -29,10 +29,10 @@ def list(request):
             BookRating.objects.filter(user=activ_user, book=book, rate=1).delete()
 
         p_books = activ_profile.book.all()
-        books = Book.objects.all()
+        books = Book.objects.all().annotate(average_score=Avg('bookrating__rate'))
         bookrating = BookRating.objects.filter(user=activ_user)
         b = bookrating.values_list('book__title', flat=True)
-
+        
         context = {
             'bookrating': bookrating,
             'b': b,

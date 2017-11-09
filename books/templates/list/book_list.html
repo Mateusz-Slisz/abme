@@ -3,32 +3,54 @@
 
 
 {% block content %}
-    <h1 style="border-bottom: 1px solid #e5e5e5">Books</h1>
     <div class="row">
-    {% for book in books %}
-        <div class="col-sm-6 col-md-4"><br><br>
-            {% for ratings in bookrating %}
-                {% if ratings.book.title in book.title %}
-                    <h6>Rate: {{ ratings.rate }}</h6>
+        <h1>List of books</h1>
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Global rating</th>
+                <th scope="col">Your rating</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><img height="70" width="50" src="{{ book.image.url }}" style="border: 1px solid"></td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td><i class="fa fa-star" aria-hidden="true"></i> {{ book.average_score }}</td>
+                <td>
+                {% for ratings in bookrating %}
+                    {% if ratings.book.title in book.title %}
+                    <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
+                    {% endif %}
+                {% endfor %}
+                {% if book.title not in b %}
+                <i class="fa fa-star" aria-hidden="true"></i>--
                 {% endif %}
+                </td>
+                <td>
+                {% if book.title not in b %}
+                <a class="addbutton btn btn-sm btn-success" id="add {{ book.id }} " href="" add_data-catid=" {{ book.id }} ">
+                    Add
+                </a>
+                {% endif %}
+                {% if book.title in b %}
+                <a class="delbutton btn btn-sm btn-danger" id="del {{ book.id }} " href="" del_data-catid=" {{ book.id }} ">
+                    Del
+                </a>
+                {% endif %}
+                </td>
+                </tr>
             {% endfor %}
-            <h3>{{ book.title }} {{ book.author }}</h3>
-            <h4>{% if book.title in b%}On your list{% endif %}</h4>
-            <figure>
-                <img height="281" width="200" src="{{ book.image.url }}" style="border: 1px solid">
-            </figure>
-            {% if book.title not in b %}
-            <a class="addbutton btn btn-sm btn-success" id="add {{ book.id }} " href="" add_data-catid=" {{ book.id }} ">
-                Add
-            </a>
-            {% endif %}
-            {% if book.title in b %}
-            <a class="delbutton btn btn-sm btn-danger" id="del {{ book.id }} " href="" del_data-catid=" {{ book.id }} ">
-                Del
-            </a>
-            {% endif %}
-        </div>
-    {% endfor %}
+            </tbody>
+        </table>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 

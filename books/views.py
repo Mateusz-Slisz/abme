@@ -10,6 +10,7 @@ def list(request):
     if request.user.is_authenticated():
         add_book_id = request.GET.get('add_book_id', None)
         del_book_id = request.GET.get('del_book_id', None)
+        rate = request.GET.get('rate', None)
         activ_user = get_object_or_404(User, username=request.user)
         activ_profile = get_object_or_404(Profile, user=activ_user)
 
@@ -19,17 +20,18 @@ def list(request):
 
             if BookRating.objects.filter(user=activ_user, book=book).exists():
                 bookuser = BookRating.objects.filter(user=activ_user, book=book)
-                bookuser.update(rate=1)
+                bookuser.update(rate=rate)
             else:
-                BookRating.objects.create(user=activ_user, book=book, rate=1)
+                BookRating.objects.create(user=activ_user, book=book, rate=rate)
 
         if request.method == 'GET' and del_book_id is not None:
             book = get_object_or_404(Book, id=del_book_id)
             activ_profile.book.remove(book)
-            BookRating.objects.filter(user=activ_user, book=book, rate=1).delete()
+            BookRating.objects.filter(user=activ_user, book=book, rate=rate).delete()
 
         p_books = activ_profile.book.all()
         books = Book.objects.all().annotate(average_score=Avg('bookrating__rate'))
+        
         bookrating = BookRating.objects.filter(user=activ_user)
         b = bookrating.values_list('book__title', flat=True)
         
@@ -42,7 +44,7 @@ def list(request):
         }
         return render(request, 'list/book_list.html', context)
     else:
-        books = Book.objects.all()
+        books = Book.objects.all().annotate(average_score=Avg('bookrating__rate'))
 
         context = {
             'books': books,

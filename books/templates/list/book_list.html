@@ -3,9 +3,9 @@
 
 
 {% block content %}
-    <div class="row">
+    <div class="row mt-5">
         <h1>List of books</h1>
-        <table class="table mt-5">
+        <table class="table">
             <thead>
                 <tr>
                 <th scope="col"></th>
@@ -14,7 +14,6 @@
                 <th scope="col">Author</th>
                 <th scope="col">Global rating</th>
                 <th scope="col">Your rating</th>
-                <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,25 +25,15 @@
                 <td>{{ book.author }}</td>
                 <td><i class="fa fa-star" aria-hidden="true"></i> {{ book.average_score }}</td>
                 <td>
-                {% for ratings in bookrating %}
-                    {% if ratings.book.title in book.title %}
-                    <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
-                    {% endif %}
-                {% endfor %}
-                {% if book.title not in b %}
-                <i class="fa fa-star" aria-hidden="true"></i>--
-                {% endif %}
-                </td>
-                <td>
-                {% if book.title not in b %}
-                <a class="addbutton btn btn-sm btn-success" id="add {{ book.id }} " href="" add_data-catid=" {{ book.id }} ">
-                    Add
-                </a>
-                {% endif %}
                 {% if book.title in b %}
-                <a class="delbutton btn btn-sm btn-danger" id="del {{ book.id }} " href="" del_data-catid=" {{ book.id }} ">
-                    Del
-                </a>
+                <div class="demo" book_id="{{ book.id }}" data-score="{% for ratings in bookrating %}{% if ratings.book.title in book.title %} {{ ratings.rate }} {% endif %}{% endfor %}">
+                </div>
+                <a class="delbutton" id="del {{ book.id }} " href="" del_data-catid=" {{ book.id }} " 
+                rate_data-catid="{% for ratings in bookrating %}{% if ratings.book.title in book.title %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                </a>   
+                {% else %}
+                <div class="demo" book_id="{{ book.id }}" data-score="{% for ratings in bookrating %}{% if ratings.book.title in book.title %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
                 {% endif %}
                 </td>
                 </tr>
@@ -52,45 +41,55 @@
             </tbody>
         </table>
     </div>
+    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
+    <script src="{% static 'lib/jquery.raty.js' %}"></script>
+    
     <script type="text/javascript">
-    $('.addbutton').click(function(){
-    var catid;
-    catid = $(this).attr("add_data-catid");
-    $.ajax(
-    {
-        type:"get",
-        data:{
-                 add_book_id: catid
-        },
-        success: function(data) 
-        {
-            $( '#add'+ catid ).remove();
-            $( '#message' ).text(data);
-            
-        }
-     })
-    });
+        
+        $('.demo').raty({
+            path: '{% static "lib/images" %}',
+            number: 10,
+            hints:['1','2','3','4','5','6','7','8','9','10'],
+            click: function(score) {
+            var id;
+            id = $(this).attr("book_id");
+            $.ajax(
+            {
+                type:"get",
+                data:{
+                        add_book_id: id,
+                        rate: score,
+                },
+                success: function(data)
+                {
+                    $( '#add'+ id ).remove();
+                    $( '#message' ).text(data);
+                }, 
+             })
+            },
+            });
     </script>
-
+  
     <script type="text/javascript">
         $('.delbutton').click(function(){
         var catid;
         catid = $(this).attr("del_data-catid");
+        var rate;
+        rate = $(this).attr("rate_data-catid");
         $.ajax(
         {
             type:"get",
             data:{
-                     del_book_id: catid
+                    rate: rate,
+                    del_book_id: catid,
             },
             success: function(data) 
             {
                 $( '#del'+ catid ).remove();
                 $( '#message' ).text(data);
-                
             }
          })
         });
-        </script>
+    </script>
 {% endblock %}

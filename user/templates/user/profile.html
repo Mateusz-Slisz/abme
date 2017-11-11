@@ -31,11 +31,11 @@
                         
                         {% for ratings in f_ratings %}
                         <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
-                            <img class="pull-left" src="{{ ratings.film.image.url }}" height="60px" width="40px" style="border: 1px solid">
+                            <img class="pull-left" src="{{ ratings.film.image.url }}" height="70px" width="50px" style="border: 1px solid">
                             <div class="pull-left">
                             <h6>{{ ratings.film.title|truncatechars:15 }}</h6>
                             <h6 class="text-muted">{{ ratings.film.year }}</h6>
-                            <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }} {{ ratings.user}}
+                            <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
                             </div>
                         </li>
                         {% endfor %}
@@ -50,11 +50,11 @@
                         <div class="row">
                         {% for ratings in b_ratings %}
                         <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block">
-                                <img class="pull-left" src="{{ ratings.book.image.url }}" height="60px" width="40px" style="border: 1px solid">
+                                <img class="pull-left" src="{{ ratings.book.image.url }}" height="70px" width="50px" style="border: 1px solid">
                                 <div class="pull-left">
                                 <h6>{{ ratings.book.title|truncatechars:15 }}</h6>
                                 <h6 class="text-muted">{{ ratings.book.author }}</h6>
-                                rate: {{ ratings.rate }} {{ ratings.user}}
+                                <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
                                 </div>
                         </li>
                         {% endfor %}

@@ -3,9 +3,13 @@
 
 
 {% block content %}
-    <div class="row">
+
+
+    <div class="row mt-5">
         <h1>List of films</h1>
-        <table class="table mt-5">
+        
+        
+        <table class="table">
             <thead>
                 <tr>
                 <th scope="col"></th>
@@ -14,7 +18,6 @@
                 <th scope="col">Year</th>
                 <th scope="col">Global rating</th>
                 <th scope="col">Your rating</th>
-                <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,25 +29,16 @@
                 <td>{{ film.year }}</td>
                 <td><i class="fa fa-star" aria-hidden="true"></i> {{ film.average_score }}</td>
                 <td>
-                {% for ratings in filmrating %}
-                    {% if ratings.film.title in film.title %}
-                    <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
-                    {% endif %}
-                {% endfor %}
-                {% if film.title not in f %}
-                <i class="fa fa-star" aria-hidden="true"></i>--
-                {% endif %}
-                </td>
-                <td>
-                {% if film.title not in f %}
-                <a class="addbutton btn btn-sm btn-success" id="add {{ film.id }} " href="" add_data-catid=" {{ film.id }} ">
-                    Add
-                </a>
-                {% endif %}
                 {% if film.title in f %}
-                <a class="delbutton btn btn-sm btn-danger" id="del {{ film.id }} " href="" del_data-catid=" {{ film.id }} ">
-                    Del
-                </a>
+                <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if ratings.film.title in film.title %} {{ ratings.rate }} {% endif %}{% endfor %}">
+
+                </div>
+                <a class="delbutton" id="del {{ film.id }} " href="" del_data-catid=" {{ film.id }} " 
+                rate_data-catid="{% for ratings in filmrating %}{% if ratings.film.title in film.title %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                </a>   
+                {% else %}
+                <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if ratings.film.title in film.title %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
                 {% endif %}
                 </td>
                 </tr>
@@ -52,44 +46,53 @@
             </tbody>
         </table>
     </div>
+    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
+    <script src="{% static 'lib/jquery.raty.js' %}"></script>
+    
     <script type="text/javascript">
-        $('.addbutton').click(function(){
-            var catid;
-            catid = $(this).attr("add_data-catid");
+        
+        $('.demo').raty({
+            path: '{% static "lib/images" %}',
+            number: 10,
+            hints:['1','2','3','4','5','6','7','8','9','10'],
+            click: function(score) {
+            var id;
+            id = $(this).attr("film_id");
             $.ajax(
             {
                 type:"get",
                 data:{
-                         add_film_id: catid
+                        add_film_id: id,
+                        rate: score,
                 },
-                success: function(data) 
+                success: function(data)
                 {
-                    $( '#add'+ catid ).remove();
+                    $( '#add'+ id ).remove();
                     $( '#message' ).text(data);
-                    
-                }
+                }, 
              })
+            },
             });
-        </script>
-    
-
+    </script>
+  
     <script type="text/javascript">
         $('.delbutton').click(function(){
         var catid;
         catid = $(this).attr("del_data-catid");
+        var rate;
+        rate = $(this).attr("rate_data-catid");
         $.ajax(
         {
             type:"get",
             data:{
-                     del_film_id: catid
+                    rate: rate,
+                    del_film_id: catid,
             },
             success: function(data) 
             {
                 $( '#del'+ catid ).remove();
                 $( '#message' ).text(data);
-                
             }
          })
         });

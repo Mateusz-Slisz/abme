@@ -7,7 +7,14 @@
         <li class="breadcrumb-item"><a href="{% url 'user_profile_books' user %}">Books</a></li>
     </ol>
 </nav>
-    {% for film in film %}
-    <h2>{{ film.title }}</h2>
-    {% endfor %}
+{% for ratings in f_ratings %}
+<li class="col-lg-12 col-md-12 col-sm-12 d-inline-block">
+    <img class="pull-left" src="{{ ratings.film.image.url }}" height="70px" width="50px" style="border: 1px solid">
+    <div class="pull-left">
+    <h6>{{ ratings.film.title|truncatechars:15 }}</h6>
+    <h6 class="text-muted">{{ ratings.film.year }}</h6>
+    <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
+    </div>
+</li>
+{% endfor %}
 {% endblock %}

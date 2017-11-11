@@ -10,6 +10,7 @@ def list(request):
     if request.user.is_authenticated():
         add_film_id = request.GET.get('add_film_id', None)
         del_film_id = request.GET.get('del_film_id', None)
+        rate = request.GET.get('rate', None)
         activ_user = get_object_or_404(User, username=request.user)
         activ_profile = get_object_or_404(Profile, user=activ_user)
         
@@ -19,14 +20,14 @@ def list(request):
 
             if FilmRating.objects.filter(user=activ_user, film=film).exists():
                 filmuser = FilmRating.objects.filter(user=activ_user, film=film)
-                filmuser.update(rate=1)
+                filmuser.update(rate=rate)
             else:
-                FilmRating.objects.create(user=activ_user, film=film, rate=8)
+                FilmRating.objects.create(user=activ_user, film=film, rate=rate)
 
         if request.method == 'GET' and del_film_id is not None:
             film = get_object_or_404(Film, id=del_film_id)
             activ_profile.film.remove(film)
-            FilmRating.objects.filter(user=activ_user, film=film, rate=8).delete()
+            FilmRating.objects.filter(user=activ_user, film=film, rate=rate).delete()
 
         p_films = activ_profile.film.all()
         films = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
@@ -34,7 +35,7 @@ def list(request):
         filmrating = FilmRating.objects.filter(user=activ_user)
         f = filmrating.values_list('film__title', flat=True)
         film_rel = FilmRating.objects.all()
-
+        
 
         context = {
             'f': f,
@@ -46,7 +47,7 @@ def list(request):
         }
         return render(request, 'list/film_list.html', context)
     else:
-        films = Film.objects.all()
+        films = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
 
         context = {
             'films': films,

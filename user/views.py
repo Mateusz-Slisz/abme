@@ -94,10 +94,12 @@ def profile_films(request, username):
     var = get_object_or_404(Profile, user=user)
 
     film = var.film.all()
+    f_ratings = FilmRating.objects.all().filter(user=user)
 
     context = {
         'user': user,
         'film': film,
+        'f_ratings': f_ratings,
     }
     return render(request, 'user/profile_films.html', context)
 
@@ -106,9 +108,11 @@ def profile_books(request, username):
     var = get_object_or_404(Profile, user=user)
 
     book = var.book.all()
+    b_ratings = BookRating.objects.all().filter(user=user)
 
     context = {
         'user': user,
         'book': book,
+        'b_ratings': b_ratings,
     }
     return render(request, 'user/profile_books.html', context)

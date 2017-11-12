@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from user.models import Profile
 from .models import BookRating
 from django.db.models import Avg
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def list(request):
@@ -30,14 +31,25 @@ def list(request):
             BookRating.objects.filter(user=activ_user, book=book, rate=rate).delete()
 
         p_books = activ_profile.book.all()
-        books = Book.objects.all().annotate(average_score=Avg('bookrating__rate'))
+        book_list = Book.objects.all().annotate(average_score=Avg('bookrating__rate'))
         
         bookrating = BookRating.objects.filter(user=activ_user)
-        b = bookrating.values_list('book__title', flat=True)
-        
+        b_title = bookrating.values_list('book__title', flat=True)
+        b_id = bookrating.values_list('book__id', flat=True)
+
+        page = request.GET.get('page')
+        paginator = Paginator(book_list, per_page=10)
+        try:
+            books = paginator.page(page)
+        except PageNotAnInteger:
+            books = paginator.page(1)
+        except EmptyPage:
+            books = paginator(paginator.num_pages)
+
         context = {
             'bookrating': bookrating,
-            'b': b,
+            'b_title': b_title,
+            'b_id': b_id,
             'books': books,
             'p_books': p_books,
             'activ_profile': activ_profile,

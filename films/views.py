@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from user.models import Profile
 from .models import FilmRating
 from django.db.models import Avg
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def list(request):
@@ -30,20 +31,28 @@ def list(request):
             FilmRating.objects.filter(user=activ_user, film=film, rate=rate).delete()
 
         p_films = activ_profile.film.all()
-        films = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
+        film_list = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
 
-        filmrating = FilmRating.objects.filter(user=activ_user)
-        f = filmrating.values_list('film__title', flat=True)
-        film_rel = FilmRating.objects.all()
+        filmrating = FilmRating.objects.all().filter(user=activ_user)
+        f_title = filmrating.values_list('film__title', flat=True)
+        f_id = filmrating.values_list('film__id', flat=True)
         
+        page = request.GET.get('page')
+        paginator = Paginator(film_list, per_page=10)
+        try:
+            films = paginator.page(page)
+        except PageNotAnInteger:
+            films = paginator.page(1)
+        except EmptyPage:
+            films = paginator(paginator.num_pages)
 
         context = {
-            'f': f,
+            'f_title': f_title,
+            'f_id': f_id,
             'films': films,
             'p_films': p_films,
             'filmrating': filmrating,
             'activ_profile': activ_profile,
-            'film_rel': film_rel,
         }
         return render(request, 'list/film_list.html', context)
     else:

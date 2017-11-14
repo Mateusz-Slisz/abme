@@ -18,6 +18,7 @@
                 <th scope="col">Year</th>
                 <th scope="col">Global rating</th>
                 <th scope="col">Your rating</th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +40,13 @@
                 </a>   
                 {% else %}
                 <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                {% endif %}
+                </td>
+                <td>
+                {% if film.title in watchlist_title %}
+                    <a class="dellwatchlist" del_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                {% else %}
+                    <a class="addwatchlist" add_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
                 {% endif %}
                 </td>
                 </tr>
@@ -79,6 +87,35 @@
     
     <script type="text/javascript">
         
+        $('.addwatchlist').click(function(){
+            var id;
+            id = $(this).attr("add_watchlist");
+            $.ajax(
+            {
+                url: this.url,
+                type:"get",
+                data:{
+                        add_watchlist: id,
+                },
+            })
+            });
+        
+        $('.dellwatchlist').click(function(){
+            var id;
+            id = $(this).attr("del_watchlist");
+            $.ajax(
+            {
+                url: this.url,
+                type:"get",
+                data:{
+                        del_watchlist: id,
+                },
+            })
+            });
+    </script>
+    
+    <script type="text/javascript">
+        
         $('.demo').raty({
             path: '{% static "lib/images" %}',
             number: 10,
@@ -98,9 +135,7 @@
                 window.location.reload();
                 },
             });
-    </script>
-  
-    <script type="text/javascript">
+ 
         $('.delbutton').click(function(){
         var catid;
         catid = $(this).attr("del_data-catid");
@@ -115,5 +150,5 @@
             },
          })
         });
-        </script>
+    </script>
 {% endblock %}

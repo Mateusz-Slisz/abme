@@ -25,7 +25,7 @@
                 <td>{{ book.author }}</td>
                 <td><i class="fa fa-star" aria-hidden="true"></i> {{ book.average_score }}</td>
                 <td>
-                {% if book.title in b_title %}
+                {% if book.id in b_id %}
                 <div class="demo" book_id="{{ book.id }}" data-score="{% for ratings in bookrating %}{% if book.id == ratings.book.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
                     <span>{% for ratings in bookrating %}{% if book.id == ratings.book.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
                 </div>
@@ -35,6 +35,13 @@
                 </a>   
                 {% else %}
                 <div class="demo" book_id="{{ book.id }}" data-score="{% for ratings in bookrating %}{% if book.id == ratings.book.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                {% endif %}
+                </td>
+                <td>
+                {% if book.id in readlist_id %}
+                    <a class="dellreadlist" del_readlist="{{ book.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                {% else %}
+                    <a class="addreadlist" add_readlist="{{ book.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
                 {% endif %}
                 </td>
                 </tr>
@@ -72,7 +79,35 @@
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{% static 'lib/jquery.raty.js' %}"></script>
-    
+    <script type="text/javascript">
+        
+        $('.addreadlist').click(function(){
+            var id;
+            id = $(this).attr("add_readlist");
+            $.ajax(
+            {
+                url: this.url,
+                type:"get",
+                data:{
+                        add_readlist: id,
+                },
+            })
+            });
+        
+        $('.dellreadlist').click(function(){
+            var id;
+            id = $(this).attr("del_readlist");
+            $.ajax(
+            {
+                url: this.url,
+                type:"get",
+                data:{
+                        del_readlist: id,
+                },
+            })
+            });
+    </script>
+
     <script type="text/javascript">
         
         $('.demo').raty({
@@ -98,22 +133,20 @@
             window.location.reload();
             },
             });
-    </script>
-  
-    <script type="text/javascript">
+
         $('.delbutton').click(function(){
-        var catid;
-        catid = $(this).attr("del_data-catid");
-        var rate;
-        rate = $(this).attr("rate_data-catid");
-        $.ajax(
-        {
-            type:"GET",
-            data:{
-                    rate: rate,
-                    del_book_id: catid,
-            },
-         })
-        });
+            var catid;
+            catid = $(this).attr("del_data-catid");
+            var rate;
+            rate = $(this).attr("rate_data-catid");
+            $.ajax(
+            {
+                type:"GET",
+                data:{
+                        rate: rate,
+                        del_book_id: catid,
+                },
+                })
+            });
     </script>
 {% endblock %}

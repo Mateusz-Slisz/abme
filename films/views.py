@@ -47,12 +47,11 @@ def list(request):
         film_list = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
 
         filmrating = FilmRating.objects.all().filter(user=activ_user)
-        f_title = filmrating.values_list('film__title', flat=True)
         f_id = filmrating.values_list('film__id', flat=True)
 
         watchlist = FilmWatchlist.objects.all().filter(user=activ_user)
-        watchlist_title = watchlist.values_list('film__title', flat=True)
-        
+        watchlist_id = watchlist.values_list('film__id', flat=True)
+
         page = request.GET.get('page')
         paginator = Paginator(film_list, per_page=10)
         try:
@@ -63,18 +62,25 @@ def list(request):
             films = paginator(paginator.num_pages)
 
         context = {
-            'f_title': f_title,
             'f_id': f_id,
             'films': films,
             'p_films': p_films,
             'filmrating': filmrating,
             'activ_profile': activ_profile,
-            'watchlist_title': watchlist_title,
-            'watchlist': watchlist,
+            'watchlist_id': watchlist_id,
         }
         return render(request, 'list/film_list.html', context)
     else:
-        films = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
+        film_list = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
+
+        page = request.GET.get('page')
+        paginator = Paginator(film_list, per_page=10)
+        try:
+            films = paginator.page(page)
+        except PageNotAnInteger:
+            films = paginator.page(1)
+        except EmptyPage:
+            films = paginator(paginator.num_pages)
 
         context = {
             'films': films,

@@ -30,7 +30,7 @@
                 <td>{{ film.year }}</td>
                 <td><i class="fa fa-star" aria-hidden="true"></i> {{ film.average_score }}</td>
                 <td>
-                {% if film.title in f_title %}
+                {% if film.id in f_id %}
                 <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
                     <span>{% for ratings in filmrating %}{% if film.id == ratings.film.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
                 </div>
@@ -43,7 +43,7 @@
                 {% endif %}
                 </td>
                 <td>
-                {% if film.title in watchlist_title %}
+                {% if film.id in watchlist_id %}
                     <a class="dellwatchlist" del_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
                 {% else %}
                     <a class="addwatchlist" add_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>

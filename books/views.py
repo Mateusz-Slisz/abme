@@ -19,7 +19,6 @@ def list(request):
 
         if request.method == 'GET' and add_book_id is not None:
             book = get_object_or_404(Book, id=add_book_id)
-            activ_profile.book.add(book)
             if BookRating.objects.filter(user=activ_user, book=book).exists():
                 bookuser = BookRating.objects.filter(user=activ_user, book=book)
                 bookuser.update(rate=rate)
@@ -28,7 +27,6 @@ def list(request):
 
         if request.method == 'GET' and del_book_id is not None:
             book = get_object_or_404(Book, id=del_book_id)
-            activ_profile.book.remove(book)
             BookRating.objects.filter(user=activ_user, book=book, rate=rate).delete()
 
         if request.method == 'GET' and add_readlist is not None:
@@ -43,8 +41,7 @@ def list(request):
             book = get_object_or_404(Book, id=del_readlist)
             BookReadlist.objects.filter(user=activ_user, book=book).delete()
         
-        p_books = activ_profile.book.all()
-        book_list = Book.objects.all().annotate(average_score=Avg('bookrating__rate'))
+        book_list = Book.objects.get_queryset().order_by('id').annotate(average_score=Avg('bookrating__rate'))
         
         bookrating = BookRating.objects.filter(user=activ_user)
         b_id = bookrating.values_list('book__id', flat=True)
@@ -65,13 +62,12 @@ def list(request):
             'bookrating': bookrating,
             'b_id': b_id,
             'books': books,
-            'p_books': p_books,
             'activ_profile': activ_profile,
             'readlist_id': readlist_id,
         }
         return render(request, 'list/book_list.html', context)
     else:
-        book_list = Book.objects.all().annotate(average_score=Avg('bookrating__rate'))
+        book_list = Book.objects.get_queryset().order_by('id').annotate(average_score=Avg('bookrating__rate'))
 
         page = request.GET.get('page')
         paginator = Paginator(book_list, per_page=10)

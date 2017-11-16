@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'films',
-    'books'
+    'books',
+    'serials',
 ]
 
 

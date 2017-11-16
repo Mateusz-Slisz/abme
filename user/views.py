@@ -8,9 +8,10 @@ from .forms import CustomUserCreationForm, ProfileForm, UserForm
 from django.contrib.auth.models import User
 from .models import Profile
 from django.db import transaction
-from api.models import Author, Book, Film
+from api.models import Author, Book, Film, Serial
 from films.models import FilmRating
 from books.models import BookRating
+from serials.models import SerialRating
 
 
 @login_required
@@ -36,7 +37,6 @@ def signup(request):
         f = CustomUserCreationForm()
 
     return render(request, 'user/signup.html', {'form': f})
-
 
 
 @login_required
@@ -72,20 +72,17 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
     full_name = user.first_name + " " + user.last_name
-    
-    film = var.film.all()
+
     f_ratings = FilmRating.objects.all().filter(user=user)
     b_ratings = BookRating.objects.all().filter(user=user)
-    book = var.book.all()
-
+    s_ratings = SerialRating.objects.all().filter(user=user)
 
     context = {
         'user': user,
-        'film': film,
-        'book': book,
         'full_name': full_name,
         'f_ratings': f_ratings,
         'b_ratings': b_ratings,
+        's_ratings': s_ratings,
     }
     return render(request, 'user/profile.html', context)
 
@@ -93,26 +90,34 @@ def profile_films(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
-    film = var.film.all()
     f_ratings = FilmRating.objects.all().filter(user=user)
 
     context = {
         'user': user,
-        'film': film,
         'f_ratings': f_ratings,
     }
     return render(request, 'user/profile_films.html', context)
+
+def profile_serials(request, username):
+    user = get_object_or_404(User, username=username)
+    var = get_object_or_404(Profile, user=user)
+
+    s_ratings = SerialRating.objects.all().filter(user=user)
+
+    context = {
+        'user': user,
+        's_ratings': s_ratings,
+    }
+    return render(request, 'user/profile_serials.html', context)
 
 def profile_books(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
-    book = var.book.all()
     b_ratings = BookRating.objects.all().filter(user=user)
 
     context = {
         'user': user,
-        'book': book,
         'b_ratings': b_ratings,
     }
     return render(request, 'user/profile_books.html', context)

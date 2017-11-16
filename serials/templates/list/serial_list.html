@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+
+    <div class="mt-5">
+        <h1>List of serials</h1>
+        
+        
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Title</th>
+                <th scope="col">Seasons</th>
+                <th scope="col">Global rating</th>
+                <th scope="col">Your rating</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for serial in serials %}
+                <tr>
+                <th scope="row">{{ forloop.counter0|add:serials.start_index }}</th>
+                <td><img height="70" width="50" src="{{ serial.image.url }}" style="border: 1px solid"></td>
+                <td>{{ serial.title }}</td>
+                <td>{{ serial.seasons }}</td>
+                <td><i class="fa fa-star" aria-hidden="true"></i> {{ serial.average_score }}</td>
+                <td>
+                {% if serial.id in s_id %}
+                <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
+                    <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+                </div>
+                <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
+                rate_data-catid="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                    {% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} <i class="fa fa-minus-circle" aria-hidden="true"></i> {% endif %}{% endfor %}
+                </a>   
+                {% else %}
+                <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                {% endif %}
+                </td>
+                <td>
+                {% if serial.id in watchlist_id %}
+                    <a class="dellwatchlist" del_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                {% else %}
+                    <a class="addwatchlist" add_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                {% endif %}
+                </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if serials.has_other_pages %}
+        <nav aria-label="...">
+            <ul class="pagination mb-5">
+
+              {% if serials.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ serials.previous_page_number }}">Prev</a></li>
+              {% else %}
+                <li class="page-item disabled"><span class="page-link">Prev</span></li>
+              {% endif %}
+
+              {% for i in serials.paginator.page_range %}
+                {% if serials.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+              {% endfor %}
+
+              {% if serials.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ serials.next_page_number }}">Next</a></li>
+              {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+              {% endif %}
+
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{% static 'lib/jquery.raty.js' %}"></script>
+    
+    <script type="text/javascript">
+        
+        $('.addwatchlist').click(function(){
+            var id;
+            id = $(this).attr("add_watchlist");
+            $.ajax(
+            {
+                url: this.url,
+                type:"get",
+                data:{
+                        add_watchlist: id,
+                },
+            })
+            });
+        
+        $('.dellwatchlist').click(function(){
+            var id;
+            id = $(this).attr("del_watchlist");
+            $.ajax(
+            {
+                url: this.url,
+                type:"get",
+                data:{
+                        del_watchlist: id,
+                },
+            })
+            });
+    </script>
+    
+    <script type="text/javascript">
+        
+        $('.demo').raty({
+            path: '{% static "lib/images" %}',
+            number: 10,
+            hints:['1','2','3','4','5','6','7','8','9','10'],
+            click: function(score, evt) {
+                var id;
+                id = $(this).attr("serial_id");
+                $.ajax(
+                {
+                    url: "http://127.0.0.1:8000/serials/",
+                    type:"get",
+                    data:{
+                            add_serial_id: id,
+                            rate: score,
+                    },
+                })
+                window.location.reload();
+                },
+            });
+ 
+        $('.delbutton').click(function(){
+        var catid;
+        catid = $(this).attr("del_data-catid");
+        var rate;
+        rate = $(this).attr("rate_data-catid");
+        $.ajax(
+        {
+            type:"get",
+            data:{
+                    rate: rate,
+                    del_serial_id: catid,
+            },
+         })
+        });
+    </script>
+{% endblock %}

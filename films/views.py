@@ -19,7 +19,6 @@ def list(request):
         
         if request.method == 'GET' and add_film_id is not None and rate is not None:
             film = get_object_or_404(Film, id=add_film_id)
-            activ_profile.film.add(film)
             if FilmRating.objects.filter(user=activ_user, film=film).exists():
                 filmuser = FilmRating.objects.filter(user=activ_user, film=film)
                 filmuser.update(rate=rate)
@@ -28,7 +27,6 @@ def list(request):
 
         if request.method == 'GET' and del_film_id is not None and rate is not None:
             film = get_object_or_404(Film, id=del_film_id)
-            activ_profile.film.remove(film)
             FilmRating.objects.filter(user=activ_user, film=film, rate=rate).delete()
         
         if request.method == 'GET' and add_watchlist is not None:
@@ -43,8 +41,7 @@ def list(request):
             film = get_object_or_404(Film, id=del_watchlist)
             FilmWatchlist.objects.filter(user=activ_user, film=film).delete()
 
-        p_films = activ_profile.film.all()
-        film_list = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
+        film_list = Film.objects.get_queryset().order_by('id').annotate(average_score=Avg('filmrating__rate'))
 
         filmrating = FilmRating.objects.all().filter(user=activ_user)
         f_id = filmrating.values_list('film__id', flat=True)
@@ -64,14 +61,13 @@ def list(request):
         context = {
             'f_id': f_id,
             'films': films,
-            'p_films': p_films,
             'filmrating': filmrating,
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
         }
         return render(request, 'list/film_list.html', context)
     else:
-        film_list = Film.objects.all().annotate(average_score=Avg('filmrating__rate'))
+        film_list = Film.objects.get_queryset().order_by('id').annotate(average_score=Avg('filmrating__rate'))
 
         page = request.GET.get('page')
         paginator = Paginator(film_list, per_page=10)

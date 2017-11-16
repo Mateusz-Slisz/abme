@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^(?P<username>[\w.@+-]+)$', user_views.profile, name='user_profile'),
     url(r'^(?P<username>[\w.@+-]+)/films$', user_views.profile_films, name='user_profile_films'),
     url(r'^(?P<username>[\w.@+-]+)/books$', user_views.profile_books, name='user_profile_books'),
+    url(r'^(?P<username>[\w.@+-]+)/serials$', user_views.profile_serials, name='user_profile_serials'),
 ]

@@ -3,8 +3,13 @@ from api.models import Film
 from django.contrib.auth.models import User
 from user.models import Profile
 from .models import FilmRating, FilmWatchlist
-from django.db.models import Avg
+from django.db.models import Avg, Func
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+class Round(Func):
+    function = 'ROUND'
+    template='%(function)s(%(expressions)s, 1)'
 
 
 def list(request):
@@ -20,8 +25,7 @@ def list(request):
         if request.method == 'GET' and add_film_id is not None and rate is not None:
             film = get_object_or_404(Film, id=add_film_id)
             if FilmRating.objects.filter(user=activ_user, film=film).exists():
-                filmuser = FilmRating.objects.filter(user=activ_user, film=film)
-                filmuser.update(rate=rate)
+                FilmRating.objects.filter(user=activ_user, film=film).update(rate=rate)
             else:
                 FilmRating.objects.create(user=activ_user, film=film, rate=rate)
 
@@ -32,8 +36,7 @@ def list(request):
         if request.method == 'GET' and add_watchlist is not None:
             film = get_object_or_404(Film, id=add_watchlist)
             if FilmWatchlist.objects.filter(user=activ_user, film=film).exists():
-                watchlist_film = FilmWatchlist.objects.filter(user=activ_user, film=film)
-                watchlist_film.update()
+                FilmWatchlist.objects.filter(user=activ_user, film=film).update()
             else:
                 FilmWatchlist.objects.create(user=activ_user, film=film)
         
@@ -41,7 +44,7 @@ def list(request):
             film = get_object_or_404(Film, id=del_watchlist)
             FilmWatchlist.objects.filter(user=activ_user, film=film).delete()
 
-        film_list = Film.objects.get_queryset().order_by('id').annotate(average_score=Avg('filmrating__rate'))
+        film_list = Film.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('filmrating__rate')))
 
         filmrating = FilmRating.objects.all().filter(user=activ_user)
         f_id = filmrating.values_list('film__id', flat=True)
@@ -67,7 +70,7 @@ def list(request):
         }
         return render(request, 'list/film_list.html', context)
     else:
-        film_list = Film.objects.get_queryset().order_by('id').annotate(average_score=Avg('filmrating__rate'))
+        film_list = Film.objects.get_queryset().order_by('id').anonate(average_score=Round(Avg('filmrating__rate')))
 
         page = request.GET.get('page')
         paginator = Paginator(film_list, per_page=10)

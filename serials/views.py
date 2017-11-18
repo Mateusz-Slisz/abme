@@ -3,8 +3,13 @@ from api.models import Serial
 from django.contrib.auth.models import User
 from user.models import Profile
 from .models import SerialRating, SerialWatchlist
-from django.db.models import Avg
+from django.db.models import Avg, Func
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+class Round(Func):
+    function = 'ROUND'
+    template='%(function)s(%(expressions)s, 1)'
 
 
 def list(request):
@@ -20,8 +25,7 @@ def list(request):
         if request.method == 'GET' and add_serial_id is not None and rate is not None:
             serial = get_object_or_404(Serial, id=add_serial_id)
             if SerialRating.objects.filter(user=activ_user, serial=serial).exists():
-                serialuser = SerialRating.objects.filter(user=activ_user, serial=serial)
-                serialuser.update(rate=rate)
+                SerialRating.objects.filter(user=activ_user, serial=serial).update(rate=rate)
             else:
                 SerialRating.objects.create(user=activ_user, serial=serial, rate=rate)
 
@@ -32,8 +36,7 @@ def list(request):
         if request.method == 'GET' and add_watchlist is not None:
             serial = get_object_or_404(Serial, id=add_watchlist)
             if SerialWatchlist.objects.filter(user=activ_user, serial=serial).exists():
-                watchlist_serial = SerialWatchlist.objects.filter(user=activ_user, serial=serial)
-                watchlist_serial.update()
+                SerialWatchlist.objects.filter(user=activ_user, serial=serial).update()
             else:
                 SerialWatchlist.objects.create(user=activ_user, serial=serial)
         
@@ -41,7 +44,7 @@ def list(request):
             serial = get_object_or_404(Serial, id=del_watchlist)
             SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
 
-        serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Avg('serialrating__rate'))
+        serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('serialrating__rate')))
 
         serialrating = SerialRating.objects.all().filter(user=activ_user)
         s_id = serialrating.values_list('serial__id', flat=True)
@@ -67,7 +70,7 @@ def list(request):
         }
         return render(request, 'list/serial_list.html', context)
     else:
-        serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Avg('serialrating__rate'))
+        serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('serialrating__rate')))
 
         page = request.GET.get('page')
         paginator = Paginator(serial_list, per_page=10)

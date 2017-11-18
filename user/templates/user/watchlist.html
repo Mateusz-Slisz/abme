@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Your watchlist:</h1>
+
+    {% for f in watchlist_f %}
+        <div class="row mr-auto ml-auto mt-3">
+            <div classs="col-lg">
+                <img class="pull-left" src="{{ f.film.image.url }}" height="210px" width="150px" style="border: 1px solid">
+                <div class="pull-left ml-1">
+                <h5>{{ f.film.title|truncatechars:15 }}</h5>
+                </div>
+            </div>
+        </div> 
+    {% endfor %}
+
+    {% for s in watchlist_s %}
+    <div class="row mr-auto ml-auto mt-3">
+        <div classs="col-lg">
+            <img class="pull-left" src="{{ s.serial.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            <div class="pull-left ml-1">
+            <h5>{{ s.serial.title|truncatechars:15 }}</h5>
+            </div>
+        </div>
+    </div> 
+    {% endfor %}
+
+    {% for b in watchlist_b %}
+    <div class="row mr-auto ml-auto mt-3">
+        <div classs="col-lg">
+            <img class="pull-left" src="{{ b.book.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            <div class="pull-left ml-1">
+            <h5>{{ b.book.title|truncatechars:15 }}</h5>
+            </div>
+        </div>
+    </div> 
+    {% endfor %}
+
+{% endblock %}

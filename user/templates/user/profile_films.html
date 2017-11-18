@@ -9,13 +9,15 @@
     </ol>
 </nav>
 {% for ratings in f_ratings %}
-<li class="col-lg-12 col-md-12 col-sm-12 d-inline-block">
-    <img class="pull-left" src="{{ ratings.film.image.url }}" height="70px" width="50px" style="border: 1px solid">
-    <div class="pull-left">
-    <h6>{{ ratings.film.title|truncatechars:15 }}</h6>
-    <h6 class="text-muted">{{ ratings.film.year }}</h6>
-    <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
+    <div class="row mr-auto ml-auto mt-3">
+        <div classs="col-lg">
+            <img class="pull-left" src="{{ ratings.film.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            <div class="pull-left ml-1">
+            <h5>{{ forloop.counter }}. {{ ratings.film.title|truncatechars:15 }}</h5>
+            <h6>Year: {{ ratings.film.year }}</h6>
+            <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
+            </div>
+        </div>
     </div>
-</li>
 {% endfor %}
 {% endblock %}

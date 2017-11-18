@@ -9,9 +9,9 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.db import transaction
 from api.models import Author, Book, Film, Serial
-from films.models import FilmRating
-from books.models import BookRating
-from serials.models import SerialRating
+from films.models import FilmRating, FilmWatchlist
+from books.models import BookRating, BookWatchlist
+from serials.models import SerialRating, SerialWatchlist
 
 
 @login_required
@@ -73,9 +73,9 @@ def profile(request, username):
     var = get_object_or_404(Profile, user=user)
     full_name = user.first_name + " " + user.last_name
 
-    f_ratings = FilmRating.objects.all().filter(user=user)
-    b_ratings = BookRating.objects.all().filter(user=user)
-    s_ratings = SerialRating.objects.all().filter(user=user)
+    f_ratings = FilmRating.objects.filter(user=user).order_by('-rate')[0:8]
+    b_ratings = BookRating.objects.filter(user=user).order_by('-rate')[0:8]
+    s_ratings = SerialRating.objects.filter(user=user).order_by('-rate')[0:8]
 
     context = {
         'user': user,
@@ -90,7 +90,7 @@ def profile_films(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
-    f_ratings = FilmRating.objects.all().filter(user=user)
+    f_ratings = FilmRating.objects.filter(user=user).order_by('-id')
 
     context = {
         'user': user,
@@ -102,7 +102,7 @@ def profile_serials(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
-    s_ratings = SerialRating.objects.all().filter(user=user)
+    s_ratings = SerialRating.objects.filter(user=user).order_by('-id')
 
     context = {
         'user': user,
@@ -114,10 +114,28 @@ def profile_books(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
-    b_ratings = BookRating.objects.all().filter(user=user)
+    b_ratings = BookRating.objects.filter(user=user).order_by('-id')
 
     context = {
         'user': user,
         'b_ratings': b_ratings,
     }
     return render(request, 'user/profile_books.html', context)
+
+@login_required
+def watchlist(request):
+
+    activ_user = get_object_or_404(User, username=request.user)
+    activ_profile = get_object_or_404(Profile, user=activ_user)
+
+    watchlist_f = FilmWatchlist.objects.filter(user=activ_user)
+    watchlist_s = SerialWatchlist.objects.filter(user=activ_user)
+    watchlist_b = BookWatchlist.objects.filter(user=activ_user)
+
+
+    context = {
+        'watchlist_f': watchlist_f,
+        'watchlist_s': watchlist_s,
+        'watchlist_b': watchlist_b,
+    }
+    return render(request, 'user/watchlist.html', context)

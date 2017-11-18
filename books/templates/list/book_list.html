@@ -38,10 +38,10 @@
                 {% endif %}
                 </td>
                 <td>
-                {% if book.id in readlist_id %}
-                    <a class="dellreadlist" del_readlist="{{ book.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                {% if book.id in watchlist_id %}
+                    <a class="dellwatchlist" del_watchlist="{{ book.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
                 {% else %}
-                    <a class="addreadlist" add_readlist="{{ book.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                    <a class="addwatchlist" add_watchlist="{{ book.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
                 {% endif %}
                 </td>
                 </tr>
@@ -81,28 +81,28 @@
     <script src="{% static 'lib/jquery.raty.js' %}"></script>
     <script type="text/javascript">
         
-        $('.addreadlist').click(function(){
+        $('.addwatchlist').click(function(){
             var id;
-            id = $(this).attr("add_readlist");
+            id = $(this).attr("add_watchlist");
             $.ajax(
             {
                 url: this.url,
                 type:"get",
                 data:{
-                        add_readlist: id,
+                        add_watchlist: id,
                 },
             })
             });
         
-        $('.dellreadlist').click(function(){
+        $('.dellwatchlist').click(function(){
             var id;
-            id = $(this).attr("del_readlist");
+            id = $(this).attr("del_watchlist");
             $.ajax(
             {
                 url: this.url,
                 type:"get",
                 data:{
-                        del_readlist: id,
+                        del_watchlist: id,
                 },
             })
             });

@@ -12,7 +12,7 @@ class BookRating(models.Model):
     rate = models.IntegerField(choices=CHOICES, default=1)
 
 
-class BookReadlist(models.Model):
+class BookWatchlist(models.Model):
     user = models.ForeignKey(User)
     book = models.ForeignKey(Book)
     date = models.DateTimeField(default=timezone.now)

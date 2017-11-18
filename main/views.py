@@ -27,3 +27,4 @@ def home(request):
         return render(request, "main/home.1.html")
     else:
         return render(request, "main/home.html")
+

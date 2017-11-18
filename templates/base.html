@@ -42,6 +42,11 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'book_list' %}">Books</a>
             </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user_watchlist' %}" style="color: gold">Watchlist</a>
+            </li>
+            {% endif %}
           </ul>
           <ul class="navbar-nav ml-auto">
             <form class="form-inline my-2 my-lg-0">

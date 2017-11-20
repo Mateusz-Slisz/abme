@@ -36,6 +36,18 @@ a {
     text-decoration: none !important;
 }
 
+tbody td a, tbody td a:visited {
+    color: #212529 !important;
+}
+
+tbody td a:hover, tbody td a:active {
+    color: #11446d !important;
+}
+
+tbody td a.active a {
+    color: #212529 !important;
+}
+
 .settings {
     margin-top: 30px;
 }

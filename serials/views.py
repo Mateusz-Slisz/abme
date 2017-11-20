@@ -46,10 +46,10 @@ def list(request):
 
         serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('serialrating__rate')))
 
-        serialrating = SerialRating.objects.all().filter(user=activ_user)
+        serialrating = SerialRating.objects.filter(user=activ_user)
         s_id = serialrating.values_list('serial__id', flat=True)
 
-        watchlist = SerialWatchlist.objects.all().filter(user=activ_user)
+        watchlist = SerialWatchlist.objects.filter(user=activ_user)
         watchlist_id = watchlist.values_list('serial__id', flat=True)
 
         page = request.GET.get('page')
@@ -68,7 +68,7 @@ def list(request):
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
         }
-        return render(request, 'list/serial_list.html', context)
+        return render(request, 'serial/list.html', context)
     else:
         serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('serialrating__rate')))
 
@@ -84,4 +84,21 @@ def list(request):
         context = {
             'serials': serials,
         }
-        return render(request, 'list/serial_list.html', context)
+        return render(request, 'serial/list.html', context)
+
+def detail(request, pk):
+    serial = get_object_or_404(Serial, pk=pk)
+
+    if request.user.is_authenticated():
+        activ_user = get_object_or_404(User, username=request.user)
+        rating = SerialRating.objects.filter(user=activ_user, serial=serial)
+
+        context = {
+            'serial': serial,
+            'rating': rating,
+        }
+    else:
+        context = {
+            'serial': serial,
+        }
+    return render(request, 'serial/detail.html', context)

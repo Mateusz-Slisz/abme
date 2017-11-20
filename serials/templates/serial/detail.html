@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+<div class"mt-5">
+    <h6>{{ serial }}</h6>
+    <img height="210" width="150" src="{{ serial.image.url }}" style="border: 1px solid">
+    {% if rating %}
+        {% for r in rating %}
+            {{ r.rate }}
+        {% endfor %}
+    {% else %}
+    0
+    {% endif %}
+</div>
+{% endblock %}

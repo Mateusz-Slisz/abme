@@ -68,7 +68,7 @@ def list(request):
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
         }
-        return render(request, 'list/book_list.html', context)
+        return render(request, 'book/list.html', context)
     else:
         book_list = Book.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('bookrating__rate')))
 
@@ -84,4 +84,22 @@ def list(request):
         context = {
             'books': books,
         }
-        return render(request, 'list/book_list.html', context)
+        return render(request, 'book/list.html', context)
+
+
+def detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    if request.user.is_authenticated():
+        activ_user = get_object_or_404(User, username=request.user)
+        rating = BookRating.objects.filter(user=activ_user, book=book)
+
+        context = {
+            'book': book,
+            'rating': rating,
+        }
+    else:
+        context = {
+            'book': book,
+        }
+    return render(request, 'book/detail.html', context)

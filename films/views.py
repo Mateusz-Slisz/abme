@@ -68,7 +68,7 @@ def list(request):
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
         }
-        return render(request, 'list/film_list.html', context)
+        return render(request, 'film/list.html', context)
     else:
         film_list = Film.objects.get_queryset().order_by('id').anonate(average_score=Round(Avg('filmrating__rate')))
 
@@ -84,4 +84,22 @@ def list(request):
         context = {
             'films': films,
         }
-        return render(request, 'list/film_list.html', context)
+        return render(request, 'film/list.html', context)
+
+
+def detail(request, pk):
+    film = get_object_or_404(Film, pk=pk)
+
+    if request.user.is_authenticated():
+        activ_user = get_object_or_404(User, username=request.user)
+        rating = FilmRating.objects.filter(user=activ_user, film=film)
+
+        context = {
+            'film': film,
+            'rating': rating,
+        }
+    else:
+        context = {
+            'film': film,
+        }
+    return render(request, 'film/detail.html', context)

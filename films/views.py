@@ -3,7 +3,7 @@ from api.models import Film
 from django.contrib.auth.models import User
 from user.models import Profile
 from .models import FilmRating, FilmWatchlist
-from django.db.models import Avg, Func
+from django.db.models import Avg, Func, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -46,10 +46,10 @@ def list(request):
 
         film_list = Film.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('filmrating__rate')))
 
-        filmrating = FilmRating.objects.all().filter(user=activ_user)
+        filmrating = FilmRating.objects.filter(user=activ_user)
         f_id = filmrating.values_list('film__id', flat=True)
 
-        watchlist = FilmWatchlist.objects.all().filter(user=activ_user)
+        watchlist = FilmWatchlist.objects.filter(user=activ_user)
         watchlist_id = watchlist.values_list('film__id', flat=True)
 
         page = request.GET.get('page')
@@ -70,7 +70,7 @@ def list(request):
         }
         return render(request, 'film/list.html', context)
     else:
-        film_list = Film.objects.get_queryset().order_by('id').anonate(average_score=Round(Avg('filmrating__rate')))
+        film_list = Film.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('filmrating__rate')))
 
         page = request.GET.get('page')
         paginator = Paginator(film_list, per_page=10)
@@ -93,10 +93,18 @@ def detail(request, pk):
     if request.user.is_authenticated():
         activ_user = get_object_or_404(User, username=request.user)
         rating = FilmRating.objects.filter(user=activ_user, film=film)
+        current_film = Film.objects.filter(id=film.id).annotate(average_score=Round(Avg('filmrating__rate')),
+                                                                votes=Count('filmrating__user', distinct=True), 
+                                                                inwatchlist=Count('filmwatchlist__user', distinct=True))
+
+        watchlist = FilmWatchlist.objects.filter(film=film, user=activ_user).first()
+
 
         context = {
             'film': film,
             'rating': rating,
+            'current_film': current_film,
+            'watchlist': watchlist,
         }
     else:
         context = {

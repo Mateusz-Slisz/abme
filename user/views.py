@@ -1,14 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic import CreateView
-from django.contrib.auth.forms import UserCreationForm
-from django.core.urlresolvers import reverse_lazy
 from .forms import CustomUserCreationForm, ProfileForm, UserForm
 from django.contrib.auth.models import User
 from .models import Profile
 from django.db import transaction
-from api.models import Author, Book, Film, Serial
 from films.models import FilmRating, FilmWatchlist
 from books.models import BookRating, BookWatchlist
 from serials.models import SerialRating, SerialWatchlist
@@ -86,6 +82,7 @@ def profile(request, username):
     }
     return render(request, 'user/profile.html', context)
 
+
 def profile_films(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
@@ -97,6 +94,7 @@ def profile_films(request, username):
         'f_ratings': f_ratings,
     }
     return render(request, 'user/profile_films.html', context)
+
 
 def profile_serials(request, username):
     user = get_object_or_404(User, username=username)
@@ -110,6 +108,7 @@ def profile_serials(request, username):
     }
     return render(request, 'user/profile_serials.html', context)
 
+
 def profile_books(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
@@ -122,6 +121,7 @@ def profile_books(request, username):
     }
     return render(request, 'user/profile_books.html', context)
 
+
 @login_required
 def watchlist(request):
 
@@ -131,7 +131,6 @@ def watchlist(request):
     watchlist_f = FilmWatchlist.objects.filter(user=activ_user)
     watchlist_s = SerialWatchlist.objects.filter(user=activ_user)
     watchlist_b = BookWatchlist.objects.filter(user=activ_user)
-
 
     context = {
         'watchlist_f': watchlist_f,

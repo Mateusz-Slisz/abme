@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class Round(Func):
     function = 'ROUND'
-    template='%(function)s(%(expressions)s, 1)'
+    template = '%(function)s(%(expressions)s, 1)'
 
 
 def list(request):
@@ -85,6 +85,7 @@ def list(request):
             'serials': serials,
         }
         return render(request, 'serial/list.html', context)
+
 
 def detail(request, pk):
     serial = get_object_or_404(Serial, pk=pk)

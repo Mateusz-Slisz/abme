@@ -1,7 +1,5 @@
-from user.models import Profile
-from django.shortcuts import render, get_object_or_404,redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
 from django.contrib import messages

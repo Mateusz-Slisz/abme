@@ -20,9 +20,9 @@
             {% for book in books %}
                 <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td><img height="70" width="50" src="{{ book.image.url }}" style="border: 1px solid"></td>
+                <td><a href="{% url 'book_detail' pk=book.pk %}"><img class="poster" height="70" width="50" src="{{ book.image.url }}"></a></td>
                 <td><a href="{% url 'book_detail' pk=book.pk %}">{{ book.title }}</a></td>
-                <td><a href="{% url 'book_detail' pk=book.pk %}">{{ book.author }}</a></td>
+                <td>{{ book.author }}</td>
                 <td><i class="fa fa-star" aria-hidden="true"></i> {{ book.average_score }}</td>
                 <td>
                 {% if book.id in b_id %}

@@ -25,7 +25,7 @@
             {% for serial in serials %}
                 <tr>
                 <th scope="row">{{ forloop.counter0|add:serials.start_index }}</th>
-                <td><a href="{% url 'serial_detail' pk=serial.pk %}"><img height="70" width="50" src="{{ serial.image.url }}" style="border: 1px solid"></a></td>
+                <td><a href="{% url 'serial_detail' pk=serial.pk %}"><img class="poster" height="70" width="50" src="{{ serial.image.url }}"></a></td>
                 <td><a href="{% url 'serial_detail' pk=serial.pk %}">{{ serial.title }}</a></td>
                 <td>{{ serial.seasons }}</td>
                 <td><i class="fa fa-star" aria-hidden="true"></i> {{ serial.average_score }}</td>

@@ -4,14 +4,83 @@
 
 {% block content %}
 <div class"mt-5">
-    <h6>{{ film }}</h6>
-    <img height="210" width="150" src="{{ film.image.url }}" style="border: 1px solid">
-    {% if rating %}
-    {% for r in rating %}
-        {{ r.rate }}
-    {% endfor %}
-    {% else %}
-    0
-    {% endif %}
+    <div class="bg-dark text-white" >
+        <br>
+        <div class="row mr-1 ml-1">
+            <div class="col-lg-4">
+                {% if film.id == watchlist.film.id %}
+                    <a class="dellwatchlist" del_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green"></i></a>
+                {% else %}
+                    <a class="addwatchlist" add_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:silver"></i></a>
+                {% endif %}
+                <h2>{{ film.title }} <span class="h5 text-muted">({{ film.year }})</span></h2>
+            </div>
+            
+            <div class="col-lg-4">
+                    {% for f in current_film %}
+                        <div>
+                            <i class="fa fa-star" aria-hidden="true" style="color:gold"></i> 
+                            <span class="h5">{{ f.average_score }}</span>
+                            <span class="small-rate">/10</span>
+                        </div>
+                        <span class="small-votes">{{ f.votes }} votes</span>
+                        <br>
+                        <span class="small-votes">{{ f.inwatchlist }} want to see</span>
+                    {% endfor %}
+            </div>
+            
+            <div class="col-lg-4">
+                    <h6>Your rating:</h6>
+                    {% if rating %}
+                    {% for r in rating %}
+                    <div class="demo" data-score="{{ r.rate }}">
+                        <span>{{ r.rate }}</span>
+                    </div>
+                    <a class="delbutton" id="del {{ film.id }} " href="" del_data-catid=" {{ film.id }} " 
+                    rate_data-catid="{{ r.rate }}" style="color: white">
+                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                    </a>   
+                    {% endfor %}
+                    {% else %}
+                    <div class="demo" data-score="0">
+                    </div>
+                    {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="mt-1">
+                <img class="d-inline-block poster" height="281" width="200" src="{{ film.image.url }}" style="border: 1px solid;">
+                <div class ="d-inline-block">
+                    <h6>Director: {{ film.director }}</h6>
+                    <h6>Writers: {% for writer in film.writers.all %} {{ writer }}{% if forloop.last %}{% else %},{% endif %} {% endfor %}</h6>
+                </div>
+            </div>
+
+            <div>
+                <h4>Description:</h4>
+                <p>{{ film.description }}</p>
+                <h4>Actors:</h4>
+            </div>
+        </div>
+        <div class="col-lg-3" style="border-left: 1px solid;">
+            sidebar
+        </div>
+    </div>
+
 </div>
+<link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="{% static 'lib/jquery.raty.js' %}"></script>
+
+<script type="text/javascript">
+    
+    $('.demo').raty({
+        path: '{% static "lib/images" %}',
+        number: 10,
+        hints:['1','2','3','4','5','6','7','8','9','10'],
+    })
+</script>
 {% endblock %}

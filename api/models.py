@@ -26,6 +26,21 @@ class Writer(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 
+class Actor(models.Model):
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return f'{self.name}'
+
+
 class Book(models.Model):
     title = models.CharField(max_length=60)
     author = models.ForeignKey(Author)
@@ -47,8 +62,10 @@ class Film(models.Model):
     title = models.CharField(max_length=60)
     year = models.IntegerField(choices=YEARS)
     image = models.ImageField(upload_to="images/", default="images/none/blank_poster.jpg")
-    director = models.ForeignKey(Director)
-    writers = models.ManyToManyField(Writer)
+    director = models.ForeignKey(Director, blank=True)
+    writers = models.ManyToManyField(Writer, blank=True)
+    actors = models.ManyToManyField(Actor, blank=True)
+    category = models.ManyToManyField(Category, blank=True)
     description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
     iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 
@@ -57,7 +74,7 @@ class Film(models.Model):
     blandit ante at ipsum feugiat, vitae ultrices enim blandit.""")
 
     def __str__(self):
-        return self.title
+        return f'{self.title}'
 
 
 class Serial(models.Model):
@@ -66,4 +83,4 @@ class Serial(models.Model):
     seasons = models.PositiveSmallIntegerField(default=1)
 
     def __str__(self):
-        return self.title
+        return f'{self.title}'

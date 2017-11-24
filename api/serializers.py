@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Author, Director, Writer, Book, Film, Serial
+from .models import Author, Director, Writer, Actor, Category, Book, Film, Serial
 
 
 class AuthorSerializer(ModelSerializer):
@@ -20,6 +20,18 @@ class WriterSerializer(ModelSerializer):
         fields = ('id', 'first_name', 'last_name')
 
 
+class ActorSerializer(ModelSerializer):
+    class Meta:
+        model = Actor
+        fields = ('id', 'first_name', 'last_name')
+
+
+class CategorySerializer(ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name')
+
+
 class BookSerializer(ModelSerializer):
     class Meta:
         model = Book
@@ -29,7 +41,7 @@ class BookSerializer(ModelSerializer):
 class FilmSerializer(ModelSerializer):
     class Meta:
         model = Film
-        fields = ('id', 'title', 'year', 'director', 'writers', 'description', 'image')
+        fields = ('id', 'title', 'year', 'director', 'writers', 'actors', 'category', 'description', 'image')
 
 
 class SerialSerializer(ModelSerializer):

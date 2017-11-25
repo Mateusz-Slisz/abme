@@ -17,32 +17,33 @@ def list(request):
         add_film_id = request.GET.get('add_film_id', None)
         del_film_id = request.GET.get('del_film_id', None)
         add_watchlist = request.GET.get('add_watchlist', None)
-        del_watchlist= request.GET.get('del_watchlist', None)
+        del_watchlist = request.GET.get('del_watchlist', None)
         rate = request.GET.get('rate', None)
         activ_user = get_object_or_404(User, username=request.user)
         activ_profile = get_object_or_404(Profile, user=activ_user)
-        
-        if request.method == 'GET' and add_film_id is not None and rate is not None:
-            film = get_object_or_404(Film, id=add_film_id)
-            if FilmRating.objects.filter(user=activ_user, film=film).exists():
-                FilmRating.objects.filter(user=activ_user, film=film).update(rate=rate)
-            else:
-                FilmRating.objects.create(user=activ_user, film=film, rate=rate)
 
-        if request.method == 'GET' and del_film_id is not None and rate is not None:
-            film = get_object_or_404(Film, id=del_film_id)
-            FilmRating.objects.filter(user=activ_user, film=film, rate=rate).delete()
-        
-        if request.method == 'GET' and add_watchlist is not None:
-            film = get_object_or_404(Film, id=add_watchlist)
-            if FilmWatchlist.objects.filter(user=activ_user, film=film).exists():
-                FilmWatchlist.objects.filter(user=activ_user, film=film).update()
-            else:
-                FilmWatchlist.objects.create(user=activ_user, film=film)
-        
-        if request.method == 'GET' and del_watchlist is not None:
-            film = get_object_or_404(Film, id=del_watchlist)
-            FilmWatchlist.objects.filter(user=activ_user, film=film).delete()
+        if request.method == 'GET':
+            if add_film_id is not None and rate is not None:
+                film = get_object_or_404(Film, id=add_film_id)
+                if FilmRating.objects.filter(user=activ_user, film=film).exists():
+                    FilmRating.objects.filter(user=activ_user, film=film).update(rate=rate)
+                else:
+                    FilmRating.objects.create(user=activ_user, film=film, rate=rate)
+
+            if del_film_id is not None and rate is not None:
+                film = get_object_or_404(Film, id=del_film_id)
+                FilmRating.objects.filter(user=activ_user, film=film, rate=rate).delete()
+            
+            if add_watchlist is not None:
+                film = get_object_or_404(Film, id=add_watchlist)
+                if FilmWatchlist.objects.filter(user=activ_user, film=film).exists():
+                    FilmWatchlist.objects.filter(user=activ_user, film=film).update()
+                else:
+                    FilmWatchlist.objects.create(user=activ_user, film=film)
+
+            if del_watchlist is not None:
+                film = get_object_or_404(Film, id=del_watchlist)
+                FilmWatchlist.objects.filter(user=activ_user, film=film).delete()
 
         film_list = Film.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('filmrating__rate')))
 
@@ -89,16 +90,38 @@ def list(request):
 
 def detail(request, pk):
     film = get_object_or_404(Film, pk=pk)
-
+    current_film = Film.objects.filter(id=film.id).annotate(average_score=Round(Avg('filmrating__rate')),
+                                                        votes=Count('filmrating__user', distinct=True), 
+                                                        inwatchlist=Count('filmwatchlist__user', distinct=True))
     if request.user.is_authenticated():
+        add_film_id = request.GET.get('add_film_id', None)
+        del_film_id = request.GET.get('del_film_id', None)
+        add_watchlist = request.GET.get('add_watchlist', None)
+        del_watchlist= request.GET.get('del_watchlist', None)
+        rate = request.GET.get('rate', None)
         activ_user = get_object_or_404(User, username=request.user)
+
+        if request.method == 'GET': 
+            if add_film_id is not None and rate is not None:
+                if FilmRating.objects.filter(user=activ_user, film=film).exists():
+                    FilmRating.objects.filter(user=activ_user, film=film).update(rate=rate)
+                else:
+                    FilmRating.objects.create(user=activ_user, film=film, rate=rate)
+
+            if del_film_id is not None and rate is not None:
+                FilmRating.objects.filter(user=activ_user, film=film, rate=rate).delete()
+
+            if add_watchlist is not None:
+                if FilmWatchlist.objects.filter(user=activ_user, film=film).exists():
+                    FilmWatchlist.objects.filter(user=activ_user, film=film).update()
+                else:
+                    FilmWatchlist.objects.create(user=activ_user, film=film)
+
+            if del_watchlist is not None:
+                FilmWatchlist.objects.filter(user=activ_user, film=film).delete()
+
         rating = FilmRating.objects.filter(user=activ_user, film=film)
-        current_film = Film.objects.filter(id=film.id).annotate(average_score=Round(Avg('filmrating__rate')),
-                                                                votes=Count('filmrating__user', distinct=True), 
-                                                                inwatchlist=Count('filmwatchlist__user', distinct=True))
-
         watchlist = FilmWatchlist.objects.filter(film=film, user=activ_user).first()
-
 
         context = {
             'film': film,
@@ -109,5 +132,11 @@ def detail(request, pk):
     else:
         context = {
             'film': film,
+            'current_film': current_film,
         }
     return render(request, 'film/detail.html', context)
+
+
+def top_rated(request):
+
+    return render(request, 'film/top_rated.html')

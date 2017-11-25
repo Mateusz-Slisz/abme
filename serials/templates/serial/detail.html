@@ -4,14 +4,147 @@
 
 {% block content %}
 <div class"mt-5">
-    <h6>{{ serial }}</h6>
-    <img height="210" width="150" src="{{ serial.image.url }}" style="border: 1px solid">
-    {% if rating %}
-        {% for r in rating %}
-            {{ r.rate }}
-        {% endfor %}
-    {% else %}
-    0
-    {% endif %}
-</div>
+        <div class="bg-dark text-white" >
+            <div class="row mr-1 ml-1">
+                <div class="col">
+                    <span class="h6">TV Series ({{ serial.year }}- )</span>
+                    <span class="h6 text-muted">|</span>
+                    <span class="h6">{% for category in serial.category.all %} {{ category }} {% if forloop.last %}{% else %}|{% endif %} {% endfor %}</span>
+                    <span class="h6 text-muted">|</span>
+                    <span class="h6">Seasons: {{ serial.seasons }}</span>
+                </div>
+            </div>
+            <div class="row mr-1 ml-1">
+                <div class="col-lg-4">
+                    {% if serial.id == watchlist.serial.id %}
+                        <a class="dellwatchlist" del_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green"></i></a>
+                    {% else %}
+                        <a class="addwatchlist" add_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:silver"></i></a>
+                    {% endif %}
+                    <h2>{{ serial.title }}</h2>
+                </div>
+                
+                <div class="col-lg-4">
+                        {% for s in current_serial %}
+                            <div>
+                                <i class="fa fa-star" aria-hidden="true" style="color:gold"></i> 
+                                <span class="h5">{{ s.average_score }}</span>
+                                <span class="small-rate">/10</span>
+                            </div>
+                            <span class="small-votes">{{ s.votes }} votes</span>
+                            <br>
+                            <span class="small-votes">{{ s.inwatchlist }} want to see</span>
+                        {% endfor %}
+                </div>
+                
+                <div class="col-lg-4">
+                        <h6>Your rating:</h6>
+                        {% if rating %}
+                        {% for r in rating %}
+                        <div class="demo" serial_id="{{ serial.id }}" data-score="{{ r.rate }}">
+                            <span>{{ r.rate }}</span>
+                        </div>
+                        <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
+                        rate_data-catid="{{ r.rate }}" style="color: white">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        </a>   
+                        {% endfor %}
+                        {% else %}
+                        <div class="demo" serial_id="{{ serial.id }}" data-score="0">
+                            <span>0</span>
+                        </div>
+                        {% endif %}
+    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="mt-1">
+                    <img class="d-inline-block poster" height="281" width="200" src="{{ serial.image.url }}" style="border: 1px solid;">
+                    <div class ="d-inline-block">
+                        <h6>Creator: {% for creator in serial.creator.all %} {{ creator }}{% if forloop.last %}{% else %},{% endif %} {% endfor %}</h6>
+                    </div>
+                </div>
+    
+                <div>
+                    <h4>Description:</h4>
+                    <p>{{ serial.description }}</p>
+                    <h4>Actors:</h4>
+                </div>
+            </div>
+            <div class="col-lg-3" style="border-left: 1px solid;">
+                sidebar
+            </div>
+        </div>
+    
+    </div>
+    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{% static 'lib/jquery.raty.js' %}"></script>
+    
+    <script type="text/javascript">
+        
+        $('.demo').raty({
+            path: '{% static "lib/images" %}',
+            number: 10,
+            hints:['1','2','3','4','5','6','7','8','9','10'],
+            click: function(score, evt) {
+                var id;
+                id = $(this).attr("serial_id");
+                $.ajax(
+                {
+                    type:"get",
+                    data:{
+                            add_serial_id: id,
+                            rate: score,
+                    },
+                })
+                window.location.reload();
+                },
+            });
+    
+        $('.delbutton').click(function(){
+            var catid;
+            catid = $(this).attr("del_data-catid");
+            var rate;
+            rate = $(this).attr("rate_data-catid");
+            $.ajax(
+            {
+                type:"get",
+                data:{
+                        rate: rate,
+                        del_serial_id: catid,
+                },
+             })
+            });
+    </script>
+        <script type="text/javascript">
+            
+            $('.addwatchlist').click(function(){
+                var id;
+                id = $(this).attr("add_watchlist");
+                $.ajax(
+                {
+                    url: this.url,
+                    type:"get",
+                    data:{
+                            add_watchlist: id,
+                    },
+                })
+                });
+            
+            $('.dellwatchlist').click(function(){
+                var id;
+                id = $(this).attr("del_watchlist");
+                $.ajax(
+                {
+                    url: this.url,
+                    type:"get",
+                    data:{
+                            del_watchlist: id,
+                    },
+                })
+                });
+        </script>
 {% endblock %}

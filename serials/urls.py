@@ -6,4 +6,5 @@ from serials import views as serials_views
 urlpatterns = [
     url(r'^$', serials_views.list, name='serial_list'),
     url(r'^(?P<pk>[0-9]+)/$', serials_views.detail, name='serial_detail'),
+    url(r'^top/$', serials_views.top_rated, name='serial_top_rated'),
 ]

@@ -33,11 +33,23 @@
             <li class="nav-item">
               <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'film_list' %}">Films</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="#navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Films
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="{% url 'film_list' %}">List</a>
+                  <a class="dropdown-item" href="{% url 'film_top_rated' %}">Top 100 rated</a>
+                </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'serial_list' %}">Serials</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="#navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    TV Series
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item"href="{% url 'serial_list' %}">List</a>
+                  <a class="dropdown-item" href="{% url 'serial_top_rated' %}">Top 100 rated</a>
+                </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'book_list' %}">Books</a>

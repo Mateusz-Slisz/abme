@@ -3,7 +3,7 @@ from api.models import Serial
 from django.contrib.auth.models import User
 from user.models import Profile
 from .models import SerialRating, SerialWatchlist
-from django.db.models import Avg, Func
+from django.db.models import Avg, Func, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -17,32 +17,33 @@ def list(request):
         add_serial_id = request.GET.get('add_serial_id', None)
         del_serial_id = request.GET.get('del_serial_id', None)
         add_watchlist = request.GET.get('add_watchlist', None)
-        del_watchlist= request.GET.get('del_watchlist', None)
+        del_watchlist = request.GET.get('del_watchlist', None)
         rate = request.GET.get('rate', None)
         activ_user = get_object_or_404(User, username=request.user)
         activ_profile = get_object_or_404(Profile, user=activ_user)
-        
-        if request.method == 'GET' and add_serial_id is not None and rate is not None:
-            serial = get_object_or_404(Serial, id=add_serial_id)
-            if SerialRating.objects.filter(user=activ_user, serial=serial).exists():
-                SerialRating.objects.filter(user=activ_user, serial=serial).update(rate=rate)
-            else:
-                SerialRating.objects.create(user=activ_user, serial=serial, rate=rate)
 
-        if request.method == 'GET' and del_serial_id is not None and rate is not None:
-            serial = get_object_or_404(Serial, id=del_serial_id)
-            SerialRating.objects.filter(user=activ_user, serial=serial, rate=rate).delete()
-        
-        if request.method == 'GET' and add_watchlist is not None:
-            serial = get_object_or_404(Serial, id=add_watchlist)
-            if SerialWatchlist.objects.filter(user=activ_user, serial=serial).exists():
-                SerialWatchlist.objects.filter(user=activ_user, serial=serial).update()
-            else:
-                SerialWatchlist.objects.create(user=activ_user, serial=serial)
-        
-        if request.method == 'GET' and del_watchlist is not None:
-            serial = get_object_or_404(Serial, id=del_watchlist)
-            SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
+        if request.method == 'GET':
+            if add_serial_id is not None and rate is not None:
+                serial = get_object_or_404(Serial, id=add_serial_id)
+                if SerialRating.objects.filter(user=activ_user, serial=serial).exists():
+                    SerialRating.objects.filter(user=activ_user, serial=serial).update(rate=rate)
+                else:
+                    SerialRating.objects.create(user=activ_user, serial=serial, rate=rate)
+
+            if del_serial_id is not None and rate is not None:
+                serial = get_object_or_404(Serial, id=del_serial_id)
+                SerialRating.objects.filter(user=activ_user, serial=serial, rate=rate).delete()
+            
+            if add_watchlist is not None:
+                serial = get_object_or_404(Serial, id=add_watchlist)
+                if SerialWatchlist.objects.filter(user=activ_user, serial=serial).exists():
+                    SerialWatchlist.objects.filter(user=activ_user, serial=serial).update()
+                else:
+                    SerialWatchlist.objects.create(user=activ_user, serial=serial)
+            
+            if del_watchlist is not None:
+                serial = get_object_or_404(Serial, id=del_watchlist)
+                SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
 
         serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('serialrating__rate')))
 
@@ -89,17 +90,53 @@ def list(request):
 
 def detail(request, pk):
     serial = get_object_or_404(Serial, pk=pk)
-
+    current_serial = Serial.objects.filter(id=serial.id).annotate(average_score=Round(Avg('serialrating__rate')),
+                                                        votes=Count('serialrating__user', distinct=True), 
+                                                        inwatchlist=Count('serialwatchlist__user', distinct=True))
     if request.user.is_authenticated():
+        add_serial_id = request.GET.get('add_serial_id', None)
+        del_serial_id = request.GET.get('del_serial_id', None)
+        add_watchlist = request.GET.get('add_watchlist', None)
+        del_watchlist = request.GET.get('del_watchlist', None)
+        rate = request.GET.get('rate', None)
         activ_user = get_object_or_404(User, username=request.user)
+        if request.method == 'GET':
+            if add_serial_id is not None and rate is not None:
+                if SerialRating.objects.filter(user=activ_user, serial=serial).exists():
+                    SerialRating.objects.filter(user=activ_user, serial=serial).update(rate=rate)
+                else:
+                    SerialRating.objects.create(user=activ_user, serial=serial, rate=rate)
+
+            if del_serial_id is not None and rate is not None:
+                SerialRating.objects.filter(user=activ_user, serial=serial, rate=rate).delete()
+
+            if add_watchlist is not None:
+                if SerialWatchlist.objects.filter(user=activ_user, serial=serial).exists():
+                    SerialWatchlist.objects.filter(user=activ_user, serial=serial).update()
+                else:
+                    SerialWatchlist.objects.create(user=activ_user, serial=serial)
+
+            if del_watchlist is not None:
+                serial = get_object_or_404(Serial, id=del_watchlist)
+                SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
+
         rating = SerialRating.objects.filter(user=activ_user, serial=serial)
+        watchlist = SerialWatchlist.objects.filter(serial=serial, user=activ_user).first()
 
         context = {
             'serial': serial,
             'rating': rating,
+            'current_serial': current_serial,
+            'watchlist': watchlist,
         }
     else:
         context = {
             'serial': serial,
+            'current_serial': current_serial,
         }
     return render(request, 'serial/detail.html', context)
+
+
+def top_rated(request):
+
+    return render(request, 'serial/top_rated.html')

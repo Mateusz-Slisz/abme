@@ -1,12 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
 from .serializers import (
-    AuthorSerializer, DirectorSerializer, WriterSerializer, ActorSerializer,
+    AuthorSerializer, DirectorSerializer, WriterSerializer, ActorSerializer, CreatorSerializer,
     CategorySerializer,
     BookSerializer,
     FilmSerializer,
     SerialSerializer,
     )
-from .models import Author, Director, Writer, Actor, Category, Book, Film, Serial
+from .models import Author, Director, Writer, Actor, Category, Creator, Book, Film, Serial
 
 
 class AuthorViewSet(ModelViewSet):
@@ -32,6 +32,11 @@ class CategoryViewSet(ModelViewSet):
 class ActorViewSet(ModelViewSet):
     serializer_class = ActorSerializer
     queryset = Actor.objects.all()
+
+
+class CreatorViewSet(ModelViewSet):
+    serializer_class = CreatorSerializer
+    queryset = Creator.objects.all()
 
 
 class BookViewSet(ModelViewSet):

@@ -11,9 +11,13 @@
 {% for ratings in f_ratings %}
     <div class="row mr-auto ml-auto mt-3">
         <div classs="col-lg">
-            <img class="pull-left" src="{{ ratings.film.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            <a class="detail" href="{% url 'film_detail' pk=ratings.film.pk %}">
+                <img class="pull-left" src="{{ ratings.film.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            </a>
             <div class="pull-left ml-1">
-            <h5>{{ forloop.counter }}. {{ ratings.film.title|truncatechars:15 }}</h5>
+            <a class="detail" href="{% url 'film_detail' pk=ratings.film.pk %}">
+                <h5>{{ forloop.counter }}. {{ ratings.film.title|truncatechars:15 }}</h5>
+            </a>
             <h6>Year: {{ ratings.film.year }}</h6>
             <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
             </div>

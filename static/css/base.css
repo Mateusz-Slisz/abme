@@ -36,15 +36,15 @@ a {
     text-decoration: none !important;
 }
 
-tbody td a, tbody td a:visited {
+a.detail, a.detail:visited {
     color: #212529 !important;
 }
 
-tbody td a:hover, tbody td a:active {
+a.detail:hover, a.detail:active {
     color: #11446d !important;
 }
 
-tbody td a.active a {
+a.detail.active a {
     color: #212529 !important;
 }
 

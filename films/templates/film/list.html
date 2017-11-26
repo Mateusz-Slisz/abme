@@ -25,8 +25,8 @@
             {% for film in films %}
                 <tr>
                 <th scope="row">{{ forloop.counter0|add:films.start_index }}</th>
-                <td><a href="{% url 'film_detail' pk=film.pk %}"><img class="poster" height="70" width="50" src="{{ film.image.url }}"></td>
-                <td><a href="{% url 'film_detail' pk=film.pk %}">{{ film.title }}</a></td>
+                <td><a class="detail" href="{% url 'film_detail' pk=film.pk %}"><img class="poster" height="70" width="50" src="{{ film.image.url }}"></td>
+                <td><a class="detail" href="{% url 'film_detail' pk=film.pk %}">{{ film.title }}</a></td>
                 <td>{{ film.year }}</td>
                 <td><i class="fa fa-star" aria-hidden="true"></i> {{ film.average_score }}</td>
                 <td>

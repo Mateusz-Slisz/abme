@@ -32,9 +32,13 @@
                         
                         {% for ratings in f_ratings %}
                         <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
-                            <img class="pull-left poster" src="{{ ratings.film.image.url }}" height="70px" width="50px">
+                            <a class="detail" href="{% url 'film_detail' pk=ratings.film.pk %}">
+                                <img class="pull-left poster" src="{{ ratings.film.image.url }}" height="70px" width="50px">
+                            </a>
                             <div class="pull-left ml-1">
-                            <h6>{{ ratings.film.title|truncatechars:15 }}</h6>
+                            <a class="detail" href="{% url 'film_detail' pk=ratings.film.pk %}">
+                                <h6>{{ ratings.film.title|truncatechars:15 }}</h6>
+                            </a>
                             <h6 class="text-muted">{{ ratings.film.year }}</h6>
                             <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
                             </div>
@@ -51,10 +55,14 @@
                         <div class="row">
                         {% for ratings in s_ratings %}
                         <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
-                                <img class="pull-left poster" src="{{ ratings.serial.image.url }}" height="70px" width="50px">
+                                <a class="detail" href="{% url 'serial_detail' pk=ratings.serial.pk %}">
+                                    <img class="pull-left poster" src="{{ ratings.serial.image.url }}" height="70px" width="50px">
+                                </a>
                                 <div class="pull-left ml-1">
-                                <h6>{{ ratings.serial.title|truncatechars:15 }}</h6>
-                                <h6 class="text-muted">Seasons: {{ ratings.serial.seasons }}</h6>
+                                <a class="detail" href="{% url 'serial_detail' pk=ratings.serial.pk %}">
+                                    <h6>{{ ratings.serial.title|truncatechars:15 }}</h6>
+                                </a>
+                                <h6 class="text-muted">({{ ratings.serial.year }}- )</h6>
                                 <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
                                 </div>
                         </li>

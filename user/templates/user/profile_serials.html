@@ -11,10 +11,14 @@
 {% for ratings in s_ratings %}
     <div class="row mr-auto ml-auto mt-3">
         <div classs="col-lg">
-            <img class="pull-left" src="{{ ratings.serial.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            <a class="detail" href="{% url 'serial_detail' pk=ratings.serial.pk %}">
+                <img class="pull-left" src="{{ ratings.serial.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            </a>
             <div class="pull-left ml-1">
-            <h5>{{ forloop.counter }}. {{ ratings.serial.title|truncatechars:15 }}</h5>
-            <h6>Seasons: {{ ratings.serial.seasons }}</h6>
+            <a class="detail" href="{% url 'serial_detail' pk=ratings.serial.pk %}">
+                <h5>{{ forloop.counter }}. {{ ratings.serial.title|truncatechars:15 }}</h5>
+            </a>
+            <h6>({{ ratings.serial.year }}- )</h6>
             <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
             </div>
         </div>

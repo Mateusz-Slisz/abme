@@ -5,9 +5,13 @@
     {% for f in watchlist_f %}
         <div class="row mr-auto ml-auto mt-3">
             <div classs="col-lg">
-                <img class="pull-left" src="{{ f.film.image.url }}" height="210px" width="150px" style="border: 1px solid">
+                <a class="detail" href="{% url 'film_detail' pk=f.film.pk %}">
+                    <img class="pull-left" src="{{ f.film.image.url }}" height="210px" width="150px" style="border: 1px solid">
+                </a>
                 <div class="pull-left ml-1">
-                <h5>{{ f.film.title|truncatechars:15 }}</h5>
+                <a class="detail" href="{% url 'film_detail' pk=f.film.pk %}">
+                    <h5>{{ f.film.title|truncatechars:15 }}</h5>
+                </a>
                 </div>
             </div>
         </div> 
@@ -16,9 +20,13 @@
     {% for s in watchlist_s %}
     <div class="row mr-auto ml-auto mt-3">
         <div classs="col-lg">
-            <img class="pull-left" src="{{ s.serial.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            <a class="detail" href="{% url 'serial_detail' pk=s.serial.pk %}">
+                <img class="pull-left" src="{{ s.serial.image.url }}" height="210px" width="150px" style="border: 1px solid">
+            </a>
             <div class="pull-left ml-1">
-            <h5>{{ s.serial.title|truncatechars:15 }}</h5>
+            <a class="detail" href="{% url 'serial_detail' pk=s.serial.pk %}">
+                <h5>{{ s.serial.title|truncatechars:15 }}</h5>
+            </a>
             </div>
         </div>
     </div> 

@@ -13,6 +13,10 @@ class Round(Func):
 
 
 def list(request):
+    film_list = Film.objects.get_queryset().order_by('id').annotate(
+        average_score=Round(Avg('filmrating__rate')),
+        votes=Count('filmrating__user', distinct=True))
+
     if request.user.is_authenticated():
         add_film_id = request.GET.get('add_film_id', None)
         del_film_id = request.GET.get('del_film_id', None)
@@ -45,9 +49,6 @@ def list(request):
                 film = get_object_or_404(Film, id=del_watchlist)
                 FilmWatchlist.objects.filter(user=activ_user, film=film).delete()
 
-        film_list = Film.objects.get_queryset().order_by('id').annotate(
-            average_score=Round(Avg('filmrating__rate')))
-
         filmrating = FilmRating.objects.filter(user=activ_user)
         f_id = filmrating.values_list('film__id', flat=True)
 
@@ -72,9 +73,6 @@ def list(request):
         }
         return render(request, 'film/list.html', context)
     else:
-        film_list = Film.objects.get_queryset().order_by('id').annotate(
-            average_score=Round(Avg('filmrating__rate')))
-
         page = request.GET.get('page')
         paginator = Paginator(film_list, per_page=10)
         try:
@@ -92,9 +90,11 @@ def list(request):
 
 def detail(request, pk):
     film = get_object_or_404(Film, pk=pk)
-    current_film = Film.objects.filter(id=film.id).annotate(average_score=Round(Avg('filmrating__rate')),
-                                                            votes=Count('filmrating__user', distinct=True),
-                                                            inwatchlist=Count('filmwatchlist__user', distinct=True))
+    current_film = Film.objects.filter(id=film.id).annotate(
+        average_score=Round(Avg('filmrating__rate')),
+        votes=Count('filmrating__user', distinct=True),
+        inwatchlist=Count('filmwatchlist__user', distinct=True))
+
     if request.user.is_authenticated():
         add_film_id = request.GET.get('add_film_id', None)
         del_film_id = request.GET.get('del_film_id', None)
@@ -140,6 +140,8 @@ def detail(request, pk):
 
 
 def top_rated(request):
+    film_list = Film.objects.get_queryset().annotate(
+        average_score=Round(Avg('filmrating__rate'))).order_by('-average_score')[:100]
     if request.user.is_authenticated():
         add_film_id = request.GET.get('add_film_id', None)
         del_film_id = request.GET.get('del_film_id', None)
@@ -172,9 +174,6 @@ def top_rated(request):
                 film = get_object_or_404(Film, id=del_watchlist)
                 FilmWatchlist.objects.filter(user=activ_user, film=film).delete()
 
-        film_list = Film.objects.get_queryset().annotate(
-            average_score=Round(Avg('filmrating__rate'))).order_by('-average_score')[:100]
-
         filmrating = FilmRating.objects.filter(user=activ_user)
         f_id = filmrating.values_list('film__id', flat=True)
 
@@ -199,9 +198,6 @@ def top_rated(request):
         }
         return render(request, 'film/top_rated.html', context)
     else:
-        film_list = Film.objects.get_queryset().annotate(
-            average_score=Round(Avg('filmrating__rate'))).order_by('-average_score')[:100]
-
         page = request.GET.get('page')
         paginator = Paginator(film_list, per_page=10)
         try:

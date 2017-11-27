@@ -6,80 +6,56 @@
 
 
     <div class="mt-5">
-        <h1>Top 100 rated TV Series</h1>
+
+        <h1 class="text-center"><span class="top100">Top 100</span> rated serials</h1>
         
-        
-        <table class="table">
-            <thead>
-                <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col">Title</th>
-                <th scope="col">Seasons</th>
-                <th scope="col">Global rating</th>
-                <th scope="col">Your rating</th>
-                <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="main-box mt-5">
             {% for serial in serials %}
-                <tr>
-                <th scope="row">{{ forloop.counter0|add:serials.start_index }}</th>
-                <td><a class="detail" href="{% url 'serial_detail' pk=serial.pk %}"><img class="poster" height="70" width="50" src="{{ serial.image.url }}"></a></td>
-                <td><a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">{{ serial.title }}</a></td>
-                <td>{{ serial.seasons }}</td>
-                <td><i class="fa fa-star" aria-hidden="true"></i> {{ serial.average_score }}</td>
-                <td>
-                {% if serial.id in s_id %}
-                <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
-                    <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+            <div class="row box-item mb-3 mr-auto ml-auto">
+                <div class="col-lg-1">
+                    {{ forloop.counter0|add:serials.start_index }}.
                 </div>
-                <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
-                rate_data-catid="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
-                    {% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} <i class="fa fa-minus-circle" aria-hidden="true"></i> {% endif %}{% endfor %}
-                </a>   
-                {% else %}
-                <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
-                {% endif %}
-                </td>
-                <td>
-                {% if serial.id in watchlist_id %}
-                    <a class="dellwatchlist" del_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
-                {% else %}
-                    <a class="addwatchlist" add_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
-                {% endif %}
-                </td>
-                </tr>
+                <div class="col-lg-2">
+                    <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
+                        <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
+                    </a>
+                </div>
+                <div class="col-lg-2">
+                    <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
+                        <span class="h6">{{ serial.title }}</span>
+                    </a>
+                    ({{ serial.year }}- )
+                </div>
+                <div class="col-lg-2">
+                    <h6>
+                        <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                        {{ serial.average_score }}
+                    </h6>
+                    {{ serial.votes }} votes
+                </div>
+                <div class="col-lg-3">
+                    {% if serial.id in s_id %}
+                    <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
+                        <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+                    </div>
+                    <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
+                    rate_data-catid="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                        {% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i> {% endif %}{% endfor %}
+                    </a>   
+                    {% else %}
+                    <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-2">
+                    {% if serial.id in watchlist_id %}
+                        <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                    {% else %}
+                        <a class="addwatchlist" add_watchlist="{{ serial.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                    {% endif %}
+                </div>
+            </div>
             {% endfor %}
-            </tbody>
-        </table>
-        {% if serials.has_other_pages %}
-        <nav aria-label="...">
-            <ul class="pagination mb-5">
-
-              {% if serials.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ serials.previous_page_number }}">Prev</a></li>
-              {% else %}
-                <li class="page-item disabled"><span class="page-link">Prev</span></li>
-              {% endif %}
-
-              {% for i in serials.paginator.page_range %}
-                {% if serials.number == i %}
-                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
-                {% else %}
-                <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                {% endif %}
-              {% endfor %}
-
-              {% if serials.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ serials.next_page_number }}">Next</a></li>
-              {% else %}
-                <li class="page-item disabled"><span class="page-link">Next</span></li>
-              {% endif %}
-
-            </ul>
-        </nav>
-        {% endif %}
+        </div>
     </div>
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

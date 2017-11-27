@@ -13,6 +13,10 @@ class Round(Func):
 
 
 def list(request):
+    serial_list = Serial.objects.get_queryset().order_by('id').annotate(
+        average_score=Round(Avg('serialrating__rate')),
+        votes=Count('serialrating__user', distinct=True))
+
     if request.user.is_authenticated():
         add_serial_id = request.GET.get('add_serial_id', None)
         del_serial_id = request.GET.get('del_serial_id', None)
@@ -45,8 +49,6 @@ def list(request):
                 serial = get_object_or_404(Serial, id=del_watchlist)
                 SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
 
-        serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('serialrating__rate')))
-
         serialrating = SerialRating.objects.filter(user=activ_user)
         s_id = serialrating.values_list('serial__id', flat=True)
 
@@ -71,8 +73,6 @@ def list(request):
         }
         return render(request, 'serial/list.html', context)
     else:
-        serial_list = Serial.objects.get_queryset().order_by('id').annotate(average_score=Round(Avg('serialrating__rate')))
-
         page = request.GET.get('page')
         paginator = Paginator(serial_list, per_page=10)
         try:
@@ -90,9 +90,11 @@ def list(request):
 
 def detail(request, pk):
     serial = get_object_or_404(Serial, pk=pk)
-    current_serial = Serial.objects.filter(id=serial.id).annotate(average_score=Round(Avg('serialrating__rate')),
-                                                        votes=Count('serialrating__user', distinct=True), 
-                                                        inwatchlist=Count('serialwatchlist__user', distinct=True))
+    current_serial = Serial.objects.filter(id=serial.id).annotate(
+        average_score=Round(Avg('serialrating__rate')),
+        votes=Count('serialrating__user', distinct=True),
+        inwatchlist=Count('serialwatchlist__user', distinct=True))
+
     if request.user.is_authenticated():
         add_serial_id = request.GET.get('add_serial_id', None)
         del_serial_id = request.GET.get('del_serial_id', None)
@@ -138,6 +140,10 @@ def detail(request, pk):
 
 
 def top_rated(request):
+    serial_list = Serial.objects.get_queryset().annotate(
+        average_score=Round(Avg('serialrating__rate')),
+        votes=Count('serialrating__user', distinct=True)).order_by('-average_score')[:100]
+        
     if request.user.is_authenticated():
         add_serial_id = request.GET.get('add_serial_id', None)
         del_serial_id = request.GET.get('del_serial_id', None)
@@ -170,9 +176,6 @@ def top_rated(request):
                 serial = get_object_or_404(Serial, id=del_watchlist)
                 SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
 
-        serial_list = Serial.objects.get_queryset().annotate(
-            average_score=Round(Avg('serialrating__rate'))).order_by('-average_score')[:100]
-
         serialrating = SerialRating.objects.filter(user=activ_user)
         s_id = serialrating.values_list('serial__id', flat=True)
 
@@ -197,9 +200,6 @@ def top_rated(request):
         }
         return render(request, 'serial/top_rated.html', context)
     else:
-        serial_list = Serial.objects.get_queryset().annotate(
-            average_score=Round(Avg('serialrating__rate'))).order_by('-average_score')[:100]
-
         page = request.GET.get('page')
         paginator = Paginator(serial_list, per_page=10)
         try:

@@ -69,3 +69,32 @@ a.detail.active a {
 .poster {
     box-shadow: 0px 0px 5px 0px rgba(128, 128, 128, 0.25);
 }
+
+.box-item {
+    border: 1px solid #e5e5e5;
+}
+
+.top100 {
+    color: rgb(204, 171, 6);
+}
+
+.main-list {
+    color: rgb(165, 164, 164);
+}
+
+.profile-nav {
+    border-bottom: 1px solid rgb(224, 224, 224);
+    height: 40px;
+}
+
+.profileactive {
+    border-bottom: 1px solid red;
+}
+
+.profiledeactive a {
+    color: rgb(148, 148, 148);
+}
+
+.profiledeactive a:hover {
+    color: rgb(80, 80, 80);
+}

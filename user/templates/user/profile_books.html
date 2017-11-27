@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<nav aria-label="breadcrumb" role="navigation">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'user_profile' user %}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'user_profile_films' user %}">Films</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'user_profile_serials' user %}">Serials</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Books</li>
-    </ol>
+<nav role="navigation" class="mt-2">
+    <div class="row mr-auto ml-auto profile-nav">
+        <div class="col-lg-1 profiledeactive">
+            <a href="{% url 'user_profile' user %}">Profile</a>
+        </div>
+        <div class="col-lg-1 profiledeactive">
+            <a href="{% url 'user_profile_films' user %}">Films</a>
+        </div>
+        <div class="col-lg-1 profiledeactive">
+            <a href="{% url 'user_profile_serials' user %}">Serials</a>
+        </div>
+        <div class="col-lg-1 profileactive">
+            Books
+        </div>
+    </div>
 </nav>
+
 {% for ratings in b_ratings %}
 <div class="row mr-auto ml-auto mt-3">
     <div classs="col-lg">

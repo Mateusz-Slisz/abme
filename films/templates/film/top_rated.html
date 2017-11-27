@@ -6,80 +6,56 @@
 
 
     <div class="mt-5">
-        <h1>Top 100 rated films</h1>
+
+        <h1 class="text-center"><span class="top100">Top 100</span> rated films</h1>
         
-        
-        <table class="table">
-            <thead>
-                <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col">Title</th>
-                <th scope="col">Year</th>
-                <th scope="col">Global rating</th>
-                <th scope="col">Your rating</th>
-                <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="main-box mt-5">
             {% for film in films %}
-                <tr>
-                <th scope="row">{{ forloop.counter0|add:films.start_index }}</th>
-                <td><a class="detail" href="{% url 'film_detail' pk=film.pk %}"><img class="poster" height="70" width="50" src="{{ film.image.url }}"></td>
-                <td><a class="detail" href="{% url 'film_detail' pk=film.pk %}">{{ film.title }}</a></td>
-                <td>{{ film.year }}</td>
-                <td><i class="fa fa-star" aria-hidden="true"></i> {{ film.average_score }}</td>
-                <td>
-                {% if film.id in f_id %}
-                <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
-                    <span>{% for ratings in filmrating %}{% if film.id == ratings.film.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+            <div class="row box-item mb-3 mr-auto ml-auto">
+                <div class="col-lg-1">
+                    {{ forloop.counter0|add:films.start_index }}.
                 </div>
-                <a class="delbutton" id="del {{ film.id }} " href="" del_data-catid=" {{ film.id }} " 
-                rate_data-catid="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
-                    {% for ratings in filmrating %}{% if film.id == ratings.film.id %} <i class="fa fa-minus-circle" aria-hidden="true"></i> {% endif %}{% endfor %}
-                </a>   
-                {% else %}
-                <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
-                {% endif %}
-                </td>
-                <td>
-                {% if film.id in watchlist_id %}
-                    <a class="dellwatchlist" del_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
-                {% else %}
-                    <a class="addwatchlist" add_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
-                {% endif %}
-                </td>
-                </tr>
+                <div class="col-lg-2">
+                    <a class="detail" href="{% url 'film_detail' pk=film.pk %}">
+                        <img class="poster" height="105" width="75" src="{{ film.image.url }}">
+                    </a>
+                </div>
+                <div class="col-lg-2">
+                    <a class="detail" href="{% url 'film_detail' pk=film.pk %}">
+                        <span class="h6">{{ film.title }}</span>
+                    </a>
+                    ({{ film.year }})
+                </div>
+                <div class="col-lg-2">
+                    <h6>
+                        <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                        {{ film.average_score }}
+                    </h6>
+                    {{ film.votes }} votes
+                </div>
+                <div class="col-lg-3">
+                    {% if film.id in f_id %}
+                    <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
+                        <span>{% for ratings in filmrating %}{% if film.id == ratings.film.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+                    </div>
+                    <a class="delbutton" id="del {{ film.id }} " href="" del_data-catid=" {{ film.id }} " 
+                    rate_data-catid="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                        {% for ratings in filmrating %}{% if film.id == ratings.film.id %} <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i> {% endif %}{% endfor %}
+                    </a>   
+                    {% else %}
+                    <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-2">
+                    {% if film.id in watchlist_id %}
+                        <a class="dellwatchlist" del_watchlist="{{ film.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                    {% else %}
+                        <a class="addwatchlist" add_watchlist="{{ film.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                    {% endif %}
+                </div>
+            </div>
             {% endfor %}
-            </tbody>
-        </table>
-        {% if films.has_other_pages %}
-        <nav aria-label="...">
-            <ul class="pagination mb-5">
-
-              {% if films.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ films.previous_page_number }}">Prev</a></li>
-              {% else %}
-                <li class="page-item disabled"><span class="page-link">Prev</span></li>
-              {% endif %}
-
-              {% for i in films.paginator.page_range %}
-                {% if films.number == i %}
-                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
-                {% else %}
-                <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                {% endif %}
-              {% endfor %}
-
-              {% if films.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ films.next_page_number }}">Next</a></li>
-              {% else %}
-                <li class="page-item disabled"><span class="page-link">Next</span></li>
-              {% endif %}
-
-            </ul>
-        </nav>
-        {% endif %}
+        </div>
     </div>
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

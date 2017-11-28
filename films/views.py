@@ -17,6 +17,15 @@ def list(request):
         average_score=Round(Avg('filmrating__rate')),
         votes=Count('filmrating__user', distinct=True))
 
+    page = request.GET.get('page')
+    paginator = Paginator(film_list, per_page=10)
+    try:
+        films = paginator.page(page)
+    except PageNotAnInteger:
+        films = paginator.page(1)
+    except EmptyPage:
+        films = paginator(paginator.num_pages)
+
     if request.user.is_authenticated():
         add_film_id = request.GET.get('add_film_id', None)
         del_film_id = request.GET.get('del_film_id', None)
@@ -55,15 +64,6 @@ def list(request):
         watchlist = FilmWatchlist.objects.filter(user=activ_user)
         watchlist_id = watchlist.values_list('film__id', flat=True)
 
-        page = request.GET.get('page')
-        paginator = Paginator(film_list, per_page=10)
-        try:
-            films = paginator.page(page)
-        except PageNotAnInteger:
-            films = paginator.page(1)
-        except EmptyPage:
-            films = paginator(paginator.num_pages)
-
         context = {
             'f_id': f_id,
             'films': films,
@@ -73,15 +73,6 @@ def list(request):
         }
         return render(request, 'film/list.html', context)
     else:
-        page = request.GET.get('page')
-        paginator = Paginator(film_list, per_page=10)
-        try:
-            films = paginator.page(page)
-        except PageNotAnInteger:
-            films = paginator.page(1)
-        except EmptyPage:
-            films = paginator(paginator.num_pages)
-
         context = {
             'films': films,
         }
@@ -141,7 +132,18 @@ def detail(request, pk):
 
 def top_rated(request):
     film_list = Film.objects.get_queryset().annotate(
-        average_score=Round(Avg('filmrating__rate'))).order_by('-average_score')[:100]
+        average_score=Round(Avg('filmrating__rate')),
+        votes=Count('filmrating__user', distinct=True)).order_by('-average_score')[:100]
+
+    page = request.GET.get('page')
+    paginator = Paginator(film_list, per_page=10)
+    try:
+        films = paginator.page(page)
+    except PageNotAnInteger:
+        films = paginator.page(1)
+    except EmptyPage:
+        films = paginator(paginator.num_pages)
+
     if request.user.is_authenticated():
         add_film_id = request.GET.get('add_film_id', None)
         del_film_id = request.GET.get('del_film_id', None)
@@ -180,15 +182,6 @@ def top_rated(request):
         watchlist = FilmWatchlist.objects.filter(user=activ_user)
         watchlist_id = watchlist.values_list('film__id', flat=True)
 
-        page = request.GET.get('page')
-        paginator = Paginator(film_list, per_page=10)
-        try:
-            films = paginator.page(page)
-        except PageNotAnInteger:
-            films = paginator.page(1)
-        except EmptyPage:
-            films = paginator(paginator.num_pages)
-
         context = {
             'f_id': f_id,
             'films': films,
@@ -198,15 +191,6 @@ def top_rated(request):
         }
         return render(request, 'film/top_rated.html', context)
     else:
-        page = request.GET.get('page')
-        paginator = Paginator(film_list, per_page=10)
-        try:
-            films = paginator.page(page)
-        except PageNotAnInteger:
-            films = paginator.page(1)
-        except EmptyPage:
-            films = paginator(paginator.num_pages)
-
         context = {
             'films': films,
         }

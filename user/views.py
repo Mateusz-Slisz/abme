@@ -1,13 +1,16 @@
+from itertools import chain
+from operator import attrgetter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import CustomUserCreationForm, ProfileForm, UserForm
 from django.contrib.auth.models import User
-from .models import Profile
 from django.db import transaction
 from films.models import FilmRating, FilmWatchlist
 from books.models import BookRating, BookWatchlist
 from serials.models import SerialRating, SerialWatchlist
+from api.models import Serial, Film
+from .models import Profile
+from .forms import CustomUserCreationForm, ProfileForm, UserForm
 
 
 @login_required
@@ -87,7 +90,7 @@ def profile_films(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
-    f_ratings = FilmRating.objects.filter(user=user).order_by('-id')
+    f_ratings = FilmRating.objects.filter(user=user).order_by('-date')
 
     context = {
         'user': user,
@@ -100,7 +103,7 @@ def profile_serials(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
-    s_ratings = SerialRating.objects.filter(user=user).order_by('-id')
+    s_ratings = SerialRating.objects.filter(user=user).order_by('-date')
 
     context = {
         'user': user,
@@ -124,17 +127,30 @@ def profile_books(request, username):
 
 @login_required
 def watchlist(request):
+    del_film_watchlist = request.GET.get('del_film_watchlist', None)
+    del_serial_watchlist = request.GET.get('del_serial_watchlist', None)
 
     activ_user = get_object_or_404(User, username=request.user)
-    activ_profile = get_object_or_404(Profile, user=activ_user)
+
+    if request.method == 'GET':
+        if del_film_watchlist is not None:
+            film = get_object_or_404(Film, id=del_film_watchlist)
+            FilmWatchlist.objects.filter(user=activ_user, film=film).delete()
+
+        if del_serial_watchlist is not None:
+            serial = get_object_or_404(Serial, id=del_serial_watchlist)
+            SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
 
     watchlist_f = FilmWatchlist.objects.filter(user=activ_user)
     watchlist_s = SerialWatchlist.objects.filter(user=activ_user)
     watchlist_b = BookWatchlist.objects.filter(user=activ_user)
 
+    watchlist_all = sorted(
+        chain(watchlist_f, watchlist_s),
+        key=attrgetter('date'),
+        reverse=True)
+
     context = {
-        'watchlist_f': watchlist_f,
-        'watchlist_s': watchlist_s,
-        'watchlist_b': watchlist_b,
+        'watchlist_all': watchlist_all,
     }
     return render(request, 'user/watchlist.html', context)

@@ -9,6 +9,7 @@ class SerialRating(models.Model):
     user = models.ForeignKey(User)
     serial = models.ForeignKey(Serial)
     rate = models.IntegerField(choices=CHOICES, default=1)
+    date = models.DateTimeField(default=timezone.now)
 
 
 class SerialWatchlist(models.Model):

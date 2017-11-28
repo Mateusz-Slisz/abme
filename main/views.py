@@ -4,7 +4,6 @@ from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
 from django.contrib import messages
 
-
 def home(request):
     if request.method == 'GET':
         form = ContactForm()

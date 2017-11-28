@@ -1,46 +1,73 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Your watchlist:</h1>
-
-    {% for f in watchlist_f %}
-        <div class="row mr-auto ml-auto mt-3">
-            <div classs="col-lg">
-                <a class="detail" href="{% url 'film_detail' pk=f.film.pk %}">
-                    <img class="pull-left" src="{{ f.film.image.url }}" height="210px" width="150px" style="border: 1px solid">
-                </a>
-                <div class="pull-left ml-1">
-                <a class="detail" href="{% url 'film_detail' pk=f.film.pk %}">
-                    <h5>{{ f.film.title|truncatechars:15 }}</h5>
-                </a>
-                </div>
-            </div>
-        </div> 
-    {% endfor %}
-
-    {% for s in watchlist_s %}
-    <div class="row mr-auto ml-auto mt-3">
-        <div classs="col-lg">
-            <a class="detail" href="{% url 'serial_detail' pk=s.serial.pk %}">
-                <img class="pull-left" src="{{ s.serial.image.url }}" height="210px" width="150px" style="border: 1px solid">
+<h1 class="text-center">Your watchlist</h1>
+<h4 class="text-center">Sort by date added</h4>
+<div class="row mr-auto ml-auto mt-5">
+    {% for i in watchlist_all %}
+        {% if i.film %}
+        <div class="col-lg-4 mb-4">
+            <a class="detail" href="{% url 'film_detail' pk=i.film.pk %}">
+                <img class="pull-left poster" src="{{ i.film.image.url }}" height="210px" width="150px">
             </a>
             <div class="pull-left ml-1">
-            <a class="detail" href="{% url 'serial_detail' pk=s.serial.pk %}">
-                <h5>{{ s.serial.title|truncatechars:15 }}</h5>
+            <a class="dellfilmwatchlist" del_film_watchlist="{{ i.film.id }}" href="">
+                <i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green" title="Click to remove"></i>
             </a>
+            <a class="detail" href="{% url 'film_detail' pk=i.film.pk %}">
+                <h5>{{ i.film.title|truncatechars:15 }}</h5>
+            </a>
+            <h6>Film ({{ i.film.year }})</h6>
+            <h6>{{ i.date|date:"d M, Y" }}</h6>
             </div>
         </div>
-    </div> 
-    {% endfor %}
-
-    {% for b in watchlist_b %}
-    <div class="row mr-auto ml-auto mt-3">
-        <div classs="col-lg">
-            <img class="pull-left" src="{{ b.book.image.url }}" height="210px" width="150px" style="border: 1px solid">
+        {% endif %}
+        {% if i.serial %}
+        <div class="col-lg-4 mb-4">
+            <a class="detail" href="{% url 'serial_detail' pk=i.serial.pk %}">
+                <img class="pull-left poster" src="{{ i.serial.image.url }}" height="210px" width="150px">
+            </a>
             <div class="pull-left ml-1">
-            <h5>{{ b.book.title|truncatechars:15 }}</h5>
+            <a class="dellserialwatchlist" del_serial_watchlist="{{ i.serial.id }}" href="">
+                <i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green" title="Click to remove"></i>
+            </a>
+            <a class="detail" href="{% url 'serial_detail' pk=i.serial.pk %}">
+                <h5>{{ i.serial.title|truncatechars:15 }}</h5>
+            </a>
+            <h6>TV Series ({{ i.serial.year }}- )</h6>
+            <h6>{{ i.date|date:"d M, Y" }}</h6>
             </div>
         </div>
-    </div> 
+        {% endif %}
     {% endfor %}
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    $('.dellserialwatchlist').click(function(){
+        var id;
+        id = $(this).attr("del_serial_watchlist");
+        $.ajax(
+        {
+            url: this.url,
+            type:"get",
+            data:{
+                    del_serial_watchlist: id,
+            },
+        })
+        });
+
+    $('.dellfilmwatchlist').click(function(){
+        var id;
+        id = $(this).attr("del_film_watchlist");
+        $.ajax(
+        {
+            url: this.url,
+            type:"get",
+            data:{
+                    del_film_watchlist: id,
+            },
+        })
+        });
+</script>
 
 {% endblock %}

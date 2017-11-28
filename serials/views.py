@@ -5,6 +5,7 @@ from user.models import Profile
 from .models import SerialRating, SerialWatchlist
 from django.db.models import Avg, Func, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
 
 
 class Round(Func):
@@ -16,6 +17,15 @@ def list(request):
     serial_list = Serial.objects.get_queryset().order_by('id').annotate(
         average_score=Round(Avg('serialrating__rate')),
         votes=Count('serialrating__user', distinct=True))
+
+    page = request.GET.get('page')
+    paginator = Paginator(serial_list, per_page=10)
+    try:
+        serials = paginator.page(page)
+    except PageNotAnInteger:
+        serials = paginator.page(1)
+    except EmptyPage:
+        serials = paginator(paginator.num_pages)
 
     if request.user.is_authenticated():
         add_serial_id = request.GET.get('add_serial_id', None)
@@ -37,14 +47,14 @@ def list(request):
             if del_serial_id is not None and rate is not None:
                 serial = get_object_or_404(Serial, id=del_serial_id)
                 SerialRating.objects.filter(user=activ_user, serial=serial, rate=rate).delete()
-            
+
             if add_watchlist is not None:
                 serial = get_object_or_404(Serial, id=add_watchlist)
                 if SerialWatchlist.objects.filter(user=activ_user, serial=serial).exists():
                     SerialWatchlist.objects.filter(user=activ_user, serial=serial).update()
                 else:
                     SerialWatchlist.objects.create(user=activ_user, serial=serial)
-            
+
             if del_watchlist is not None:
                 serial = get_object_or_404(Serial, id=del_watchlist)
                 SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
@@ -55,15 +65,6 @@ def list(request):
         watchlist = SerialWatchlist.objects.filter(user=activ_user)
         watchlist_id = watchlist.values_list('serial__id', flat=True)
 
-        page = request.GET.get('page')
-        paginator = Paginator(serial_list, per_page=10)
-        try:
-            serials = paginator.page(page)
-        except PageNotAnInteger:
-            serials = paginator.page(1)
-        except EmptyPage:
-            serials = paginator(paginator.num_pages)
-
         context = {
             's_id': s_id,
             'serials': serials,
@@ -73,15 +74,6 @@ def list(request):
         }
         return render(request, 'serial/list.html', context)
     else:
-        page = request.GET.get('page')
-        paginator = Paginator(serial_list, per_page=10)
-        try:
-            serials = paginator.page(page)
-        except PageNotAnInteger:
-            serials = paginator.page(1)
-        except EmptyPage:
-            serials = paginator(paginator.num_pages)
-
         context = {
             'serials': serials,
         }
@@ -143,7 +135,16 @@ def top_rated(request):
     serial_list = Serial.objects.get_queryset().annotate(
         average_score=Round(Avg('serialrating__rate')),
         votes=Count('serialrating__user', distinct=True)).order_by('-average_score')[:100]
-        
+
+    page = request.GET.get('page')
+    paginator = Paginator(serial_list, per_page=10)
+    try:
+        serials = paginator.page(page)
+    except PageNotAnInteger:
+        serials = paginator.page(1)
+    except EmptyPage:
+        serials = paginator(paginator.num_pages)
+
     if request.user.is_authenticated():
         add_serial_id = request.GET.get('add_serial_id', None)
         del_serial_id = request.GET.get('del_serial_id', None)
@@ -182,15 +183,6 @@ def top_rated(request):
         watchlist = SerialWatchlist.objects.filter(user=activ_user)
         watchlist_id = watchlist.values_list('serial__id', flat=True)
 
-        page = request.GET.get('page')
-        paginator = Paginator(serial_list, per_page=10)
-        try:
-            serials = paginator.page(page)
-        except PageNotAnInteger:
-            serials = paginator.page(1)
-        except EmptyPage:
-            serials = paginator(paginator.num_pages)
-
         context = {
             's_id': s_id,
             'serials': serials,
@@ -200,15 +192,6 @@ def top_rated(request):
         }
         return render(request, 'serial/top_rated.html', context)
     else:
-        page = request.GET.get('page')
-        paginator = Paginator(serial_list, per_page=10)
-        try:
-            serials = paginator.page(page)
-        except PageNotAnInteger:
-            serials = paginator.page(1)
-        except EmptyPage:
-            serials = paginator(paginator.num_pages)
-
         context = {
             'serials': serials,
         }

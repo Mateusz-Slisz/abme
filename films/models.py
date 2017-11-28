@@ -9,6 +9,7 @@ class FilmRating(models.Model):
     user = models.ForeignKey(User)
     film = models.ForeignKey(Film)
     rate = models.IntegerField(choices=CHOICES, default=1)
+    date = models.DateTimeField(default=timezone.now)
 
 
 class FilmWatchlist(models.Model):

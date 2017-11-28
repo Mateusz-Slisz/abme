@@ -58,11 +58,11 @@ class Book(models.Model):
 
 
 def tuplify(x):
-    return (x,x)
+    return (x, x)
 
 
 current_year = datetime.now().year
-YEARS = map(tuplify, range(1990, current_year + 1)) 
+YEARS = map(tuplify, range(1990, current_year + 1))
 
 
 class Film(models.Model):
@@ -85,7 +85,7 @@ class Film(models.Model):
 
 
 current_year = datetime.now().year
-YEARS = map(tuplify, range(1990, current_year + 1)) 
+YEARS = map(tuplify, range(1990, current_year + 1))
 
 
 class Serial(models.Model):

@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from api.models import Serial
+from api.models import Serial, Category
 from django.contrib.auth.models import User
 from user.models import Profile
 from .models import SerialRating, SerialWatchlist
-from django.db.models import Avg, Func, Count
+from django.db.models import Avg, Func, Count, Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.utils import timezone
 
 
 class Round(Func):
@@ -17,8 +16,21 @@ def list(request):
     serial_list = Serial.objects.get_queryset().order_by('id').annotate(
         average_score=Round(Avg('serialrating__rate')),
         votes=Count('serialrating__user', distinct=True))
+    categories = Category.objects.all()
 
     page = request.GET.get('page')
+    year = request.GET.get('year')
+    category = request.GET.get('category')
+
+    if year:
+        serial_list = serial_list.filter(
+            Q(year__icontains=year)
+            )
+    if category:
+        serial_list = serial_list.filter(
+            Q(category__name__icontains=category)
+            )
+
     paginator = Paginator(serial_list, per_page=10)
     try:
         serials = paginator.page(page)
@@ -71,11 +83,13 @@ def list(request):
             'serialrating': serialrating,
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
+            'categories': categories,
         }
         return render(request, 'serial/list.html', context)
     else:
         context = {
             'serials': serials,
+            'categories': categories,
         }
         return render(request, 'serial/list.html', context)
 

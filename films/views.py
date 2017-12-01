@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from api.models import Film
+from api.models import Film, Category
 from django.contrib.auth.models import User
 from user.models import Profile
 from .models import FilmRating, FilmWatchlist
-from django.db.models import Avg, Func, Count
+from django.db.models import Avg, Func, Count, Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -13,11 +13,24 @@ class Round(Func):
 
 
 def list(request):
-    film_list = Film.objects.get_queryset().order_by('id').annotate(
+    film_list = Film.objects.get_queryset().annotate(
         average_score=Round(Avg('filmrating__rate')),
         votes=Count('filmrating__user', distinct=True))
+    categories = Category.objects.all()
 
     page = request.GET.get('page')
+    year = request.GET.get('year')
+    category = request.GET.get('category')
+
+    if year:
+        film_list = film_list.filter(
+            Q(year__icontains=year)
+            )
+    if category:
+        film_list = film_list.filter(
+            Q(category__name__icontains=category)
+            )
+
     paginator = Paginator(film_list, per_page=10)
     try:
         films = paginator.page(page)
@@ -70,11 +83,13 @@ def list(request):
             'filmrating': filmrating,
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
+            'categories': categories,
         }
         return render(request, 'film/list.html', context)
     else:
         context = {
             'films': films,
+            'categories': categories,
         }
         return render(request, 'film/list.html', context)
 

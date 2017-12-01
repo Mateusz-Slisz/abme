@@ -9,6 +9,24 @@
         <h1 class="text-center"><span class="main-list">Main list</span> of serials</h1>
         
         <div class="main-box mt-5">
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-lg-5">
+                        <select class="form-control" name="category">
+                        <option value="" selected disabled hidden>Choose category...</option>
+                        {% for category in categories %}
+                        <option>{{ category.name }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-5">
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Please insert year..." name="year">
+                    </div>
+                    <div class="col-lg-2">
+                        <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;">
+                    </div>
+                </div>
+            </form>
             {% for serial in serials %}
             <div class="row box-item mb-3 mr-auto ml-auto">
                 <div class="col-lg-1">

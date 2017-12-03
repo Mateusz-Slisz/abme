@@ -60,12 +60,14 @@
             {% endif %}
           </ul>
           <ul class="navbar-nav ml-auto">
-            <form class="form-inline my-2 my-lg-0">
-                <input type="text" class="form-control"  placeholder="Search" >
-                
+            <form action="{% url 'search_list' %}" class="form-inline my-2 my-lg-0">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for..." name="q">
+                <span class="input-group-btn">
+                  <button class="btn btn-info" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </span>
+              </div>
             </form>
-            <div class="span6">
-            </div>
             {% if request.user.is_authenticated %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="#navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

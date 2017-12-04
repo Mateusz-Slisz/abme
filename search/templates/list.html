@@ -1,11 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="mt-5">
+<div class="mt-2">
     {% if request.GET.q == '' %}
     <h1 class="text-center">Enter the word!</h1>
-    {% else %}
+    <form>
+        <div class="input-group stylish-input-group">
+            <input type="text" class="form-control" placeholder="Search" name="q">
+            <span class="input-group-addon">
+                <button type="submit">
+                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                </button>  
+            </span>
+        </div>
+    </form>
+    {% elif request.GET.q %}
     <h1 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h1>
-    <div class="main-box mt-5">
+    <form>
+        <div class="input-group stylish-input-group">
+            <input type="text" class="form-control" placeholder="Search" name="q">
+            <span class="input-group-addon">
+                <button type="submit">
+                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                </button>  
+            </span>
+        </div>
+    </form>
+    <div class="main-box mt-3">
+        <div class="search-nav">
+            <ol class="breadcrumb breadcrumb-color">
+                <li class="breadcrumb-item active "><i class="fa fa-th-list" aria-hidden="true"></i> All <span class="badge badge-light">{{ result_list_c }}</span></li>
+                <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
+                <li class="breadcrumb-item "><a href="{% url 'search_serial_list' %}?q={{ request.GET.q }}">TV Series</a> <span class="badge badge-light">{{ serials_c }}</span></li>
+            </ol>
+        </div> 
     {% for i in result_list %}
         {% if i in films %}
         <div class="row box-item mb-3 mr-auto ml-auto">
@@ -21,7 +48,9 @@
                 <a class="detail" href="{% url 'film_detail' pk=i.pk %}">
                     <span class="h6">{{ i.title }}</span>
                 </a>
-                ({{ i.year }}- )
+                ({{ i.year }})
+                <h6 class="text-muted">Film</h6>
+                
             </div>
             <div class="col-lg-2">
                 <h6>
@@ -53,6 +82,7 @@
                     <span class="h6">{{ i.title }}</span>
                 </a>
                 ({{ i.year }}- )
+                <h6 class="text-muted">TV Series</h6>
             </div>
             <div class="col-lg-2">
                 <h6>
@@ -70,9 +100,21 @@
         </div>
         {% endif %}
     {% empty %}
-    <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any film or serial</h3>
+    <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches anything.</h3>
     {% endfor %}
     </div>
+    {% else %}
+    <h1 class="text-center"><span class="main-list">Search</span></h1>
+    <form>
+        <div class="input-group stylish-input-group">
+            <input type="text" class="form-control" placeholder="Search" name="q">
+            <span class="input-group-addon">
+                <button type="submit">
+                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                </button>  
+            </span>
+        </div>
+    </form>
     {% endif %}
 </div>
 {% endblock %}

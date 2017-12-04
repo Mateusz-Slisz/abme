@@ -119,32 +119,32 @@
              })
             });
     </script>
-        <script type="text/javascript">
-            
-            $('.addwatchlist').click(function(){
-                var id;
-                id = $(this).attr("add_watchlist");
-                $.ajax(
-                {
-                    url: this.url,
-                    type:"get",
-                    data:{
-                            add_watchlist: id,
-                    },
-                })
-                });
-            
-            $('.dellwatchlist').click(function(){
-                var id;
-                id = $(this).attr("del_watchlist");
-                $.ajax(
-                {
-                    url: this.url,
-                    type:"get",
-                    data:{
-                            del_watchlist: id,
-                    },
-                })
-                });
-        </script>
+    <script type="text/javascript">
+        
+        $('.addwatchlist').click(function(){
+            var id;
+            id = $(this).attr("add_watchlist");
+            $.ajax(
+            {
+                url: this.url,
+                type:"get",
+                data:{
+                        add_watchlist: id,
+                },
+            })
+            });
+        
+        $('.dellwatchlist').click(function(){
+            var id;
+            id = $(this).attr("del_watchlist");
+            $.ajax(
+            {
+                url: this.url,
+                type:"get",
+                data:{
+                        del_watchlist: id,
+                },
+            })
+            });
+    </script>
 {% endblock %}

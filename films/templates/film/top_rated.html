@@ -12,28 +12,28 @@
         <div class="main-box mt-5">
             {% for film in films %}
             <div class="row box-item mb-3 mr-auto ml-auto">
-                <div class="col-lg-1">
+                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     {{ forloop.counter0|add:films.start_index }}.
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4">
                     <a class="detail" href="{% url 'film_detail' pk=film.pk %}">
                         <img class="poster" height="105" width="75" src="{{ film.image.url }}">
                     </a>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-6">
                     <a class="detail" href="{% url 'film_detail' pk=film.pk %}">
                         <span class="h6">{{ film.title }}</span>
                     </a>
                     ({{ film.year }})
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
                     <h6>
                         <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                         {{ film.average_score }}
                     </h6>
                     {{ film.votes }} votes
                 </div>
-                <div class="col-lg-3">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-7">
                     {% if film.id in f_id %}
                     <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
                         <span>{% for ratings in filmrating %}{% if film.id == ratings.film.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
@@ -46,7 +46,7 @@
                     <div class="demo" film_id="{{ film.id }}" data-score="{% for ratings in filmrating %}{% if film.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
                     {% endif %}
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-1 col-md-1 col-sm-6 col-2">
                     {% if film.id in watchlist_id %}
                         <a class="dellwatchlist" del_watchlist="{{ film.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
                     {% else %}

@@ -5,7 +5,7 @@
 <div class="row mr-auto ml-auto mt-5">
     {% for i in watchlist_all %}
         {% if i.film %}
-        <div class="col-lg-4 mb-4">
+        <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
             <a class="detail" href="{% url 'film_detail' pk=i.film.pk %}">
                 <img class="pull-left poster" src="{{ i.film.image.url }}" height="210px" width="150px">
             </a>
@@ -22,7 +22,7 @@
         </div>
         {% endif %}
         {% if i.serial %}
-        <div class="col-lg-4 mb-4">
+        <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
             <a class="detail" href="{% url 'serial_detail' pk=i.serial.pk %}">
                 <img class="pull-left poster" src="{{ i.serial.image.url }}" height="210px" width="150px">
             </a>

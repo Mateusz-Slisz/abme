@@ -11,7 +11,7 @@
         <div class="main-box mt-5">
             <form>
                 <div class="form-row">
-                    <div class="form-group col-lg-5">
+                    <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
                         <select class="form-control" name="category">
                         <option value="" selected disabled hidden>Choose category...</option>
                         {% for category in categories %}
@@ -19,38 +19,38 @@
                         {% endfor %}
                         </select>
                     </div>
-                    <div class="form-group col-lg-5">
+                    <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
                         <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Please insert year..." name="year">
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
                         <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;">
                     </div>
                 </div>
             </form>
             {% for serial in serials %}
             <div class="row box-item mb-3 mr-auto ml-auto">
-                <div class="col-lg-1">
+                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     {{ forloop.counter0|add:serials.start_index }}.
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4">
                     <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
                         <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
                     </a>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-3 col-md-2 col-sm-4 col-6">
                     <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
                         <span class="h6">{{ serial.title }}</span>
                     </a>
                     ({{ serial.year }}- )
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-1 col-md-2 col-sm-3 col-3">
                     <h6>
                         <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                         {{ serial.average_score }}
                     </h6>
                     {{ serial.votes }} votes
                 </div>
-                <div class="col-lg-3">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-7">
                     {% if serial.id in s_id %}
                     <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
                         <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
@@ -63,7 +63,7 @@
                     <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
                     {% endif %}
                 </div>
-                <div class="col-lg-2">
+                <div class="col-xl-2 col-lg-1 col-md-1 col-sm-6 col-2">
                     {% if serial.id in watchlist_id %}
                         <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
                     {% else %}

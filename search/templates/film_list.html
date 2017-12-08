@@ -153,18 +153,18 @@
         });
 
     $('.delbutton').click(function(){
-    var catid;
-    catid = $(this).attr("del_data-catid");
-    var rate;
-    rate = $(this).attr("rate_data-catid");
-    $.ajax(
-    {
-        type:"get",
-        data:{
-                rate: rate,
-                del_film_id: catid,
-        },
-     })
-    });
+        var catid;
+        catid = $(this).attr("del_data-catid");
+        var rate;
+        rate = $(this).attr("rate_data-catid");
+        $.ajax(
+        {
+            type:"get",
+            data:{
+                    rate: rate,
+                    del_film_id: catid,
+            },
+        })
+        });
 </script>
 {% endblock %}

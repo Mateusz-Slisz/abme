@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
 {% block content %}
 <div class="mt-2">
     {% if request.GET.q == '' %}
@@ -95,4 +97,74 @@
     </form>
     {% endif %}
 </div>
+<link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="{% static 'lib/jquery.raty.js' %}"></script>
+
+<script type="text/javascript">
+    
+    $('.addwatchlist').click(function(){
+        var id;
+        id = $(this).attr("add_watchlist");
+        $.ajax(
+        {
+            url: this.url,
+            type:"get",
+            data:{
+                    add_watchlist: id,
+            },
+        })
+        });
+    
+    $('.dellwatchlist').click(function(){
+        var id;
+        id = $(this).attr("del_watchlist");
+        $.ajax(
+        {
+            url: this.url,
+            type:"get",
+            data:{
+                    del_watchlist: id,
+            },
+        })
+        });
+</script>
+
+<script type="text/javascript">
+    
+    $('.demo').raty({
+        path: '{% static "lib/images" %}',
+        number: 10,
+        hints:['1','2','3','4','5','6','7','8','9','10'],
+        click: function(score, evt) {
+            var id;
+            id = $(this).attr("serial_id");
+            $.ajax(
+            {
+                url: "http://127.0.0.1:8000/serials/",
+                type:"get",
+                data:{
+                        add_serial_id: id,
+                        rate: score,
+                },
+            })
+            window.location.reload();
+            },
+        });
+
+    $('.delbutton').click(function(){
+    var catid;
+    catid = $(this).attr("del_data-catid");
+    var rate;
+    rate = $(this).attr("rate_data-catid");
+    $.ajax(
+    {
+        type:"get",
+        data:{
+                rate: rate,
+                del_serial_id: catid,
+        },
+     })
+    });
+</script>
 {% endblock %}

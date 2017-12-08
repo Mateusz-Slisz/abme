@@ -20,9 +20,8 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #24292e;">
       <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="http://getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-        Bootstrap
+      <a class="navbar-brand" href="/">
+        ABME
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" 
       data-target="#navbarCollapseItems" aria-expended="false" aria-label="Toggle Navigation">
@@ -31,7 +30,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapseItems">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
+              <a class="nav-link active" href="/">Home <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">About</a>
@@ -39,23 +38,13 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
             </li>
-              {% if request.user.is_authenticated %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="#navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{ request.user.username }}
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="{% url 'user_profile' request.user %}">Your profile</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'user_settings' %}">Settings</a>
-                  <a class="dropdown-item" href="{% url 'website_logout' %}">Logout</a>
-                </div>
-            </li>
-              {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'website_login' %}">Login</a>
+              <a class="nav-link sign" href="{% url 'website_login' %}">Sign in</a>
             </li>
-              {% endif %}
+            <span class="navbar-text">|</span>
+            <li class="nav-item">
+              <a class="nav-link sign" href="{% url 'user_signup' %}">Sign up</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -121,7 +110,7 @@
         </h3>
         <div class="row">
           <div class="col-lg-6 text-center">
-            <img src="http://clipart-library.com/data_images/402906.png" width="400" height="390">
+            <img src="{% static 'images/robot.png' %}" width="400" height="390">
           </div>
           <div class="col-lg-6">
             <h4>

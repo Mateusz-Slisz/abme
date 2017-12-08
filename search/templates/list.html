@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
 {% block content %}
 <div class="mt-2">
     {% if request.GET.q == '' %}
@@ -60,10 +62,24 @@
                 {{ i.votes }} votes
             </div>
             <div class="col-lg-3">
-
+                {% if i.id in f_id %}
+                <div class="demofilm" film_id="{{ i.id }}" data-score="{% for ratings in filmrating %}{% if i.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
+                    <span>{% for ratings in filmrating %}{% if i.id == ratings.film.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+                </div>
+                <a class="delbuttonfilm" id="del {{ i.id }} " href="" del_data-catid=" {{ i.id }} " 
+                rate_data-catid="{% for ratings in filmrating %}{% if i.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                    {% for ratings in filmrating %}{% if i.id == ratings.film.id %} <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i> {% endif %}{% endfor %}
+                </a>   
+                {% else %}
+                <div class="demofilm" film_id="{{ i.id }}" data-score="{% for ratings in filmrating %}{% if i.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                {% endif %}
             </div>
             <div class="col-lg-2">
-
+                {% if i.id in watchlist_film_id %}
+                    <a class="dellwatchlistfilm" del_watchlist="{{ i.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                {% else %}
+                    <a class="addwatchlistfilm" add_watchlist="{{ i.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                {% endif %}
             </div>
         </div>
         {% endif %}
@@ -92,10 +108,24 @@
                 {{ i.votes }} votes
             </div>
             <div class="col-lg-3">
-
+                {% if i.id in s_id %}
+                <div class="demoserial" serial_id="{{ i.id }}" data-score="{% for ratings in serialrating %}{% if i.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
+                    <span>{% for ratings in serialrating %}{% if i.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+                </div>
+                <a class="delbuttonserial" id="del {{ i.id }} " href="" del_data-catid=" {{ i.id }} " 
+                rate_data-catid="{% for ratings in serialrating %}{% if i.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                    {% for ratings in serialrating %}{% if i.id == ratings.serial.id %} <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i> {% endif %}{% endfor %}
+                </a>   
+                {% else %}
+                <div class="demoserial" serial_id="{{ i.id }}" data-score="{% for ratings in serialrating %}{% if i.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                {% endif %}
             </div>
             <div class="col-lg-2">
-
+                {% if i.id in watchlist_serial_id %}
+                    <a class="dellwatchlistserial" del_watchlist="{{ i.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                {% else %}
+                    <a class="addwatchlistserial" add_watchlist="{{ i.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                {% endif %}
             </div>
         </div>
         {% endif %}
@@ -117,4 +147,135 @@
     </form>
     {% endif %}
 </div>
+<link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="{% static 'lib/jquery.raty.js' %}"></script>
+
+<script type="text/javascript">
+    
+    $('.addwatchlistserial').click(function(){
+        var id;
+        id = $(this).attr("add_watchlist");
+        $.ajax(
+        {
+            url: this.url,
+            type:"get",
+            data:{
+                    add_serial_watchlist: id,
+            },
+        })
+        });
+    
+    $('.dellwatchlistserial').click(function(){
+        var id;
+        id = $(this).attr("del_watchlist");
+        $.ajax(
+        {
+            url: this.url,
+            type:"get",
+            data:{
+                    del_serial_watchlist: id,
+            },
+        })
+        });
+
+    $('.addwatchlistfilm').click(function(){
+        var id;
+        id = $(this).attr("add_watchlist");
+        $.ajax(
+        {
+            url: this.url,
+            type:"get",
+            data:{
+                    add_film_watchlist: id,
+            },
+        })
+        });
+
+    $('.dellwatchlistfilm').click(function(){
+        var id;
+        id = $(this).attr("del_watchlist");
+        $.ajax(
+        {
+            url: this.url,
+            type:"get",
+            data:{
+                    del_film_watchlist: id,
+            },
+        })
+        });
+</script>
+
+<script type="text/javascript">
+    
+    $('.demoserial').raty({
+        path: '{% static "lib/images" %}',
+        number: 10,
+        hints:['1','2','3','4','5','6','7','8','9','10'],
+        click: function(score, evt) {
+            var id;
+            id = $(this).attr("serial_id");
+            $.ajax(
+            {
+                url: "http://127.0.0.1:8000/serials/",
+                type:"get",
+                data:{
+                        add_serial_id: id,
+                        rate: score,
+                },
+            })
+            window.location.reload();
+            },
+        });
+
+    $('.delbuttonserial').click(function(){
+        var catid;
+        catid = $(this).attr("del_data-catid");
+        var rate;
+        rate = $(this).attr("rate_data-catid");
+        $.ajax(
+        {
+            type:"get",
+            data:{
+                    rate: rate,
+                    del_serial_id: catid,
+            },
+        })
+        });
+
+    $('.demofilm').raty({
+        path: '{% static "lib/images" %}',
+        number: 10,
+        hints:['1','2','3','4','5','6','7','8','9','10'],
+        click: function(score, evt) {
+            var id;
+            id = $(this).attr("film_id");
+            $.ajax(
+            {
+                url: "http://127.0.0.1:8000/films/",
+                type:"get",
+                data:{
+                        add_film_id: id,
+                        rate: score,
+                },
+            })
+            window.location.reload();
+            },
+        });
+
+    $('.delbuttonfilm').click(function(){
+        var catid;
+        catid = $(this).attr("del_data-catid");
+        var rate;
+        rate = $(this).attr("rate_data-catid");
+        $.ajax(
+        {
+            type:"get",
+            data:{
+                    rate: rate,
+                    del_film_id: catid,
+            },
+        })
+        });
+</script>
 {% endblock %}

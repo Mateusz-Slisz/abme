@@ -127,3 +127,7 @@ ol li a:hover, ol li a:active {
     border:0;
     background:transparent;
 }
+
+.sign {
+    font-weight: 500;
+}

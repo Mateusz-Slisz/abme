@@ -69,7 +69,20 @@
             <div>
                 <h4>Description:</h4>
                 <p>{{ film.description }}</p>
+            </div>
+
+            <div>
                 <h4>Actors:</h4>
+                {% for actor in film.actors.all %}
+                <div class="row">
+                    <div class="col-xl-1">
+                        <img height="45" width="45" src="{{ actor.photo.url }}">
+                    </div>
+                    <div class="col-xl-4">
+                        <h6>{{ actor }}</h6>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="col-lg-3" style="border-left: 1px solid;">

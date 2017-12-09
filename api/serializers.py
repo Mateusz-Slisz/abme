@@ -11,25 +11,25 @@ class AuthorSerializer(ModelSerializer):
 class DirectorSerializer(ModelSerializer):
     class Meta:
         model = Director
-        fields = ('id', 'first_name', 'last_name')
+        fields = ('id', 'first_name', 'last_name', 'photo')
 
 
 class WriterSerializer(ModelSerializer):
     class Meta:
         model = Writer
-        fields = ('id', 'first_name', 'last_name')
+        fields = ('id', 'first_name', 'last_name', 'photo')
 
 
 class ActorSerializer(ModelSerializer):
     class Meta:
         model = Actor
-        fields = ('id', 'first_name', 'last_name')
+        fields = ('id', 'first_name', 'last_name', 'photo')
 
 
 class CreatorSerializer(ModelSerializer):
     class Meta:
         model = Creator
-        fields = ('id', 'first_name', 'last_name')
+        fields = ('id', 'first_name', 'last_name', 'photo')
 
 
 class CategorySerializer(ModelSerializer):
@@ -53,4 +53,4 @@ class FilmSerializer(ModelSerializer):
 class SerialSerializer(ModelSerializer):
     class Meta:
         model = Serial
-        fields = ('id', 'title', 'year', 'seasons', 'creator', 'description', 'category', 'image')
+        fields = ('id', 'title', 'year', 'seasons', 'creator', 'actors', 'description', 'category', 'image')

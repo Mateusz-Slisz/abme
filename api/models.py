@@ -13,6 +13,7 @@ class Author(models.Model):
 class Director(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to="photos/directors/", default="photos/none/default.png")
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -21,6 +22,7 @@ class Director(models.Model):
 class Writer(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to="photos/writers/", default="photos/none/default.png")
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -29,6 +31,7 @@ class Writer(models.Model):
 class Actor(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to="photos/actors/", default="photos/none/default.png")
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -36,6 +39,7 @@ class Actor(models.Model):
 class Creator(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to="photos/creators/", default="photos/none/default.png")
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -68,7 +72,7 @@ YEARS = map(tuplify, range(1990, current_year + 1))
 class Film(models.Model):
     title = models.CharField(max_length=60)
     year = models.IntegerField(choices=YEARS)
-    image = models.ImageField(upload_to="images/", default="images/none/blank_poster.jpg")
+    image = models.ImageField(upload_to="images/films/", default="images/none/blank_poster.jpg")
     director = models.ForeignKey(Director, blank=True)
     writers = models.ManyToManyField(Writer, blank=True)
     actors = models.ManyToManyField(Actor, blank=True)
@@ -92,7 +96,8 @@ class Serial(models.Model):
     title = models.CharField(max_length=60)
     year = models.IntegerField(choices=YEARS)
     category = models.ManyToManyField(Category, blank=True)
-    image = models.ImageField(upload_to="images/", default="images/none/blank_poster.jpg")
+    image = models.ImageField(upload_to="images/serials/", default="images/none/blank_poster.jpg")
+    actors = models.ManyToManyField(Actor, blank=True)
     seasons = models.PositiveSmallIntegerField(default=1)
     creator = models.ManyToManyField(Creator, blank=True)
     description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,

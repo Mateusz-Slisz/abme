@@ -131,3 +131,7 @@ ol li a:hover, ol li a:active {
 .sign {
     font-weight: 500;
 }
+
+.star {
+    color: gold;
+}

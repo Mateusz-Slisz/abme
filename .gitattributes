@@ -3,4 +3,6 @@ static/* linguist-vendored
 user/templates/* linguist-vendored
 books/templates/list/* linguist-vendored
 films/templates/list/* linguist-vendored
-user/templates/* linguist-vendored
+user/templates/user/* linguist-vendored
+search/templates/* linguist-vendored
+main/templates/main/* linguist-vendored

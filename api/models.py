@@ -75,7 +75,7 @@ class Film(models.Model):
     image = models.ImageField(upload_to="images/films/", default="images/none/blank_poster.jpg")
     director = models.ForeignKey(Director, blank=True)
     writers = models.ManyToManyField(Writer, blank=True)
-    actors = models.ManyToManyField(Actor, blank=True)
+    actors = models.ManyToManyField(Actor, through='Filmcast', blank=True)
     category = models.ManyToManyField(Category, blank=True)
     description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
@@ -86,6 +86,12 @@ class Film(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+
+class Filmcast(models.Model):
+    actor = models.ForeignKey(Actor)
+    film = models.ForeignKey(Film)
+    name = models.CharField(max_length=20)
 
 
 current_year = datetime.now().year
@@ -97,7 +103,7 @@ class Serial(models.Model):
     year = models.IntegerField(choices=YEARS)
     category = models.ManyToManyField(Category, blank=True)
     image = models.ImageField(upload_to="images/serials/", default="images/none/blank_poster.jpg")
-    actors = models.ManyToManyField(Actor, blank=True)
+    actors = models.ManyToManyField(Actor, through='Serialcast', blank=True)
     seasons = models.PositiveSmallIntegerField(default=1)
     creator = models.ManyToManyField(Creator, blank=True)
     description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
@@ -109,3 +115,9 @@ class Serial(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+
+class Serialcast(models.Model):
+    actor = models.ForeignKey(Actor)
+    serial = models.ForeignKey(Serial)
+    name = models.CharField(max_length=20)

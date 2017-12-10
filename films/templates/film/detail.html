@@ -72,17 +72,28 @@
             </div>
 
             <div>
-                <h4>Actors:</h4>
-                {% for actor in film.actors.all %}
-                <div class="row">
-                    <div class="col-xl-1">
-                        <img height="45" width="45" src="{{ actor.photo.url }}">
-                    </div>
-                    <div class="col-xl-4">
-                        <h6>{{ actor }}</h6>
-                    </div>
-                </div>
-                {% endfor %}
+                <table class="table">
+                    <h4>Actors:</h4>
+                    <tbody>
+                    {% for cast in film.filmcast_set.all %}
+                    {% if forloop.first %}
+                    <tr>
+                        <td class="first-actor-td"><img height="45" width="45" src="{{ cast.actor.photo.url }}"></td>
+                        <td class="first-actor-td"><h6>{{ cast.actor }}</h6></td>
+                        <td class="first-actor-td">as:</td>
+                        <td class="first-actor-td"><h6>{{ cast.name }}</h6></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td class="actor-td"><img height="45" width="45" src="{{ cast.actor.photo.url }}"></td>
+                        <td class="actor-td"><h6>{{ cast.actor }}</h6></td>
+                        <td class="actor-td">as:</td>
+                        <td class="actor-td"><h6>{{ cast.name }}</h6></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="col-lg-3" style="border-left: 1px solid;">

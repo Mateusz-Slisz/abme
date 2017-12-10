@@ -5,6 +5,8 @@ from api.views import (
     BookViewSet,
     FilmViewSet,
     SerialViewSet,
+    FilmcastViewSet,
+    SerialcastViewSet,
     )
 
 
@@ -20,3 +22,5 @@ router.register('categories', CategoryViewSet)
 router.register('books', BookViewSet)
 router.register('films', FilmViewSet)
 router.register('serials', SerialViewSet)
+router.register('filmcast', FilmcastViewSet)
+router.register('serialcast', SerialcastViewSet)

@@ -135,3 +135,14 @@ ol li a:hover, ol li a:active {
 .star {
     color: gold;
 }
+
+.actor-td {
+    padding: 0px !important;
+    vertical-align: middle !important;
+}
+
+.first-actor-td {
+    padding: 0px !important;
+    border-top: none !important;
+    vertical-align: middle !important;
+}

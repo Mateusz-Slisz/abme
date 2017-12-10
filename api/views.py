@@ -5,8 +5,10 @@ from .serializers import (
     BookSerializer,
     FilmSerializer,
     SerialSerializer,
+    FilmcastSerializer,
+    SerialcastSerializer,
     )
-from .models import Author, Director, Writer, Actor, Category, Creator, Book, Film, Serial
+from .models import Author, Director, Writer, Actor, Category, Creator, Book, Film, Serial, Filmcast, Serialcast
 
 
 class AuthorViewSet(ModelViewSet):
@@ -49,6 +51,16 @@ class FilmViewSet(ModelViewSet):
     queryset = Film.objects.all()
 
 
+class FilmcastViewSet(ModelViewSet):
+    serializer_class = FilmcastSerializer
+    queryset = Filmcast.objects.all()
+
+
 class SerialViewSet(ModelViewSet):
     serializer_class = SerialSerializer
     queryset = Serial.objects.all()
+
+
+class SerialcastViewSet(ModelViewSet):
+    serializer_class = SerialcastSerializer
+    queryset = Serialcast.objects.all()

@@ -63,7 +63,11 @@
                 <div class="mt-1">
                     <img class="d-inline-block poster" height="281" width="200" src="{{ serial.image.url }}" style="border: 1px solid;">
                     <div class ="d-inline-block">
-                        <h6>Creator: {% for creator in serial.creator.all %} {{ creator }}{% if forloop.last %}{% else %},{% endif %} {% endfor %}</h6>
+                        <h6>Creator: 
+                            {% for creator in serial.creator.all %}
+                            <a href="{% url 'person_detail' first_name=creator.first_name last_name=creator.last_name %}">{{ creator }}</a>{% if forloop.last %}{% else %},{% endif %} 
+                            {% endfor %}
+                        </h6>
                     </div>
                 </div>
     
@@ -79,17 +83,33 @@
                         {% for cast in serial.serialcast_set.all %}
                         {% if forloop.first %}
                         <tr>
-                            <td class="first-actor-td"><img height="45" width="45" src="{{ cast.actor.photo.url }}"></td>
-                            <td class="first-actor-td"><h6>{{ cast.actor }}</h6></td>
+                            <td class="first-actor-td">
+                                <img height="45" width="45" src="{{ cast.actor.photo.url }}">
+                            </td>
+                            <td class="first-actor-td">
+                                <a href="{% url 'person_detail' first_name=cast.actor.first_name last_name=cast.actor.last_name %}">
+                                    <h6>{{ cast.actor }}</h6>
+                                </a>
+                            </td>
                             <td class="first-actor-td">as:</td>
-                            <td class="first-actor-td"><h6>{{ cast.name }}</h6></td>
+                            <td class="first-actor-td">
+                                <h6>{{ cast.name }}</h6>
+                            </td>
                         </tr>
                         {% else %}
                         <tr>
-                            <td class="actor-td"><img height="45" width="45" src="{{ cast.actor.photo.url }}"></td>
-                            <td class="actor-td"><h6>{{ cast.actor }}</h6></td>
+                            <td class="actor-td">
+                                <img height="45" width="45" src="{{ cast.actor.photo.url }}">
+                            </td>
+                            <td class="actor-td">
+                                <a href="{% url 'person_detail' first_name=cast.actor.first_name last_name=cast.actor.last_name %}">
+                                    <h6>{{ cast.actor }}</h6>
+                                </a>
+                            </td>
                             <td class="actor-td">as:</td>
-                            <td class="actor-td"><h6>{{ cast.name }}</h6></td>
+                            <td class="actor-td">
+                                <h6>{{ cast.name }}</h6>
+                            </td>
                         </tr>
                         {% endif %}
                         {% endfor %}

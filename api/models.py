@@ -10,36 +10,10 @@ class Author(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 
-class Director(models.Model):
+class Person(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to="photos/directors/", default="photos/none/default.png")
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-
-
-class Writer(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to="photos/writers/", default="photos/none/default.png")
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-
-
-class Actor(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to="photos/actors/", default="photos/none/default.png")
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-
-class Creator(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to="photos/creators/", default="photos/none/default.png")
+    photo = models.ImageField(upload_to="photos/persons/", default="photos/none/default.png")
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -73,9 +47,9 @@ class Film(models.Model):
     title = models.CharField(max_length=60)
     year = models.IntegerField(choices=YEARS)
     image = models.ImageField(upload_to="images/films/", default="images/none/blank_poster.jpg")
-    director = models.ForeignKey(Director, blank=True)
-    writers = models.ManyToManyField(Writer, blank=True)
-    actors = models.ManyToManyField(Actor, through='Filmcast', blank=True)
+    director = models.ForeignKey(Person, blank=True, related_name='film_director')
+    writers = models.ManyToManyField(Person, blank=True, related_name='film_writers')
+    actors = models.ManyToManyField(Person, through='Filmcast', blank=True, related_name='film_actors')
     category = models.ManyToManyField(Category, blank=True)
     description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
@@ -89,7 +63,7 @@ class Film(models.Model):
 
 
 class Filmcast(models.Model):
-    actor = models.ForeignKey(Actor)
+    actor = models.ForeignKey(Person)
     film = models.ForeignKey(Film)
     name = models.CharField(max_length=20)
 
@@ -103,9 +77,9 @@ class Serial(models.Model):
     year = models.IntegerField(choices=YEARS)
     category = models.ManyToManyField(Category, blank=True)
     image = models.ImageField(upload_to="images/serials/", default="images/none/blank_poster.jpg")
-    actors = models.ManyToManyField(Actor, through='Serialcast', blank=True)
+    actors = models.ManyToManyField(Person, through='Serialcast', blank=True)
     seasons = models.PositiveSmallIntegerField(default=1)
-    creator = models.ManyToManyField(Creator, blank=True)
+    creator = models.ManyToManyField(Person, blank=True, related_name='serial_creators')
     description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
     iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 
@@ -118,6 +92,6 @@ class Serial(models.Model):
 
 
 class Serialcast(models.Model):
-    actor = models.ForeignKey(Actor)
+    actor = models.ForeignKey(Person)
     serial = models.ForeignKey(Serial)
     name = models.CharField(max_length=20)

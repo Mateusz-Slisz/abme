@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^books/', include('books.urls')),
     url(r'^serials/', include('serials.urls')),
     url(r'^search/', include('search.urls')),
+    url(r'^person/', include('person.urls')),
 ]
 
 if settings.DEBUG:

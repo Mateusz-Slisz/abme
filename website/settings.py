@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'films',
     'books',
     'serials',
-    'search'
+    'search',
+    'person',
 ]
 
 

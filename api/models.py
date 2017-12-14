@@ -13,6 +13,13 @@ class Author(models.Model):
 class Person(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
+    birthdate = models.DateField(null=True, blank=True)
+    biography = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
+    consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
+    iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 
+    Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
+    Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
+    blandit ante at ipsum feugiat, vitae ultrices enim blandit.""")
     photo = models.ImageField(upload_to="photos/persons/", default="photos/none/default.png")
 
     def __str__(self):

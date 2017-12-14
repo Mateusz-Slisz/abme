@@ -146,3 +146,15 @@ ol li a:hover, ol li a:active {
     border-top: none !important;
     vertical-align: middle !important;
 }
+
+a.person, a.person:visited {
+    color: #212529 !important;
+}
+
+a.person:hover, a.person:active {
+    color: #000000 !important;
+}
+
+a.person.active a {
+    color: #212529 !important;
+}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mt-5">
+    <div class="row">
+        <div class="person-info col-lg-8">
+            <div class="row main-info-person">
+                <div class="col-lg-5">
+                    <img class="rounded" height="200" width="200" src="{{ person.photo.url }}">
+                </div>
+                <div class="col-lg-7">
+                    <h4>{{ person }}</h4>
+                    <h6><span class="text-muted font-weight-normal"></span></h6>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Birth date:</th>
+                                <td>{{ person.birthdate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="person-bio mt-5">
+                <h2>Biography:</h2>
+                <p>{{ person.biography }}</p>
+            </div>
+            <div class="person-known-for">
+                <h2>Known For</h2>
+
+            </div>
+            <div class="filmography">
+                <h2>Filmography</h2>
+            </div>
+        </div>
+        <div class="person-right col-lg-4 " style="border-left: 1px solid">
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

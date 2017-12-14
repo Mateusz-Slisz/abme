@@ -11,7 +11,7 @@ class AuthorSerializer(ModelSerializer):
 class PersonSerializer(ModelSerializer):
     class Meta:
         model = Person
-        fields = ('id', 'first_name', 'last_name', 'photo')
+        fields = ('id', 'first_name', 'last_name', 'birthdate', 'biography', 'photo')
 
 
 class CategorySerializer(ModelSerializer):

@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-lg-7">
                     <h4>{{ person }}</h4>
-                    <h6><span class="text-muted font-weight-normal"></span></h6>
+                    <h6><span class="text-muted font-weight-normal">{% for i in person_type %}{{ i }} {% if forloop.last %}{% else %}| {% endif %}{% endfor %}</span></h6>
                     <table>
                         <tbody>
                             <tr>
@@ -25,12 +25,118 @@
                 <h2>Biography:</h2>
                 <p>{{ person.biography }}</p>
             </div>
-            <div class="person-known-for">
-                <h2>Known For</h2>
-
-            </div>
             <div class="filmography">
                 <h2>Filmography</h2>
+                <p>
+                    {% if creator_list %}
+                    <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseCreator" aria-expanded="false" aria-controls="collapseCreator">
+                      Creator
+                    </a>
+                    {% endif %}
+                    {% if actor_list %}
+                    <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseActor" aria-expanded="false" aria-controls="collapseActor">
+                      Actor
+                    </a>
+                    {% endif %}
+                    {% if writer_list %}
+                    <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseWriter" aria-expanded="false" aria-controls="collapseWriter">
+                      Writer
+                    </a>
+                    {% endif %}
+                    {% if director_list %}
+                    <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseDirector" aria-expanded="false" aria-controls="collapseDirector">
+                      Director
+                    </a>
+                    {% endif %}
+                </p>
+                {% if creator_list %}
+                <div class="collapse" id="collapseCreator">
+                    <table class="table">
+                        <h6>Work as creator:</h6>
+                        <tbody>
+                        {% for i in creator_list %}
+                        <tr>
+                            <td class="obj-td">
+                                <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                            </td>
+                            <td class="obj-td">
+                                <a class="person" href="{% url 'film_detail' pk=i.pk %}">
+                                    <h6>{{ i.title }}</h6>
+                                </a>
+                            </td>
+                            <td class="obj-td">{{ i.year }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                {% if actor_list %}
+                <div class="collapse" id="collapseActor">
+                    <table class="table">
+                        <h6>Work as actor:</h6>
+                        <tbody>
+                        {% for i in actor_list %}
+                        <tr>
+                            <td class="obj-td">
+                                <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                            </td>
+                            <td class="obj-td">
+                                <a class="person" href="{% url 'film_detail' pk=i.pk %}">
+                                    <h6>{{ i.title }}</h6>
+                                </a>
+                            </td>
+                            <td class="obj-td">{{ i.year }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                {% if writer_list %}
+                <div class="collapse" id="collapseWriter">
+                    <table class="table">
+                        <h6>Work as writer:</h6>
+                        <tbody>
+                        {% for i in writer_list %}
+                        <tr>
+                            <td class="obj-td">
+                                <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                            </td>
+                            <td class="obj-td">
+                                <a class="person" href="{% url 'film_detail' pk=i.pk %}">
+                                    <h6>{{ i.title }}</h6>
+                                </a>
+                            </td>
+                            <td class="obj-td">{{ i.year }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                {% if director_list %}
+                <div class="collapse" id="collapseDirector">
+                    <table class="table">
+                        <h6>Work as director:</h6>
+                        <tbody>
+                        {% for i in director_list %}
+                        <tr>
+                            <td class="obj-td">
+                                <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                            </td>
+                            <td class="obj-td">
+                                <a class="person" href="{% url 'film_detail' pk=i.pk %}">
+                                    <h6>{{ i.title }}</h6>
+                                </a>
+                            </td>
+                            <td class="obj-td">{{ i.year }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
             </div>
         </div>
         <div class="person-right col-lg-4 " style="border-left: 1px solid">

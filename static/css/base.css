@@ -158,3 +158,8 @@ a.person:hover, a.person:active {
 a.person.active a {
     color: #212529 !important;
 }
+
+.obj-td {
+    padding: 0px !important;
+    vertical-align: middle !important;
+}

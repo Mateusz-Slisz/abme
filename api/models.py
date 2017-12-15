@@ -84,7 +84,7 @@ class Serial(models.Model):
     year = models.IntegerField(choices=YEARS)
     category = models.ManyToManyField(Category, blank=True)
     image = models.ImageField(upload_to="images/serials/", default="images/none/blank_poster.jpg")
-    actors = models.ManyToManyField(Person, through='Serialcast', blank=True)
+    actors = models.ManyToManyField(Person, through='Serialcast', blank=True, related_name='serial_actors')
     seasons = models.PositiveSmallIntegerField(default=1)
     creator = models.ManyToManyField(Person, blank=True, related_name='serial_creators')
     description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,

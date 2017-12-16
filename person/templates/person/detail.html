@@ -14,8 +14,12 @@
                     <table>
                         <tbody>
                             <tr>
+                                <th>Age:</th>
+                                <td>{% if age is not None %}{{ age }} years{% endif %}</td>
+                            </tr>
+                            <tr>
                                 <th>Birth date:</th>
-                                <td>{{ person.birthdate }}</td>
+                                <td>{{ person.birthdate|date:"d F, Y" }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -30,22 +34,22 @@
                 <p>
                     {% if creator_list %}
                     <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseCreator" aria-expanded="false" aria-controls="collapseCreator">
-                      Creator
+                      Creator <span class="badge badge-light">{{ creator_list.count }}</span>
                     </a>
                     {% endif %}
                     {% if actor_list %}
                     <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseActor" aria-expanded="false" aria-controls="collapseActor">
-                      Actor
+                      Actor <span class="badge badge-light">{{ actor_list_count }}</span>
                     </a>
                     {% endif %}
                     {% if writer_list %}
                     <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseWriter" aria-expanded="false" aria-controls="collapseWriter">
-                      Writer
+                      Writer <span class="badge badge-light">{{ writer_list.count }}</span>
                     </a>
                     {% endif %}
                     {% if director_list %}
                     <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseDirector" aria-expanded="false" aria-controls="collapseDirector">
-                      Director
+                      Director <span class="badge badge-light">{{ director_list.count }}</span>
                     </a>
                     {% endif %}
                 </p>
@@ -61,7 +65,7 @@
                             </td>
                             <td class="obj-td">
                                 <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                    <h6>{{ i.title }}</h6>
+                                    <h6>{{ i.title }} ({{ i.year }})</h6>
                                 </a>
                             </td>
                             <td class="obj-td">{{ i.year }}</td>
@@ -83,7 +87,7 @@
                             </td>
                             <td class="obj-td">
                                 <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                    <h6>{{ i.title }}</h6>
+                                    <h6>{{ i.title }}({{ i.year }})</h6>
                                 </a>
                             </td>
                             <td class="obj-td">{{ i.year }}</td>
@@ -105,7 +109,7 @@
                             </td>
                             <td class="obj-td">
                                 <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                    <h6>{{ i.title }}</h6>
+                                    <h6>{{ i.title }}({{ i.year }})</h6>
                                 </a>
                             </td>
                             <td class="obj-td">{{ i.year }}</td>
@@ -127,7 +131,7 @@
                             </td>
                             <td class="obj-td">
                                 <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                    <h6>{{ i.title }}</h6>
+                                    <h6>{{ i.title }}({{ i.year }})</h6>
                                 </a>
                             </td>
                             <td class="obj-td">{{ i.year }}</td>

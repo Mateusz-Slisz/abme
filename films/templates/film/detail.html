@@ -61,16 +61,34 @@
             <div class="mt-1">
                 <img class="d-inline-block poster" height="281" width="200" src="{{ film.image.url }}" style="border: 1px solid;">
                 <div class ="d-inline-block">
-                    <h6>Director: 
-                        <a class="person" href="{% url 'person_detail' first_name=film.director.first_name last_name=film.director.last_name %}">
-                        {{ film.director }}
-                        </a>
-                    </h6>
-                    <h6>Writers: 
-                        {% for writer in film.writers.all %}
-                        <a class="person" href="{% url 'person_detail' first_name=writer.first_name last_name=writer.last_name %}">{{ writer }}</a>{% if forloop.last %}{% else %}, {% endif %}
-                        {% endfor %}
-                    </h6>
+                    <table>
+                        <tbody>
+                            <tr>
+                                {% if film.directors.all.count > 1 %}
+                                <th>Directors:</th>
+                                {% else %}
+                                <th>Director:</th>
+                                {% endif %}
+                                <td>
+                                    {% for director in film.directors.all %}
+                                    <a class="person" href="{% url 'person_detail' first_name=director.first_name last_name=director.last_name %}"><span class="h6">{{ director }}</span></a>{% if forloop.last %}{% else %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                {% if film.writers.all.count > 1 %}
+                                <th>Writers:</th>
+                                {% else %}
+                                <th>Writer:</th>
+                                {% endif %}
+                                <td>
+                                    {% for writer in film.writers.all %}
+                                    <a class="person" href="{% url 'person_detail' first_name=writer.first_name last_name=writer.last_name %}"><span class="h6">{{ writer }}</span></a>{% if forloop.last %}{% else %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

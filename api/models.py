@@ -54,7 +54,7 @@ class Film(models.Model):
     title = models.CharField(max_length=60)
     year = models.IntegerField(choices=YEARS)
     image = models.ImageField(upload_to="images/films/", default="images/none/blank_poster.jpg")
-    director = models.ForeignKey(Person, blank=True, related_name='film_director')
+    directors = models.ManyToManyField(Person, blank=True, related_name='film_director')
     writers = models.ManyToManyField(Person, blank=True, related_name='film_writers')
     actors = models.ManyToManyField(Person, through='Filmcast', blank=True, related_name='film_actors')
     category = models.ManyToManyField(Category, blank=True)
@@ -86,7 +86,7 @@ class Serial(models.Model):
     image = models.ImageField(upload_to="images/serials/", default="images/none/blank_poster.jpg")
     actors = models.ManyToManyField(Person, through='Serialcast', blank=True, related_name='serial_actors')
     seasons = models.PositiveSmallIntegerField(default=1)
-    creator = models.ManyToManyField(Person, blank=True, related_name='serial_creators')
+    creators = models.ManyToManyField(Person, blank=True, related_name='serial_creators')
     description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
     iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 

@@ -29,22 +29,22 @@ class BookSerializer(ModelSerializer):
 class FilmSerializer(ModelSerializer):
     class Meta:
         model = Film
-        fields = ('id', 'title', 'year', 'director', 'writers', 'actors', 'category', 'description', 'image')
+        fields = ('id', 'title', 'year', 'directors', 'writers', 'actors', 'category', 'description', 'image')
 
 
 class FilmcastSerializer(ModelSerializer):
     class Meta:
         model = Filmcast
-        fields = ('actor', 'film', 'name')
+        fields = ('id', 'actor', 'film', 'name')
 
 
 class SerialSerializer(ModelSerializer):
     class Meta:
         model = Serial
-        fields = ('id', 'title', 'year', 'seasons', 'creator', 'actors', 'description', 'category', 'image')
+        fields = ('id', 'title', 'year', 'seasons', 'creators', 'actors', 'description', 'category', 'image')
 
 
 class SerialcastSerializer(ModelSerializer):
     class Meta:
         model = Serialcast
-        fields = ('actor', 'serial', 'name')
+        fields = ('id', 'actor', 'serial', 'name')

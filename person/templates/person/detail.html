@@ -30,119 +30,168 @@
                 <p>{{ person.biography }}</p>
             </div>
             <div class="filmography">
-                <h2>Filmography</h2>
-                <p>
-                    {% if creator_list %}
-                    <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseCreator" aria-expanded="false" aria-controls="collapseCreator">
-                      Creator <span class="badge badge-light">{{ creator_list.count }}</span>
-                    </a>
-                    {% endif %}
+                <h2>Filmography</h2>             
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
                     {% if actor_list %}
-                    <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseActor" aria-expanded="false" aria-controls="collapseActor">
-                      Actor <span class="badge badge-light">{{ actor_list_count }}</span>
-                    </a>
+                    <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#actor" role="tab" aria-controls="actor">Actor <span class="badge badge-light">{{ actor_list_count }}</span></a>
+                    </li>
+                    {% endif %}
+                    {% if creator_list %}
+                    <li class="nav-item">
+                    <a class="nav-link {% if actor_list %}{% else %}active{% endif %}" data-toggle="tab" href="#creator" role="tab" aria-controls="creator">Creator <span class="badge badge-light">{{ creator_list.count }}</span></a>
+                    </li>
                     {% endif %}
                     {% if writer_list %}
-                    <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseWriter" aria-expanded="false" aria-controls="collapseWriter">
-                      Writer <span class="badge badge-light">{{ writer_list.count }}</span>
-                    </a>
+                    <li class="nav-item">
+                    <a class="nav-link {% if actor_list %}{% elif creator_list %}{% else %}active{% endif %}" data-toggle="tab" href="#writer" role="tab" aria-controls="writer">Writer <span class="badge badge-light">{{ writer_list.count }}</span></a>
+                    </li>
                     {% endif %}
                     {% if director_list %}
-                    <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseDirector" aria-expanded="false" aria-controls="collapseDirector">
-                      Director <span class="badge badge-light">{{ director_list.count }}</span>
-                    </a>
+                    <li class="nav-item">
+                    <a class="nav-link {% if actor_list %}{% elif creator_list %}{% elif writer_list %}{% else %}active{% endif %}" data-toggle="tab" href="#director" role="tab" aria-controls="director">Director <span class="badge badge-light">{{ director_list.count }}</span></a>
+                    </li>
                     {% endif %}
-                </p>
-                {% if creator_list %}
-                <div class="collapse" id="collapseCreator">
-                    <table class="table">
-                        <h6>Work as creator:</h6>
-                        <tbody>
-                        {% for i in creator_list %}
-                        <tr>
-                            <td class="obj-td">
-                                <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
-                            </td>
-                            <td class="obj-td">
-                                <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                    <h6>{{ i.title }} ({{ i.year }})</h6>
-                                </a>
-                            </td>
-                            <td class="obj-td">{{ i.year }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                </ul>
+              
+                <div class="tab-content">
+                    {% if actor_list %}
+                    <div class="tab-pane active" id="actor" role="tabpanel">
+                        <table class="table">
+                            <h6>Work as actor:</h6>
+                            <tbody>
+                            {% for i in actor_list %}
+                                {% if i in films %}
+                                <tr>
+                                    <td class="obj-td">
+                                        <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                                    </td>
+                                    <td class="obj-td">
+                                        <a class="person" href="{% url 'film_detail' pk=i.pk %}">
+                                            <h6>{{ i.title }} (Film)</h6>
+                                        </a>
+                                    </td>
+                                    <td class="obj-td">
+                                        <h6>
+                                            <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                                            {{ i.average_score }}
+                                        </h6>
+                                    </td>
+                                    <td class="obj-td">{{ i.year }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if i in serials %}
+                                <tr>
+                                    <td class="obj-td">
+                                        <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                                    </td>
+                                    <td class="obj-td">
+                                        <a class="person" href="{% url 'serial_detail' pk=i.pk %}">
+                                            <h6>{{ i.title }} (TV Series)</h6>
+                                        </a>
+                                    </td>
+                                    <td class="obj-td">
+                                        <h6>
+                                            <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                                            {{ i.average_score }}
+                                        </h6>
+                                    </td>
+                                    <td class="obj-td">{{ i.year }}</td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                    {% if creator_list %}
+                    <div class="tab-pane {% if actor_list %}{% else %}active{% endif %}" id="creator" role="tabpanel">
+                        <table class="table">
+                            <h6>Work as creator:</h6>
+                            <tbody>
+                            {% for i in creator_list %}
+                            <tr>
+                                <td class="obj-td">
+                                    <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                                </td>
+                                <td class="obj-td">
+                                    <a class="person" href="{% url 'serial_detail' pk=i.pk %}">
+                                        <h6>{{ i.title }} (TV Series)</h6>
+                                    </a>
+                                </td>
+                                <td class="obj-td">
+                                    <h6>
+                                        <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                                        {{ i.average_score }}
+                                    </h6>
+                                </td>
+                                <td class="obj-td">{{ i.year }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                    {% if writer_list %}
+                    <div class="tab-pane {% if actor_list %}{% elif creator_list %}{% else %}active{% endif %}" id="writer" role="tabpanel">
+                        <table class="table">
+                            <h6>Work as writer:</h6>
+                            <tbody>
+                            {% for i in writer_list %}
+                            <tr>
+                                <td class="obj-td">
+                                    <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                                </td>
+                                <td class="obj-td">
+                                    <a class="person" href="{% url 'film_detail' pk=i.pk %}">
+                                        <h6>{{ i.title }} (Film)</h6>
+                                    </a>
+                                </td>
+                                <td class="obj-td">
+                                    <h6>
+                                        <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                                        {{ i.average_score }}
+                                    </h6>
+                                </td>
+                                <td class="obj-td">{{ i.year }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                    {% if director_list %}
+                    <div class="tab-pane {% if actor_list %}{% elif creator_list %}{% elif writer_list %}{% else %}active{% endif %}" id="director" role="tabpanel">
+                        <table class="table">
+                            <h6>Work as director:</h6>
+                            <tbody>
+                            {% for i in director_list %}
+                            <tr>
+                                <td class="obj-td">
+                                    <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
+                                </td>
+                                <td class="obj-td">
+                                    <a class="person" href="{% url 'film_detail' pk=i.pk %}">
+                                        <h6>{{ i.title }} (Film)</h6>
+                                    </a>
+                                </td>
+                                <td class="obj-td">
+                                    <h6>
+                                        <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                                        {{ i.average_score }}
+                                    </h6>
+                                </td>
+                                <td class="obj-td">{{ i.year }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-                {% if actor_list %}
-                <div class="collapse" id="collapseActor">
-                    <table class="table">
-                        <h6>Work as actor:</h6>
-                        <tbody>
-                        {% for i in actor_list %}
-                        <tr>
-                            <td class="obj-td">
-                                <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
-                            </td>
-                            <td class="obj-td">
-                                <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                    <h6>{{ i.title }}({{ i.year }})</h6>
-                                </a>
-                            </td>
-                            <td class="obj-td">{{ i.year }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% endif %}
-                {% if writer_list %}
-                <div class="collapse" id="collapseWriter">
-                    <table class="table">
-                        <h6>Work as writer:</h6>
-                        <tbody>
-                        {% for i in writer_list %}
-                        <tr>
-                            <td class="obj-td">
-                                <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
-                            </td>
-                            <td class="obj-td">
-                                <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                    <h6>{{ i.title }}({{ i.year }})</h6>
-                                </a>
-                            </td>
-                            <td class="obj-td">{{ i.year }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% endif %}
-                {% if director_list %}
-                <div class="collapse" id="collapseDirector">
-                    <table class="table">
-                        <h6>Work as director:</h6>
-                        <tbody>
-                        {% for i in director_list %}
-                        <tr>
-                            <td class="obj-td">
-                                <img class="poster" height="70px" width="50px" src="{{ i.image.url }}">
-                            </td>
-                            <td class="obj-td">
-                                <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                    <h6>{{ i.title }}({{ i.year }})</h6>
-                                </a>
-                            </td>
-                            <td class="obj-td">{{ i.year }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% endif %}
             </div>
         </div>
+        
         <div class="person-right col-lg-4 " style="border-left: 1px solid">
             
         </div>

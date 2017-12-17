@@ -63,11 +63,22 @@
                 <div class="mt-1">
                     <img class="d-inline-block poster" height="281" width="200" src="{{ serial.image.url }}" style="border: 1px solid;">
                     <div class ="d-inline-block">
-                        <h6>Creator: 
-                            {% for creator in serial.creator.all %}
-                            <a class="person" href="{% url 'person_detail' first_name=creator.first_name last_name=creator.last_name %}">{{ creator }}</a>{% if forloop.last %}{% else %},{% endif %} 
-                            {% endfor %}
-                        </h6>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    {% if serial.creators.all.count > 1 %}
+                                    <th>Creators:</th>
+                                    {% else %}
+                                    <th>Creator:</th>
+                                    {% endif %}
+                                    <td>
+                                        {% for creator in serial.creators.all %}
+                                        <a class="person" href="{% url 'person_detail' first_name=creator.first_name last_name=creator.last_name %}"><span class="h6">{{ creator }}</span></a>{% if forloop.last %}{% else %},{% endif %} 
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
     

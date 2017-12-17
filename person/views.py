@@ -3,10 +3,18 @@ from operator import attrgetter
 from datetime import date
 from django.shortcuts import render, get_object_or_404
 from api.models import Person, Film, Serial
+from search.views import Round
+from django.db.models import Avg
+
 
 
 def detail(request, first_name, last_name):
     person = get_object_or_404(Person, first_name=first_name, last_name=last_name)
+    serials = Serial.objects.get_queryset().annotate(
+        average_score=Round(Avg('serialrating__rate')))
+    films = Film.objects.get_queryset().annotate(
+        average_score=Round(Avg('filmrating__rate')))
+
     today = date.today()
     age = None
 
@@ -19,31 +27,35 @@ def detail(request, first_name, last_name):
     actor_list = []
     writer_list = []
     director_list = []
+    actor_list_count = None
 
-    if Serial.objects.filter(creator=person):
-        person_type.append('Creator')
-        creator_list = Serial.objects.filter(creator=person).order_by('-year')
-
-    if Film.objects.filter(actors=person) or Serial.objects.filter(actors=person):
+    if films.filter(actors=person) or serials.filter(actors=person):
         person_type.append('Actor')
-        films = Film.objects.filter(actors=person)
-        serials = Serial.objects.filter(actors=person)
+        f_actor = films.filter(actors=person)
+        s_actor = serials.filter(actors=person)
 
         actor_list = sorted(
-            chain(films, serials),
+            chain(f_actor, s_actor),
             key=attrgetter('year'), reverse=True)
         actor_list_count = len(actor_list)
 
-    if Film.objects.filter(writers=person):
-        person_type.append('Writer')
-        writer_list = Film.objects.filter(writers=person).order_by('-year')
+    if serials.filter(creators=person):
+        person_type.append('Creator')
+        creator_list = serials.filter(creators=person).order_by('-year')
 
-    if Film.objects.filter(director=person):
+    if films.filter(writers=person):
+        person_type.append('Writer')
+        writer_list = films.filter(writers=person).order_by('-year')
+
+    if films.filter(directors=person):
         person_type.append('Director')
-        director_list = Film.objects.filter(director=person).order_by('-year')
+        director_list = films.filter(directors=person).order_by('-year')
+
 
     context = {
         'person': person,
+        'films': films,
+        'serials': serials,
         'age': age,
         'person_type': person_type,
         'creator_list': creator_list,

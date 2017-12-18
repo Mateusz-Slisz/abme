@@ -13,22 +13,21 @@
     {% endif %}
     <div class="row">
     {% with p=profile_form u=user_form %}
-    <div class="col-lg-4">
+    <div class="col-lg-3">
             <div class="card">
                 <h6 class="card-header">Profile settings</h6>
                 <ul class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action active">General</a>
-                    <a href="#" class="list-group-item list-group-item-action">Profile</a>
+                    <a href="#" class="list-group-item list-group-item-action active">Profile</a>
+                    <a href="{% url 'user_settings_password' %}" class="list-group-item list-group-item-action">Password</a>
                     <a href="#" class="list-group-item list-group-item-action">Email</a>
                     <a href="#" class="list-group-item list-group-item-action">Example</a>
                 </ul>
             </div>
         </div>
-        <div class="col-lg-5">
-            <h2>General</h2>
-                {% csrf_token %}
-                {{ u|crispy }}
+        <div class="col-lg-6">
             <h2>Profile</h2>
+            {% csrf_token %}
+            {{ u|crispy }}
             {{ p.birth_date|as_crispy_field }}
             {{ p.location|as_crispy_field }}
             {{ p.bio|as_crispy_field }}

@@ -34,22 +34,22 @@
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     {% if actor_list %}
                     <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#actor" role="tab" aria-controls="actor">Actor <span class="badge badge-light">{{ actor_list_count }}</span></a>
+                    <a class="nav-link detfilmo active" data-toggle="tab" href="#actor" role="tab" aria-controls="actor">Actor <span class="badge badge-light">{{ actor_list_count }}</span></a>
                     </li>
                     {% endif %}
                     {% if creator_list %}
                     <li class="nav-item">
-                    <a class="nav-link {% if actor_list %}{% else %}active{% endif %}" data-toggle="tab" href="#creator" role="tab" aria-controls="creator">Creator <span class="badge badge-light">{{ creator_list.count }}</span></a>
+                    <a class="nav-link detfilmo {% if actor_list %}{% else %}active{% endif %}" data-toggle="tab" href="#creator" role="tab" aria-controls="creator">Creator <span class="badge badge-light">{{ creator_list.count }}</span></a>
                     </li>
                     {% endif %}
                     {% if writer_list %}
                     <li class="nav-item">
-                    <a class="nav-link {% if actor_list %}{% elif creator_list %}{% else %}active{% endif %}" data-toggle="tab" href="#writer" role="tab" aria-controls="writer">Writer <span class="badge badge-light">{{ writer_list.count }}</span></a>
+                    <a class="nav-link detfilmo {% if actor_list %}{% elif creator_list %}{% else %}active{% endif %}" data-toggle="tab" href="#writer" role="tab" aria-controls="writer">Writer <span class="badge badge-light">{{ writer_list.count }}</span></a>
                     </li>
                     {% endif %}
                     {% if director_list %}
                     <li class="nav-item">
-                    <a class="nav-link {% if actor_list %}{% elif creator_list %}{% elif writer_list %}{% else %}active{% endif %}" data-toggle="tab" href="#director" role="tab" aria-controls="director">Director <span class="badge badge-light">{{ director_list.count }}</span></a>
+                    <a class="nav-link detfilmo {% if actor_list %}{% elif creator_list %}{% elif writer_list %}{% else %}active{% endif %}" data-toggle="tab" href="#director" role="tab" aria-controls="director">Director <span class="badge badge-light">{{ director_list.count }}</span></a>
                     </li>
                     {% endif %}
                 </ul>

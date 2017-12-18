@@ -42,7 +42,7 @@
                         {% for ratings in f_ratings %}
                         <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
                             <a class="detail" href="{% url 'film_detail' pk=ratings.film.pk %}">
-                                <img class="pull-left poster" src="{{ ratings.film.image.url }}" height="70px" width="50px">
+                                <img class="pull-left poster poster-border" src="{{ ratings.film.image.url }}" height="70px" width="50px">
                             </a>
                             <div class="pull-left ml-1">
                             <a class="detail" href="{% url 'film_detail' pk=ratings.film.pk %}">
@@ -65,7 +65,7 @@
                         {% for ratings in s_ratings %}
                         <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
                                 <a class="detail" href="{% url 'serial_detail' pk=ratings.serial.pk %}">
-                                    <img class="pull-left poster" src="{{ ratings.serial.image.url }}" height="70px" width="50px">
+                                    <img class="pull-left poster poster-border" src="{{ ratings.serial.image.url }}" height="70px" width="50px">
                                 </a>
                                 <div class="pull-left ml-1">
                                 <a class="detail" href="{% url 'serial_detail' pk=ratings.serial.pk %}">

@@ -164,3 +164,19 @@ a.person.active a {
     vertical-align: middle !important;
 }
 
+a.detfilmo, a.detfilmo:visited {
+    color: #212529 !important;
+}
+
+a.detfilmo:hover, a.detfilmo:active {
+    color: #000000 !important;
+}
+
+a.detfilmo.active {
+    color: #212529 !important;
+    font-weight: 600;
+}
+
+.poster-border {
+    border: 1px solid #afafaf;
+}

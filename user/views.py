@@ -67,6 +67,12 @@ def settings(request):
     return render(request, 'user/settings.html', context)
 
 
+@login_required
+@transaction.atomic
+def settings_password(request):
+    return render(request, 'user/settings_password.html')
+
+
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)

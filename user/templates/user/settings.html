@@ -5,44 +5,60 @@
 {% block content %}
 <form method="post" enctype="multipart/form-data">
     
-<div class="settings">
+<div class="settings mt-2">
     {% if messages %}
         {% for message in messages %}
+            {% if message.tags == "success" %}
             <p class="alert alert-success">{{ message }}<a href="{% url 'user_profile' request.user %}">View your profile</a></p>
+            {% endif %}
+            {% if message.tags == "error" %}
+            <p class="alert alert-danger">{{ message }}</p>
+            {% endif %}
         {% endfor %}
     {% endif %}
     <div class="row">
-    {% with p=profile_form u=user_form %}
-    <div class="col-lg-3">
-            <div class="card">
-                <h6 class="card-header">Profile settings</h6>
-                <ul class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action active">Profile</a>
-                    <a href="{% url 'user_settings_password' %}" class="list-group-item list-group-item-action">Password</a>
-                    <a href="#" class="list-group-item list-group-item-action">Email</a>
-                    <a href="#" class="list-group-item list-group-item-action">Example</a>
-                </ul>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <h2>Profile</h2>
-            {% csrf_token %}
-            {{ u|crispy }}
-            {{ p.birth_date|as_crispy_field }}
-            {{ p.location|as_crispy_field }}
-            {{ p.bio|as_crispy_field }}
-            <p><input class="btn btn-success" role="button" type="submit" value="Save changes" /></p>
-        </div>
+        {% with p=profile_form u=user_form %}
         <div class="col-lg-3">
-            <div class="mr-auto mx-auto" style=" width: 200px;">
-            <h2>Picture</h2>
-            <img class="rounded" height="200" width="200" src="{{ request.user.profile.picture.url }}">
-            {% csrf_token %}
-            <br></br>
-            <input type="file" name="picture" id="id_picture">
-            </div>
+                <div class="card">
+                    <h6 class="card-header">Profile settings</h6>
+                    <ul class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action active">Profile</a>
+                        <a href="{% url 'user_settings_password' %}" class="list-group-item list-group-item-action">Password</a>
+                        <a href="#" class="list-group-item list-group-item-action">Email</a>
+                        <a href="#" class="list-group-item list-group-item-action">Example</a>
+                    </ul>
+                </div>
         </div>
-    {% endwith %}  
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Profile</h2>
+                </div>
+                <div class="col-6">
+                    {% csrf_token %}
+                    {{ u|crispy }}
+                    {{ p.birth_date|as_crispy_field }}
+                    {{ p.location|as_crispy_field }}
+                    <div id="div_id_bio" class="form-group">
+                        <label for="id_bio" class="form-control-label ">Bio</label>
+                        <div class="">
+                            <textarea name="bio" cols="40" rows="4" maxlength="100" class="textarea form-control" id="id_bio" placeholder="Write about yourself...">{{ request.user.profile.bio }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mr-auto mx-auto" style=" width: 200px;">
+                        <label>Picture</label>
+                        <img class="rounded" height="200" width="200" src="{{ request.user.profile.picture.url }}">
+                        {% csrf_token %}
+                        <br>
+                        <input type="file" name="picture" id="id_picture">
+                    </div>
+                </div>
+            </div>
+            <input class="btn btn-secondary pointer" role="button" type="submit" value="Save changes" />
+        </div>
+        {% endwith %}  
     </div>
 </div>
 </form>

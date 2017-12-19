@@ -48,10 +48,6 @@ a.detail.active a {
     color: #212529 !important;
 }
 
-.settings {
-    margin-top: 30px;
-}
-
 .profile {
     margin-top: 30px;
 }
@@ -179,4 +175,8 @@ a.detfilmo.active {
 
 .poster-border {
     border: 1px solid #afafaf;
+}
+
+.pointer {
+    cursor: pointer;
 }

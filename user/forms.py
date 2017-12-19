@@ -7,7 +7,7 @@ from .models import Profile
 
 class CustomUserCreationForm(forms.Form):
     username = forms.CharField(label='Enter Username', min_length=4, max_length=20)
-    email = forms.EmailField(label='Enter email')
+    email = forms.EmailField(label='Enter email', min_length=4, max_length=30)
     password1 = forms.CharField(label='Enter password', widget=forms.PasswordInput, min_length=6)
     password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
 
@@ -42,12 +42,21 @@ class CustomUserCreationForm(forms.Form):
         )
         return user
 
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
+        widgets = {
+            'birth_date': DateInput()
+        }
         fields = ('birth_date', 'location', 'bio', 'picture')

@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 from films.models import FilmRating, FilmWatchlist
 from books.models import BookRating, BookWatchlist
@@ -70,7 +72,23 @@ def settings(request):
 @login_required
 @transaction.atomic
 def settings_password(request):
-    return render(request, 'user/settings_password.html')
+    if request.method == 'POST':
+        password_form = PasswordChangeForm(request.user, request.POST)
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, ('Your password was successfully updated! '))
+            return redirect('user_settings_password')
+        else:
+            messages.error(request, ('Please correct the error below.'))
+    else:
+        password_form = PasswordChangeForm(request.user)
+
+    context = {
+        'password_form': password_form,
+    }
+
+    return render(request, 'user/settings_password.html', context)
 
 
 def profile(request, username):

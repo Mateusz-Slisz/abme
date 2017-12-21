@@ -1,6 +1,8 @@
 from itertools import chain
 from operator import attrgetter
 from django.shortcuts import render, redirect, get_object_or_404
+from itertools import chain
+from operator import attrgetter
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -13,6 +15,8 @@ from serials.models import SerialRating, SerialWatchlist
 from api.models import Serial, Film
 from .models import Profile
 from .forms import CustomUserCreationForm, ProfileForm, UserForm
+from search.views import Round
+from django.db.models import Avg, Count
 
 
 @login_required
@@ -165,14 +169,54 @@ def watchlist(request):
             serial = get_object_or_404(Serial, id=del_serial_watchlist)
             SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
 
-    watchlist_f = FilmWatchlist.objects.filter(user=activ_user)
-    watchlist_s = SerialWatchlist.objects.filter(user=activ_user)
-    watchlist_b = BookWatchlist.objects.filter(user=activ_user)
+    watchlist_f = FilmWatchlist.objects.filter(user=activ_user).annotate(
+        average_score=Round(Avg('film__filmrating__rate')),
+        votes=Count('film__filmrating__user', distinct=True))
+
+    watchlist_s = SerialWatchlist.objects.filter(user=activ_user).annotate(
+        average_score=Round(Avg('serial__serialrating__rate')),
+        votes=Count('serial__serialrating__user', distinct=True))
+
+    sort_by = request.GET.get('sort_by')
+    order = request.GET.get('order')
 
     watchlist_all = sorted(
         chain(watchlist_f, watchlist_s),
-        key=attrgetter('date'),
-        reverse=True)
+        key=attrgetter('id'))
+
+    if sort_by == "Global rating":
+        if order == 'Ascending':
+            watchlist_all = sorted(
+                chain(watchlist_f, watchlist_s),
+                key=attrgetter('average_score'),
+                reverse=False)
+        if order == 'Descending':
+            watchlist_all = sorted(
+                chain(watchlist_f, watchlist_s),
+                key=attrgetter('average_score'),
+                reverse=True)
+    if sort_by == "Data added":
+        if order == 'Ascending':
+            watchlist_all = sorted(
+                chain(watchlist_f, watchlist_s),
+                key=attrgetter('date'),
+                reverse=False)
+        if order == 'Descending':
+            watchlist_all = sorted(
+                chain(watchlist_f, watchlist_s),
+                key=attrgetter('date'),
+                reverse=True)
+    if sort_by == "Popularity":
+        if order == 'Ascending':
+            watchlist_all = sorted(
+                chain(watchlist_f, watchlist_s),
+                key=attrgetter('votes'),
+                reverse=False)
+        if order == 'Descending':
+            watchlist_all = sorted(
+                chain(watchlist_f, watchlist_s),
+                key=attrgetter('votes'),
+                reverse=True)
 
     context = {
         'watchlist_all': watchlist_all,

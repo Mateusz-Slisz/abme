@@ -13,10 +13,12 @@ from films.models import FilmRating, FilmWatchlist
 from books.models import BookRating, BookWatchlist
 from serials.models import SerialRating, SerialWatchlist
 from api.models import Serial, Film
+from django.db.models import Avg, Count
+from django.db.models.functions import Coalesce
+from search.views import Round
 from .models import Profile
 from .forms import CustomUserCreationForm, ProfileForm, UserForm
-from search.views import Round
-from django.db.models import Avg, Count
+
 
 
 @login_required
@@ -170,11 +172,11 @@ def watchlist(request):
             SerialWatchlist.objects.filter(user=activ_user, serial=serial).delete()
 
     watchlist_f = FilmWatchlist.objects.filter(user=activ_user).annotate(
-        average_score=Round(Avg('film__filmrating__rate')),
+        average_score=Coalesce(Round(Avg('film__filmrating__rate')), 0),
         votes=Count('film__filmrating__user', distinct=True))
 
     watchlist_s = SerialWatchlist.objects.filter(user=activ_user).annotate(
-        average_score=Round(Avg('serial__serialrating__rate')),
+        average_score=Coalesce(Round(Avg('serial__serialrating__rate')), 0),
         votes=Count('serial__serialrating__user', distinct=True))
 
     sort_by = request.GET.get('sort_by')

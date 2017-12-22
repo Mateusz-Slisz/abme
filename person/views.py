@@ -1,6 +1,7 @@
 from itertools import chain
 from operator import attrgetter
 from datetime import date
+from django.db.models.functions import Coalesce
 from django.shortcuts import render, get_object_or_404
 from api.models import Person, Film, Serial
 from search.views import Round
@@ -11,9 +12,9 @@ from django.db.models import Avg
 def detail(request, first_name, last_name):
     person = get_object_or_404(Person, first_name=first_name, last_name=last_name)
     serials = Serial.objects.get_queryset().annotate(
-        average_score=Round(Avg('serialrating__rate')))
+        average_score=Coalesce(Round(Avg('serialrating__rate')), 0))
     films = Film.objects.get_queryset().annotate(
-        average_score=Round(Avg('filmrating__rate')))
+        average_score=Coalesce(Round(Avg('filmrating__rate')), 0))
 
     today = date.today()
     age = None

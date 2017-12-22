@@ -1,8 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
 from django.contrib import messages
+from django.contrib.auth.models import User
+from serials.models import SerialRating
+from films.models import FilmRating
+
 
 def home(request):
     if request.method == 'GET':
@@ -21,7 +25,14 @@ def home(request):
             return redirect('website_home')
 
     if request.user.is_authenticated():
-        return render(request, "main/home.1.html")
+        activ_user = get_object_or_404(User, username=request.user)
+        user_film_vote = FilmRating.objects.filter(user=activ_user)
+        user_serial_vote = SerialRating.objects.filter(user=activ_user)
+
+        context = {
+            'user_film_vote': user_film_vote,
+            'user_serial_vote': user_serial_vote
+        }
+        return render(request, "main/home.1.html", context)
     else:
         return render(request, "main/home.html")
-

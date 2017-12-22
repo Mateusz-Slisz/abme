@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from api.models import Serial, Category
 from django.contrib.auth.models import User
+from django.db.models.functions import Coalesce
 from user.models import Profile
 from .models import SerialRating, SerialWatchlist
 from django.db.models import Avg, Func, Count, Q
@@ -14,7 +15,7 @@ class Round(Func):
 
 def list(request):
     serial_list = Serial.objects.get_queryset().order_by('id').annotate(
-        average_score=Round(Avg('serialrating__rate')),
+        average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True))
     categories = Category.objects.all()
 
@@ -97,7 +98,7 @@ def list(request):
 def detail(request, pk):
     serial = get_object_or_404(Serial, pk=pk)
     current_serial = Serial.objects.filter(id=serial.id).annotate(
-        average_score=Round(Avg('serialrating__rate')),
+        average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True),
         inwatchlist=Count('serialwatchlist__user', distinct=True))
 
@@ -147,7 +148,7 @@ def detail(request, pk):
 
 def top_rated(request):
     serial_list = Serial.objects.get_queryset().annotate(
-        average_score=Round(Avg('serialrating__rate')),
+        average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True)).order_by('-average_score')[:100]
 
     page = request.GET.get('page')

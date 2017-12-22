@@ -1,6 +1,7 @@
 from itertools import chain
 from operator import attrgetter
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models.functions import Coalesce
 from django.db.models import Avg, Func, Count, Q
 from django.contrib.auth.models import User
 from api.models import Film, Serial
@@ -16,11 +17,11 @@ class Round(Func):
 
 def list(request):
     films = Film.objects.get_queryset().annotate(
-        average_score=Round(Avg('filmrating__rate')),
+        average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True))
 
     serials = Serial.objects.get_queryset().order_by('id').annotate(
-        average_score=Round(Avg('serialrating__rate')),
+        average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True))
 
     keywords = request.GET.get('q')
@@ -148,11 +149,11 @@ def list(request):
 
 def film_list(request):
     films = Film.objects.get_queryset().annotate(
-        average_score=Round(Avg('filmrating__rate')),
+        average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True))
 
     serials = Serial.objects.get_queryset().order_by('id').annotate(
-        average_score=Round(Avg('serialrating__rate')),
+        average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True))
 
     keywords = request.GET.get('q')
@@ -239,11 +240,11 @@ def film_list(request):
 
 def serial_list(request):
     films = Film.objects.get_queryset().annotate(
-        average_score=Round(Avg('filmrating__rate')),
+        average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True))
 
     serials = Serial.objects.get_queryset().order_by('id').annotate(
-        average_score=Round(Avg('serialrating__rate')),
+        average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True))
 
     keywords = request.GET.get('q')

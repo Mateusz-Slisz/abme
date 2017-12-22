@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from api.models import Film, Category
 from django.contrib.auth.models import User
+from django.db.models.functions import Coalesce
 from user.models import Profile
-from .models import FilmRating, FilmWatchlist
 from django.db.models import Avg, Func, Count, Q
+from .models import FilmRating, FilmWatchlist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -14,7 +15,7 @@ class Round(Func):
 
 def list(request):
     film_list = Film.objects.get_queryset().annotate(
-        average_score=Round(Avg('filmrating__rate')),
+        average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True))
     categories = Category.objects.all()
 
@@ -97,7 +98,7 @@ def list(request):
 def detail(request, pk):
     film = get_object_or_404(Film, pk=pk)
     current_film = Film.objects.filter(id=film.id).annotate(
-        average_score=Round(Avg('filmrating__rate')),
+        average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True),
         inwatchlist=Count('filmwatchlist__user', distinct=True))
 
@@ -147,7 +148,7 @@ def detail(request, pk):
 
 def top_rated(request):
     film_list = Film.objects.get_queryset().annotate(
-        average_score=Round(Avg('filmrating__rate')),
+        average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True)).order_by('-average_score')[:100]
 
     page = request.GET.get('page')

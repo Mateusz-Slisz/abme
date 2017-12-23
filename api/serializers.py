@@ -41,7 +41,7 @@ class FilmcastSerializer(ModelSerializer):
 class SerialSerializer(ModelSerializer):
     class Meta:
         model = Serial
-        fields = ('id', 'title', 'year', 'seasons', 'creators', 'actors', 'description', 'category', 'image')
+        fields = ('id', 'title', 'year', 'seasons', 'creators', 'actors', 'category', 'description', 'image')
 
 
 class SerialcastSerializer(ModelSerializer):

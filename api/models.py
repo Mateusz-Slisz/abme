@@ -63,7 +63,7 @@ class Film(models.Model):
     iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
     Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
-    blandit ante at ipsum feugiat, vitae ultrices enim blandit.""")
+    blandit ante at ipsum feugiat, vitae ultrices enim blandit.""", blank=True)
 
     def __str__(self):
         return f'{self.title}'
@@ -92,7 +92,7 @@ class Serial(models.Model):
     iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
     Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
-    blandit ante at ipsum feugiat, vitae ultrices enim blandit.""")
+    blandit ante at ipsum feugiat, vitae ultrices enim blandit.""", blank=True)
 
     def __str__(self):
         return f'{self.title}'

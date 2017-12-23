@@ -15,9 +15,11 @@ from serials.models import SerialRating, SerialWatchlist
 from api.models import Serial, Film
 from django.db.models import Avg, Count
 from django.db.models.functions import Coalesce
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from search.views import Round
 from .models import Profile
 from .forms import CustomUserCreationForm, ProfileForm, UserForm
+
 
 
 
@@ -179,6 +181,7 @@ def watchlist(request):
         average_score=Coalesce(Round(Avg('serial__serialrating__rate')), 0),
         votes=Count('serial__serialrating__user', distinct=True))
 
+    page = request.GET.get('page')
     sort_by = request.GET.get('sort_by')
     order = request.GET.get('order')
 
@@ -219,6 +222,14 @@ def watchlist(request):
                 chain(watchlist_f, watchlist_s),
                 key=attrgetter('votes'),
                 reverse=True)
+
+    paginator = Paginator(watchlist_all, per_page=9)
+    try:
+        watchlist_all = paginator.page(page)
+    except PageNotAnInteger:
+        watchlist_all = paginator.page(1)
+    except EmptyPage:
+        watchlist_all = paginator(paginator.num_pages)
 
     context = {
         'watchlist_all': watchlist_all,

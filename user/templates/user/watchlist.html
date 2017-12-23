@@ -30,7 +30,7 @@
 <div class="row mt-3">
     {% for i in watchlist_all %}
         {% if i.film %}
-        <div class="col-xl-4 col-lg-4 col-md-6 mb-4">
+        <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
             <a class="detail" href="{% url 'film_detail' pk=i.film.pk %}">
                 <img class="pull-left poster poster-border" src="{{ i.film.image.url }}" height="210px" width="150px">
             </a>
@@ -67,6 +67,37 @@
         {% endif %}
     {% endfor %}
 </div>
+{% if watchlist_all.has_other_pages %}
+<nav aria-label="...">
+    <ul class="pagination mb-5 pull-right">
+
+      {% if watchlist_all.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ watchlist_all.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">Prev</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Prev</span></li>
+      {% endif %}
+
+      {% for i in watchlist_all.paginator.page_range %}
+        {% if watchlist_all.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+        {% else %}
+        <li><a class="page-link" href="?page={{ i }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {% if watchlist_all.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ watchlist_all.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+      {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript">
     

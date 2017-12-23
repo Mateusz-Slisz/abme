@@ -82,6 +82,37 @@
         {% empty %}
         <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any serial.</h3>
         {% endfor %}
+        {% if serials.has_other_pages %}
+        <nav aria-label="...">
+            <ul class="pagination mb-5 pull-right">
+    
+            {% if serials.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ serials.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Prev</span></li>
+            {% endif %}
+    
+            {% for i in serials.paginator.page_range %}
+                {% if serials.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+    
+            {% if serials.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ serials.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+    
+            </ul>
+        </nav>
+        {% endif %}
     </div>
     {% else %}
     <h1 class="text-center"><span class="main-list">Search</span></h1>

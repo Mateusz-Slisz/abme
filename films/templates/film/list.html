@@ -77,35 +77,39 @@
             </div>
             {% endfor %}
         </div>
-    </div>
 
         {% if films.has_other_pages %}
         <nav aria-label="...">
-            <ul class="pagination mb-5">
+            <ul class="pagination mb-5 pull-right">
 
-              {% if films.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ films.previous_page_number }}">Prev</a></li>
-              {% else %}
+            {% if films.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ films.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">Prev</a>
+                </li>
+            {% else %}
                 <li class="page-item disabled"><span class="page-link">Prev</span></li>
-              {% endif %}
+            {% endif %}
 
-              {% for i in films.paginator.page_range %}
+            {% for i in films.paginator.page_range %}
                 {% if films.number == i %}
                 <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
                 {% else %}
-                <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                <li><a class="page-link" href="?page={{ i }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">{{ i }}</a></li>
                 {% endif %}
-              {% endfor %}
+            {% endfor %}
 
-              {% if films.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ films.next_page_number }}">Next</a></li>
-              {% else %}
+            {% if films.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ films.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">Next</a>
+                </li>
+            {% else %}
                 <li class="page-item disabled"><span class="page-link">Next</span></li>
-              {% endif %}
+            {% endif %}
 
             </ul>
         </nav>
         {% endif %}
+        </div>
     </div>
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

@@ -3,63 +3,63 @@
 
 
 {% block content %}
-<div class"mt-5">
-        <div class="bg-dark text-white" >
-            <div class="row mr-1 ml-1">
-                <div class="col">
-                    <span class="h6">TV Series ({{ serial.year }}- )</span>
-                    <span class="h6 text-muted">|</span>
-                    <span class="h6">{% for category in serial.category.all %} {{ category }}{% if forloop.last %}{% else %},{% endif %} {% endfor %}</span>
-                    <span class="h6 text-muted">|</span>
-                    <span class="h6">Seasons: {{ serial.seasons }}</span>
-                </div>
-            </div>
-            <div class="row mr-1 ml-1">
-                <div class="col-lg-4">
-                    {% if serial.id == watchlist.serial.id %}
-                        <a class="dellwatchlist" del_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green" title="Click to remove"></i></a>
-                    {% else %}
-                        <a class="addwatchlist" add_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:silver" title="Click to add"></i></a>
-                    {% endif %}
-                    <h2>{{ serial.title }}</h2>
-                </div>
-                
-                <div class="col-lg-4">
-                        {% for s in current_serial %}
-                            <div>
-                                <i class="fa fa-star" aria-hidden="true" style="color:gold"></i> 
-                                <span class="h5">{{ s.average_score }}</span>
-                                <span class="small-rate">/10</span>
-                            </div>
-                            <span class="small-votes">{{ s.votes }} votes</span>
-                            <br>
-                            <span class="small-votes">{{ s.inwatchlist }} want to see</span>
-                        {% endfor %}
-                </div>
-                
-                <div class="col-lg-4">
-                        <h6>Your rating:</h6>
-                        {% if rating %}
-                        {% for r in rating %}
-                        <div class="demo" serial_id="{{ serial.id }}" data-score="{{ r.rate }}">
-                            <span>{{ r.rate }}</span>
-                        </div>
-                        <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
-                        rate_data-catid="{{ r.rate }}" style="color: white">
-                            <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i>
-                        </a>   
-                        {% endfor %}
-                        {% else %}
-                        <div class="demo" serial_id="{{ serial.id }}" data-score="0">
-                            <span>0</span>
-                        </div>
-                        {% endif %}
-    
-                </div>
-            </div>
-        </div>
+<div class="">
         <div class="row">
-            <div class="col-lg-9">
+            <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="bg-dark text-white" >
+                        <div class="row mr-1 ml-1">
+                            <div class="col">
+                                <span class="h6">TV Series ({{ serial.year }}- )</span>
+                                <span class="h6 text-muted">|</span>
+                                <span class="h6">{% for category in serial.category.all %} {{ category }}{% if forloop.last %}{% else %},{% endif %} {% endfor %}</span>
+                                <span class="h6 text-muted">|</span>
+                                <span class="h6">Seasons: {{ serial.seasons }}</span>
+                            </div>
+                        </div>
+                        <div class="row mr-1 ml-1 mt-2">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3">
+                                {% if serial.id == watchlist.serial.id %}
+                                    <a class="dellwatchlist" del_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green" title="Click to remove"></i></a>
+                                {% else %}
+                                    <a class="addwatchlist" add_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:silver" title="Click to add"></i></a>
+                                {% endif %}
+                                <h2>{{ serial.title }}</h2>
+                            </div>
+                            
+                            <div class="col-xl-4 col-lg-4 col-md-3 col-sm-3">
+                                    {% for s in current_serial %}
+                                        <div>
+                                            <i class="fa fa-star" aria-hidden="true" style="color:gold"></i> 
+                                            <span class="h5">{{ s.average_score }}</span>
+                                            <span class="small-rate">/10</span>
+                                        </div>
+                                        <span class="small-votes">{{ s.votes }} votes</span>
+                                        <br>
+                                        <span class="small-votes">{{ s.inwatchlist }} want to see</span>
+                                    {% endfor %}
+                            </div>
+                            
+                            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-6">
+                                    <h6>Your rating:</h6>
+                                    {% if rating %}
+                                    {% for r in rating %}
+                                    <div class="demo" serial_id="{{ serial.id }}" data-score="{{ r.rate }}">
+                                        <span>{{ r.rate }}</span>
+                                    </div>
+                                    <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
+                                    rate_data-catid="{{ r.rate }}" style="color: white">
+                                        <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i>
+                                    </a>   
+                                    {% endfor %}
+                                    {% else %}
+                                    <div class="demo" serial_id="{{ serial.id }}" data-score="0">
+                                        <span>0</span>
+                                    </div>
+                                    {% endif %}
+                
+                            </div>
+                        </div>
+                    </div>
                 <div class="mt-1">
                     <img class="d-inline-block poster poster-border" height="281" width="200" src="{{ serial.image.url }}" >
                     <div class ="d-inline-block">
@@ -128,7 +128,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-3" style="border-left: 1px solid;">
+            <div class="col-xl-3 d-xl-block d-none" style="border-left: 1px solid;">
                 sidebar
             </div>
         </div>

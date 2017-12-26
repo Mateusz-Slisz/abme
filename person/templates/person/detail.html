@@ -3,12 +3,12 @@
 {% block content %}
 <div class="mt-5">
     <div class="row">
-        <div class="person-info col-lg-8">
+        <div class="person-info col-xl-9 col-lg-9 col-md-12 col-sm-12 ">
             <div class="row main-info-person">
-                <div class="col-lg-5">
+                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5">
                     <img class="rounded" height="200" width="200" src="{{ person.photo.url }}">
                 </div>
-                <div class="col-lg-7">
+                <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                     <h4>{{ person }}</h4>
                     <h6><span class="text-muted font-weight-normal">{% for i in person_type %}{{ i }} {% if forloop.last %}{% else %}| {% endif %}{% endfor %}</span></h6>
                     <table>
@@ -77,7 +77,11 @@
                                             {{ i.average_score }}
                                         </h6>
                                     </td>
-                                    <td class="obj-td">{{ i.year }}</td>
+                                    <td class="obj-td">
+                                        <h6>
+                                            {{ i.year }}
+                                        </h6>
+                                    </td>
                                 </tr>
                                 {% endif %}
                                 {% if i in serials %}
@@ -87,16 +91,20 @@
                                     </td>
                                     <td class="obj-td">
                                         <a class="person" href="{% url 'serial_detail' pk=i.pk %}">
-                                            <h6>{{ i.title }} (TV Series)</h6>
+                                            <span class="h6">{{ i.title }} (TV Series)</span>
                                         </a>
                                     </td>
                                     <td class="obj-td">
-                                        <h6>
+                                        <span class="h6">
                                             <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                                             {{ i.average_score }}
-                                        </h6>
+                                        </span>
                                     </td>
-                                    <td class="obj-td">{{ i.year }}</td>
+                                    <td class="obj-td">
+                                        <span class="h6">
+                                                {{ i.year }}
+                                        </span>
+                                    </td>
                                 </tr>
                                 {% endif %}
                             {% endfor %}
@@ -116,16 +124,20 @@
                                 </td>
                                 <td class="obj-td">
                                     <a class="person" href="{% url 'serial_detail' pk=i.pk %}">
-                                        <h6>{{ i.title }} (TV Series)</h6>
+                                        <span class="h6">{{ i.title }} (TV Series)</span>
                                     </a>
                                 </td>
                                 <td class="obj-td">
-                                    <h6>
+                                    <span class="h6">
                                         <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                                         {{ i.average_score }}
-                                    </h6>
+                                    </span>
                                 </td>
-                                <td class="obj-td">{{ i.year }}</td>
+                                <td class="obj-td">
+                                    <span class="h6">
+                                        {{ i.year }}
+                                    </span>
+                                </td>
                             </tr>
                             {% endfor %}
                             </tbody>
@@ -144,16 +156,20 @@
                                 </td>
                                 <td class="obj-td">
                                     <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                        <h6>{{ i.title }} (Film)</h6>
+                                        <span class="h6">{{ i.title }} (Film)</span>
                                     </a>
                                 </td>
                                 <td class="obj-td">
-                                    <h6>
+                                    <span class="h6">
                                         <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                                         {{ i.average_score }}
-                                    </h6>
+                                    </span>
                                 </td>
-                                <td class="obj-td">{{ i.year }}</td>
+                                <td class="obj-td">
+                                    <span class="h6">
+                                        {{ i.year }}
+                                    </span>
+                                </td>
                             </tr>
                             {% endfor %}
                             </tbody>
@@ -172,16 +188,20 @@
                                 </td>
                                 <td class="obj-td">
                                     <a class="person" href="{% url 'film_detail' pk=i.pk %}">
-                                        <h6>{{ i.title }} (Film)</h6>
+                                        <span class="h6">{{ i.title }} (Film)</span>
                                     </a>
                                 </td>
                                 <td class="obj-td">
-                                    <h6>
+                                    <span class="h6">
                                         <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                                         {{ i.average_score }}
-                                    </h6>
+                                    </span>
                                 </td>
-                                <td class="obj-td">{{ i.year }}</td>
+                                <td class="obj-td">
+                                    <span class="h6">
+                                        {{ i.year }}
+                                    </span>
+                                </td>
                             </tr>
                             {% endfor %}
                             </tbody>
@@ -192,7 +212,7 @@
             </div>
         </div>
         
-        <div class="person-right col-lg-4 " style="border-left: 1px solid">
+        <div class="person-right col-xl-3 col-lg-3 d-none d-xl-block d-lg-block" style="border-left: 1px solid">
             
         </div>
     </div>

@@ -29,7 +29,39 @@
 .footer {
     padding-top:80px;
     padding-bottom:40px;
-    background-color: #e1e4e8 ;
+    background-color: #3c3d41 ;
+}
+
+.footer .social {
+    text-align: center;
+}
+
+.footer .social a {
+    padding: 10px;
+    transition: 0.2s;
+}
+
+.footer ul li a {
+    font-size: 14px;
+    color: rgb(207, 207, 207) !important;
+}
+
+a.facebook:hover {
+    color: rgb(59, 89, 152) !important;
+}
+
+a.linkedin:hover {
+    color: rgb(0, 123, 181) !important;
+}
+
+a.github:hover {
+    color: rgb(0, 0, 0) !important;
+}
+
+@media screen and (max-width: 992px) {
+    .footer {
+        text-align: center;
+    }
 }
 
 a {

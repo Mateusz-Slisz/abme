@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-  <div class="col-lg-8">
+  <div class="col-xl-9 col-lg-9 col-md-12">
     <div class="jumbotron">
       {% if user.is_authenticated %}
       <h1 class="display-3">Hello, {{ user }}!</h1>
@@ -18,7 +18,7 @@
       {% endif %}
     </div>
   </div>
-  <div class="col-lg-4">
+  <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none">
       <div class="card bg-light">
           <div class="card-header">
             Getting started
@@ -26,9 +26,6 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item {% if not user.first_name %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
               <span class="h6">Update your first name</span>{% if not user.first_name %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}
-            </li>
-            <li class="list-group-item {% if user.profile.picture == 'photos/none/default.png' %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
-              <span class="h6">Update your picture</span>{% if user.profile.picture == 'photos/none/default.png' %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}
             </li>
             <li class="list-group-item {% if not user.profile.bio %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
               <span class="h6">Update your bio</span>{% if not user.profile.bio %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}

@@ -4,108 +4,111 @@
 
 {% block content %}
 
-    <div class="mt-5">
+    <div class="row mt-5">
+        <div class="list col-xl-9 col-lg-12 col-md-12 col-sm-12">
+            <h1 class="text-center"><span class="main-list">Main list</span> of serials</h1>
+            <div class="main-box mt-5">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
+                            <select class="form-control" name="category">
+                            <option value="" selected disabled hidden>Choose category...</option>
+                            {% for category in categories %}
+                            <option  {% if request.GET.category == category.name %}selected{% endif %}>{{ category.name }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-xl-4 col-lg-4 col-md-3 col-sm-3 col-3">
+                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Please insert year..." name="year" {% if request.GET.year %}value="{{ request.GET.year }}"{% endif %}>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                            <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;">
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                            <a class="btn btn-danger btn-block" href="{% url 'serial_list' %}" role="button" title="Reset filters"><i class="fa fa-times" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </form>
+                {% for serial in serials %}
+                <div class="row box-item mb-3 mr-auto ml-auto">
+                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
+                        <span class="h6">{{ forloop.counter0|add:serials.start_index }}</span>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4">
+                        <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
+                            <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
+                        </a>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-2 col-sm-4 col-6">
+                        <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
+                            <span class="h6">{{ serial.title }}</span>
+                        </a>
+                        ({{ serial.year }}- )
+                    </div>
+                    <div class="col-xl-2 col-lg-1 col-md-2 col-sm-3 col-3">
+                        <h6>
+                            <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                            {{ serial.average_score }}
+                        </h6>
+                        {{ serial.votes }} votes
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-7">
+                        {% if serial.id in s_id %}
+                        <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
+                            <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+                        </div>
+                        <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
+                        rate_data-catid="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                            {% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i> {% endif %}{% endfor %}
+                        </a>   
+                        {% else %}
+                        <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                        {% endif %}
+                    </div>
+                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6 col-2">
+                        {% if serial.id in watchlist_id %}
+                            <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                        {% else %}
+                            <a class="addwatchlist" add_watchlist="{{ serial.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% if serials.has_other_pages %}
+                <nav aria-label="...">
+                    <ul class="pagination mb-5 pull-right">
 
-        <h1 class="text-center"><span class="main-list">Main list</span> of serials</h1>
-        
-        <div class="main-box mt-5">
-            <form>
-                <div class="form-row">
-                    <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
-                        <select class="form-control" name="category">
-                        <option value="" selected disabled hidden>Choose category...</option>
-                        {% for category in categories %}
-                        <option  {% if request.GET.category == category.name %}selected{% endif %}>{{ category.name }}</option>
-                        {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group col-xl-4 col-lg-4 col-md-3 col-sm-3 col-3">
-                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Please insert year..." name="year" {% if request.GET.year %}value="{{ request.GET.year }}"{% endif %}>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                        <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;">
-                    </div>
-                    <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
-                        <a class="btn btn-danger btn-block" href="{% url 'serial_list' %}" role="button" title="Reset filters"><i class="fa fa-times" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-            </form>
-            {% for serial in serials %}
-            <div class="row box-item mb-3 mr-auto ml-auto">
-                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
-                    {{ forloop.counter0|add:serials.start_index }}.
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4">
-                    <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
-                        <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
-                    </a>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-2 col-sm-4 col-6">
-                    <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
-                        <span class="h6">{{ serial.title }}</span>
-                    </a>
-                    ({{ serial.year }}- )
-                </div>
-                <div class="col-xl-2 col-lg-1 col-md-2 col-sm-3 col-3">
-                    <h6>
-                        <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
-                        {{ serial.average_score }}
-                    </h6>
-                    {{ serial.votes }} votes
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-7">
-                    {% if serial.id in s_id %}
-                    <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
-                        <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
-                    </div>
-                    <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
-                    rate_data-catid="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
-                        {% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i> {% endif %}{% endfor %}
-                    </a>   
+                    {% if serials.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ serials.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">Prev</a>
+                        </li>
                     {% else %}
-                    <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
+                        <li class="page-item disabled"><span class="page-link">Prev</span></li>
                     {% endif %}
-                </div>
-                <div class="col-xl-2 col-lg-1 col-md-1 col-sm-6 col-2">
-                    {% if serial.id in watchlist_id %}
-                        <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+
+                    {% for i in serials.paginator.page_range %}
+                        {% if serials.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                        <li><a class="page-link" href="?page={{ i }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if serials.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ serials.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">Next</a>
+                        </li>
                     {% else %}
-                        <a class="addwatchlist" add_watchlist="{{ serial.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                        <li class="page-item disabled"><span class="page-link">Next</span></li>
                     {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-        {% if serials.has_other_pages %}
-        <nav aria-label="...">
-            <ul class="pagination mb-5 pull-right">
 
-              {% if serials.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ serials.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">Prev</a>
-                </li>
-              {% else %}
-                <li class="page-item disabled"><span class="page-link">Prev</span></li>
-              {% endif %}
-
-              {% for i in serials.paginator.page_range %}
-                {% if serials.number == i %}
-                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
-                {% else %}
-                <li><a class="page-link" href="?page={{ i }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">{{ i }}</a></li>
+                    </ul>
+                </nav>
                 {% endif %}
-              {% endfor %}
-
-              {% if serials.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ serials.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}">Next</a>
-                </li>
-              {% else %}
-                <li class="page-item disabled"><span class="page-link">Next</span></li>
-              {% endif %}
-
-            </ul>
-        </nav>
-        {% endif %}
+            </div>
+        </div>
+        <div class="col-xl-3 d-xl-block d-none">
+            artykuly
         </div>
     </div>
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">

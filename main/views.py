@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from serials.models import SerialRating
 from films.models import FilmRating
+from user.forms import CustomUserCreationForm
+from api.models import Article
 
 
 def home(request):
@@ -24,15 +26,26 @@ def home(request):
             messages.success(request, 'Thanks for your reply')
             return redirect('website_home')
 
+    if request.method == 'POST':
+        signup_form = CustomUserCreationForm(request.POST)
+        if signup_form.is_valid():
+            signup_form.save()
+            messages.success(request, 'Account created successfully, login.')
+            return redirect('website_login')
+    else:
+        signup_form = CustomUserCreationForm()
+
     if request.user.is_authenticated():
         activ_user = get_object_or_404(User, username=request.user)
         user_film_vote = FilmRating.objects.filter(user=activ_user)
         user_serial_vote = SerialRating.objects.filter(user=activ_user)
+        articles = Article.objects.all()
 
         context = {
             'user_film_vote': user_film_vote,
-            'user_serial_vote': user_serial_vote
+            'user_serial_vote': user_serial_vote,
+            'articles': articles,
         }
         return render(request, "main/home.1.html", context)
     else:
-        return render(request, "main/home.html")
+        return render(request, "main/home.html", {'signup_form': signup_form})

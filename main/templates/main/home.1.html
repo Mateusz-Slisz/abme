@@ -17,6 +17,15 @@
       <p><a class="btn btn-lg btn-success" href="{% url 'user_signup' %}" role="button">Sign up</a></p>
       {% endif %}
     </div>
+    <div class="test">
+      {% for article in articles %}
+        {{ article.title }}<br>
+        <img class="d-inline-block poster poster-border" width="281" height="200" src="{{ article.image.url }}" >
+        {{ article.category }}<br>
+        {{ article.text }}<br>
+        {{ article.created_date }}<br>
+      {% endfor %}
+    </div>
   </div>
   <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none">
       <div class="card bg-light">

@@ -3,7 +3,6 @@ from user import views as user_views
 
 
 urlpatterns = [
-    url(r'^home', user_views.home, name='user_home'),
     url(r'^signup', user_views.signup, name='user_signup'),
     url(r'^settings$', user_views.settings, name='user_settings'),
     url(r'^settings/password$', user_views.settings_password, name='user_settings_password'),

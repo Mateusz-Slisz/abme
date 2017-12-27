@@ -21,26 +21,13 @@ from .models import Profile
 from .forms import CustomUserCreationForm, ProfileForm, UserForm
 
 
-
-
-@login_required
-def home(request):
-    activ_user = get_object_or_404(User, username=request.user)
-    activ_profile = get_object_or_404(Profile, user=activ_user)
-
-    context = {
-        'activ_profile': activ_profile,
-    }
-    return render(request, 'user/home.html', context)
-
-
 def signup(request):
     if request.method == 'POST':
         f = CustomUserCreationForm(request.POST)
         if f.is_valid():
             f.save()
             messages.success(request, 'Account created successfully, login.')
-            return redirect('user_home')
+            return redirect('website_login')
 
     else:
         f = CustomUserCreationForm()

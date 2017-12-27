@@ -1,5 +1,17 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Author, Person, Category, Book, Film, Serial, Filmcast, Serialcast
+from .models import Author, Person, Category, Book, Film, Serial, Filmcast, Serialcast, ArticleCategory, Article
+
+
+class ArticleCategorySerializer(ModelSerializer):
+    class Meta:
+        model = ArticleCategory
+        fields = ('id', 'name')
+
+
+class ArticleSerializer(ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ('id', 'title', 'text', 'image', 'category', 'created_date')
 
 
 class AuthorSerializer(ModelSerializer):

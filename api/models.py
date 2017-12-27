@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
 
 
 class Author(models.Model):
@@ -102,3 +103,23 @@ class Serialcast(models.Model):
     actor = models.ForeignKey(Person)
     serial = models.ForeignKey(Serial)
     name = models.CharField(max_length=20)
+
+
+class ArticleCategory(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return f'{self.name}'
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    image = models.ImageField(upload_to='images/articles/', default="images/none/blank_article.jpg")
+    category = models.ManyToManyField(ArticleCategory, blank=True)
+    created_date = models.DateTimeField(
+        default=timezone.now)
+
+    def __str__(self):
+        return f'{self.title}'
+

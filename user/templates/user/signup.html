@@ -22,7 +22,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #24292e;">
       <div class="container">
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="/" id="logo">
         ABME
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" 
@@ -40,18 +40,18 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link sign" href="{% url 'website_login' %}">Sign in</a>
+            <li class="nav-item inline">
+              <a class="nav-link sign text-light" href="{% url 'user_signup' %}">Sign up</a>
             </li>
-            <span class="navbar-text">|</span>
-            <li class="nav-item">
-              <a class="nav-link sign" href="{% url 'user_signup' %}">Sign up</a>
+            <li class="navbar-text inline">or</li>
+            <li class="nav-item inline last-inline">
+              <a class="nav-link sign text-light" href="{% url 'website_login' %}">Login</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <div class="signupbox mt-4">
+    <div class="signupbox mt-4" style="min-height: 910px;">
       <div class="container">
           <div class="row">
             <div class="col-lg-6">
@@ -63,7 +63,7 @@
                         <form action="" method="post">
                             {% csrf_token %}
                             {{ form|crispy }}
-                            <p><input class="btn btn-success" role="button" type="submit" value="SignUp" /></p>
+                            <input class="btn btn-success btn-block" role="button" type="submit" value="Signip" style="cursor: pointer;"/>
                         </form>
                     </div>
                 </fieldset>
@@ -74,6 +74,51 @@
           </div>
       </div>
     </div>
+    <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2">
+                <h1>
+                  <a class="text-light" href="/">ABME</a>
+                </h1>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mt-2">
+                <h5 class="text-light">Films</h5>
+                <ul class="list-unstyled text-light">
+                  <li><a href="{% url 'film_list' %}" class="text-light">List</a></li>
+                  <li><a href="{% url 'film_top_rated' %}" class="text-light">Top rated</a></li>
+                </ul>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mt-2">
+                <h5 class="text-light">TV Series</h5>
+                <ul class="list-unstyled text-light">
+                  <li><a href="{% url 'serial_list' %}" class="text-light">List</a></li>
+                  <li><a href="{% url 'serial_top_rated' %}" class="text-light">Top rated</a></li>
+                </ul>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mt-2">
+                <h5 class="text-light">Communication</h5>
+                <ul class="list-unstyled text-gray">
+                  <li><a href="" class="text-light">API</a></li>
+                  <li><a href="" class="text-light">Analytics</a></li>
+                </ul>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2">
+                <div class="social">
+                    <a target="_blank" href="//www.linkedin.com/in/mateusz-slisz-557775139/" class="linkedin text-light">
+                      <i class="fa fa-linkedin fa-2x" aria-hidden="true"></i>
+                    </a>
+                    <a target="_blank" href="//www.facebook.com/mateusz.slisz" class="facebook text-light">
+                      <i class="fa fa-facebook fa-2x" aria-hidden="true"></i>
+                    </a>
+                    <a target="_blank" href="//github.com/b1oader" class="github text-light">
+                      <i class="fa fa-github fa-2x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </footer>
   </body>
 </html>
 

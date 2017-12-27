@@ -1,9 +1,28 @@
 .main {
     background: url("https://static.pexels.com/photos/21387/pexels-photo.jpg") center;
     background-size:cover;
-    padding-top:300px;
-    padding-bottom:300px;
+    padding-top: 150px;
+    padding-bottom: 150px;
     
+}
+
+@media (max-width: 992px) {
+    
+      ul.navbar-nav li.inline {
+        float: left !important;
+      }
+      ul.navbar-nav li.last-inline + li {
+        clear: both !important; 
+      }
+      ul.navbar-nav li.inline a {
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+      }
+    
+}
+
+.signup-note {
+    font-size: 12px;
 }
 
 .extras .col-lg-4 {
@@ -27,14 +46,15 @@
 }
 
 .footer {
-    padding-top:80px;
-    padding-bottom:40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     background-color: #3c3d41 ;
 }
 
 .footer .social {
     text-align: center;
 }
+
 
 .footer .social a {
     padding: 10px;

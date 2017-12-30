@@ -2,39 +2,42 @@
 {% block content %}
 <div class="row">
   <div class="col-xl-9 col-lg-9 col-md-12">
-    <div class="jumbotron">
-      {% if user.is_authenticated %}
-      <h1 class="display-3">Hello, {{ user }}!</h1>
-      {% else %}
-      <h1 class="display-3">Hello, stranger!</h1>
-      {% endif %}
-
-
-      {% if user.is_authenticated %}
-      <p class="lead">What's up?</p>
-      {% else %}
-      <p class="lead">Try an application and click the button</p>
-      <p><a class="btn btn-lg btn-success" href="{% url 'user_signup' %}" role="button">Sign up</a></p>
-      {% endif %}
-    </div>
-    <div class="test">
+    <div class="articles row">
       {% for article in articles %}
-        {{ article.title }}<br>
-        <img class="d-inline-block poster poster-border" width="281" height="200" src="{{ article.image.url }}" >
-        {{ article.category }}<br>
-        {{ article.text }}<br>
-        {{ article.created_date }}<br>
+        {% if forloop.first %}
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
+              <div class="card">
+                  <img class="card-img-top" src="{{ article.image.url }}" alt="Card image cap">                  
+                  <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.text }}</p>
+                    <a href="{% url 'article_detail' pk=article.pk %}" class="">READ MORE</a>                    
+                  </div>
+              </div>
+          </div>
+        {% else %}
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+              <div class="card">
+                  <img class="card-img-top" src="{{ article.image.url }}" alt="Card image cap" width="328px" height="233">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.text }}</p>
+                    <a href="{% url 'article_detail' pk=article.pk %}" class="">READ MORE</a>
+                  </div>
+              </div>
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
-  <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none">
+  <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none mt-3">
       <div class="card bg-light">
           <div class="card-header">
             Getting started
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item {% if not user.first_name %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
-              <span class="h6">Update your first name</span>{% if not user.first_name %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}
+              <span class="h6">Update first name</span>{% if not user.first_name %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}
             </li>
             <li class="list-group-item {% if not user.profile.bio %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
               <span class="h6">Update your bio</span>{% if not user.profile.bio %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}

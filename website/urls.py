@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^serials/', include('serials.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^person/', include('person.urls')),
+    url(r'^article/', include('article.urls')),
 ]
 
 if settings.DEBUG:

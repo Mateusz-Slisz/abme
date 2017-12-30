@@ -1,3 +1,4 @@
+
 .main {
     background: url("https://static.pexels.com/photos/21387/pexels-photo.jpg") center;
     background-size:cover;
@@ -231,4 +232,9 @@ a.detfilmo.active {
 
 .pointer {
     cursor: pointer;
+}
+
+.article {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
 }

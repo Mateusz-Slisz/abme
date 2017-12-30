@@ -39,7 +39,8 @@ def home(request):
         activ_user = get_object_or_404(User, username=request.user)
         user_film_vote = FilmRating.objects.filter(user=activ_user)
         user_serial_vote = SerialRating.objects.filter(user=activ_user)
-        articles = Article.objects.all()
+        articles_queryset = Article.objects.get_queryset()
+        articles = articles_queryset.order_by('-created_date')
 
         context = {
             'user_film_vote': user_film_vote,

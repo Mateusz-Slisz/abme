@@ -8,6 +8,7 @@ from serials.models import SerialRating
 from films.models import FilmRating
 from user.forms import CustomUserCreationForm
 from api.models import Article
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
@@ -41,11 +42,25 @@ def home(request):
         user_serial_vote = SerialRating.objects.filter(user=activ_user)
         articles_queryset = Article.objects.get_queryset()
         articles = articles_queryset.order_by('-created_date')
+        newest_article = articles.first()
+
+        page = request.GET.get('page')
+
+
+        paginator = Paginator(articles, per_page=4)
+
+        try:
+            articles = paginator.page(page)
+        except PageNotAnInteger:
+            articles = paginator.page(1)
+        except EmptyPage:
+            articles = paginator(paginator.num_pages)
 
         context = {
             'user_film_vote': user_film_vote,
             'user_serial_vote': user_serial_vote,
             'articles': articles,
+            'newest_article': newest_article,
         }
         return render(request, "main/home.1.html", context)
     else:

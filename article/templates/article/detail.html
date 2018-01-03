@@ -1,3 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="row mt-3">
+        <div class="col-xl-9 col-lg-9 col-md-12">
+            <div class="card mb-3">
+                <img src="{{ article.image.url }}" class="card-img-top">
+                <div class="card-body">
+                    {% for category in article.category.all %}
+                    <span class="article-category article-category-{{ category|lower|cut:" " }}">
+                        {{ category }}
+                    </span>
+                    {% endfor %}
+                    <p class="mt-1 article-date">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        {{ article.created_date|date:"F d, Y"}}
+                    </p>
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{article.text}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none mt-3">
+            artykuly
+        </div>
+</div>
 {% endblock %}

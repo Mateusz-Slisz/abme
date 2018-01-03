@@ -238,3 +238,54 @@ a.detfilmo.active {
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
 }
+
+#news {
+    border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.article-date {
+    font-weight: 500 !important;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+#readmore {
+    color: green;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: Lato, sans-serif;
+}
+
+#readmore:hover {
+    color: rgb(4, 94, 4);
+}
+
+.article-category {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.article-category-film {
+    color: #FFA955;
+}
+
+.article-category-tvmovie{
+    color: #B5BC02;
+}
+
+.article-title {
+    color: #333;
+}
+
+.article-title:hover {
+    color: rgb(32, 32, 32);
+}
+
+.imgarticle {
+    width: 100%;
+    height: 100%;
+}

@@ -32,16 +32,18 @@
             </div>
         
             <div class="col-lg-9 col-md-8 col-sm-6 col-6">
-                <div class="chart">
+                {% if all_votes > 10 %}
+                <div class="chart" >
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-7 mx-auto">
                             <canvas id="myChart" width="200" height="100"></canvas>
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 {% if f_ratings %}
                 <div class="bestratefilms">
-                    <h5>Best rated movies</h5>
+                    <h5>Best rated movies:</h5>
                     <ul class="p-0">
                     <div class="row">
                         
@@ -65,7 +67,7 @@
                 {% endif %}
                 {% if s_ratings %}
                 <div class="bestratebooks">
-                    <h5>Best rated serials</h5>
+                    <h5>Best rated serials:</h5>
                     <ul class="p-0">
                         <div class="row">
                         {% for ratings in s_ratings %}
@@ -88,7 +90,7 @@
                 {% endif %}
                 {% if b_ratings %}
                 <div class="bestratebooks">
-                    <h5>Best rated books</h5>
+                    <h5>Best rated books:</h5>
                     <ul class="p-0">
                         <div class="row">
                         {% for ratings in b_ratings %}
@@ -108,6 +110,7 @@
             </div>
         </div>
     </div>
+    {% if all_votes > 10 %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script type="text/javascript">
@@ -115,28 +118,44 @@
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: [{% for rate in user_rates %}{{forloop.counter}}, {% endfor %}],
+                    labels: [{% for rate in user_votes %}{{forloop.counter}}, {% endfor %}],
                     datasets: [{
-                        label: 'User votes',
-                        data: [{% for rate in user_rates %}{{rate}}, {% endfor %}],
-                        backgroundColor: [
-
-                        ],
-                        borderColor: [
-
-                        ],
-                        borderWidth: 1
+                        label: 'Number of votes',
+                        data: [{% for rate in user_votes %}{{rate}}, {% endfor %}],
+                        backgroundColor: 'white',
+                        borderColor: 'black',
+                        borderWidth: 1,
                     }]
                 },
                 options: {
                     scales: {
                         yAxes: [{
+                            scaleLabel:{
+                                display: true,
+                                labelString: 'Quantity',
+                            },
                             ticks: {
-                                beginAtZero:true
+                                fontSize: 12,
+                                min: 0,
+                                max: ({{ max_vote }} + 1),
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel:{
+                                display: true,
+                                labelString: 'Rate',
                             }
                         }]
-                    }
+                    },
+                    title: {
+                        display: true,
+                        text: 'All user votes: {{ all_votes }}',
+                    },
+                    legend: {
+                        display: false,
+                    },
                 }
             });
-            </script>
+    </script>
+    {% endif %}
 {% endblock content %}

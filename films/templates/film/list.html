@@ -4,8 +4,8 @@
 
 {% block content %}
 
-    <div class="row mt-5">
-        <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 list">
+    <div class="row">
+        <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 list mt-5">
 
             <h1 class="text-center"><span class="main-list">Main list</span> of films</h1>
             
@@ -112,7 +112,23 @@
             </div>
 
         <div class="col-xl-3 d-xl-block d-none">
-            asd
+            <div class="latest-article">
+                <h3>Latest article:</h3>
+                <div class="card" >
+                    <a href="{% url 'article_detail' pk=latest_article.pk %}">
+                        <img src="{{ latest_article.image.url }}" class="card-img-top">
+                    </a>
+                    <div class="card-body">
+                            <p class="article-date">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            {{ latest_article.created_date|date:"F d, Y"}}
+                            </p>
+                            <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                            <h4 class="card-title">{{ latest_article.title }}</h4>
+                            </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">

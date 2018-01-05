@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from api.models import Serial, Category
+from api.models import Serial, Category, Article
 from django.contrib.auth.models import User
 from django.db.models.functions import Coalesce
 from user.models import Profile
@@ -18,6 +18,7 @@ def list(request):
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True))
     categories = Category.objects.all()
+    latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     page = request.GET.get('page')
     year = request.GET.get('year')
@@ -85,12 +86,14 @@ def list(request):
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
             'categories': categories,
+            'latest_article': latest_article,
         }
         return render(request, 'serial/list.html', context)
     else:
         context = {
             'serials': serials,
             'categories': categories,
+            'latest_article': latest_article,
         }
         return render(request, 'serial/list.html', context)
 
@@ -101,6 +104,7 @@ def detail(request, pk):
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True),
         inwatchlist=Count('serialwatchlist__user', distinct=True))
+    latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     if request.user.is_authenticated():
         add_serial_id = request.GET.get('add_serial_id', None)
@@ -137,11 +141,13 @@ def detail(request, pk):
             'rating': rating,
             'current_serial': current_serial,
             'watchlist': watchlist,
+            'latest_article': latest_article,
         }
     else:
         context = {
             'serial': serial,
             'current_serial': current_serial,
+            'latest_article': latest_article,
         }
     return render(request, 'serial/detail.html', context)
 
@@ -150,6 +156,7 @@ def top_rated(request):
     serial_list = Serial.objects.get_queryset().annotate(
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True)).order_by('-average_score')[:100]
+    latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     page = request.GET.get('page')
     paginator = Paginator(serial_list, per_page=10)
@@ -204,10 +211,12 @@ def top_rated(request):
             'serialrating': serialrating,
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
+            'latest_article': latest_article,
         }
         return render(request, 'serial/top_rated.html', context)
     else:
         context = {
             'serials': serials,
+            'latest_article': latest_article,
         }
         return render(request, 'serial/top_rated.html', context)

@@ -42,7 +42,7 @@ def home(request):
         user_serial_vote = SerialRating.objects.filter(user=activ_user)
         articles_queryset = Article.objects.get_queryset()
         articles = articles_queryset.order_by('-created_date')
-        newest_article = articles.first()
+        latest_article = articles.first()
 
         page = request.GET.get('page')
 
@@ -60,7 +60,7 @@ def home(request):
             'user_film_vote': user_film_vote,
             'user_serial_vote': user_serial_vote,
             'articles': articles,
-            'newest_article': newest_article,
+            'latest_article': latest_article,
         }
         return render(request, "main/home.1.html", context)
     else:

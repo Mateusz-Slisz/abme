@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from api.models import Film, Category
+from api.models import Film, Category, Article
 from django.contrib.auth.models import User
 from django.db.models.functions import Coalesce
 from user.models import Profile
@@ -18,6 +18,7 @@ def list(request):
         average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True))
     categories = Category.objects.all()
+    latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     page = request.GET.get('page')
     year = request.GET.get('year')
@@ -85,12 +86,14 @@ def list(request):
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
             'categories': categories,
+            'latest_article': latest_article,
         }
         return render(request, 'film/list.html', context)
     else:
         context = {
             'films': films,
             'categories': categories,
+            'latest_article': latest_article,
         }
         return render(request, 'film/list.html', context)
 
@@ -101,6 +104,7 @@ def detail(request, pk):
         average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True),
         inwatchlist=Count('filmwatchlist__user', distinct=True))
+    latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     if request.user.is_authenticated():
         add_film_id = request.GET.get('add_film_id', None)
@@ -137,11 +141,13 @@ def detail(request, pk):
             'rating': rating,
             'current_film': current_film,
             'watchlist': watchlist,
+            'latest_article': latest_article,
         }
     else:
         context = {
             'film': film,
             'current_film': current_film,
+            'latest_article': latest_article,
         }
     return render(request, 'film/detail.html', context)
 
@@ -150,6 +156,7 @@ def top_rated(request):
     film_list = Film.objects.get_queryset().annotate(
         average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True)).order_by('-average_score')[:100]
+    latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     page = request.GET.get('page')
     paginator = Paginator(film_list, per_page=10)
@@ -204,10 +211,12 @@ def top_rated(request):
             'filmrating': filmrating,
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
+            'latest_article': latest_article,
         }
         return render(request, 'film/top_rated.html', context)
     else:
         context = {
             'films': films,
+            'latest_article': latest_article,
         }
         return render(request, 'film/top_rated.html', context)

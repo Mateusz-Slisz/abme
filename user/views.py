@@ -94,9 +94,9 @@ def profile(request, username):
     filmrating = FilmRating.objects.filter(user=user)
     serialrating = SerialRating.objects.filter(user=user)
 
-    f_ratings = filmrating.order_by('-rate')[0:8]
+    f_ratings = filmrating.order_by('-rate')[0:4]
     b_ratings = BookRating.objects.filter(user=user).order_by('-rate')[0:8]
-    s_ratings = serialrating.order_by('-rate')[0:8]
+    s_ratings = serialrating.order_by('-rate')[0:4]
 
     user_rate_1 = filmrating.filter(rate=1).count() + serialrating.filter(rate=1).count()
     user_rate_2 = filmrating.filter(rate=2).count() + serialrating.filter(rate=2).count()
@@ -109,13 +109,15 @@ def profile(request, username):
     user_rate_9 = filmrating.filter(rate=9).count() + serialrating.filter(rate=9).count()
     user_rate_10 = filmrating.filter(rate=10).count() + serialrating.filter(rate=10).count()
 
-    user_rates = [user_rate_1, user_rate_2, user_rate_3, user_rate_4, user_rate_5,
+    user_votes = [user_rate_1, user_rate_2, user_rate_3, user_rate_4, user_rate_5,
                   user_rate_6, user_rate_7, user_rate_8, user_rate_9, user_rate_10]
 
-    all_rate = 0
+    all_votes = 0
 
-    for rate in user_rates:
-        all_rate += rate
+    for rate in user_votes:
+        all_votes += rate
+
+    max_vote = max(user_votes)
 
     context = {
         'user': user,
@@ -123,8 +125,9 @@ def profile(request, username):
         'f_ratings': f_ratings,
         'b_ratings': b_ratings,
         's_ratings': s_ratings,
-        'all_rate': all_rate,
-        'user_rates': user_rates,
+        'all_votes': all_votes,
+        'user_votes': user_votes,
+        'max_vote': max_vote,
     }
     return render(request, 'user/profile.html', context)
 

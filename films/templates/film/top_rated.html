@@ -5,8 +5,8 @@
 {% block content %}
 
 
-    <div class="row mt-5">
-        <div class="top-rated-list col-xl-9 col-lg-12 col-md-12 col-sm-12">
+    <div class="row">
+        <div class="top-rated-list col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-5">
             <h1 class="text-center"><span class="top100">Top 100</span> rated films</h1>
             <div class="main-box mt-5">
                 {% for film in films %}
@@ -57,7 +57,23 @@
             </div>
         </div>
         <div class="col-xl-3 d-xl-block d-none">
-            artykuly
+            <div class="latest-article">
+                <h3>Latest article:</h3>
+                <div class="card" >
+                    <a href="{% url 'article_detail' pk=latest_article.pk %}">
+                        <img src="{{ latest_article.image.url }}" class="card-img-top">
+                    </a>
+                    <div class="card-body">
+                            <p class="article-date">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            {{ latest_article.created_date|date:"F d, Y"}}
+                            </p>
+                            <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                            <h4 class="card-title">{{ latest_article.title }}</h4>
+                            </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">

@@ -33,6 +33,7 @@
                 <li class="breadcrumb-item active "><i class="fa fa-th-list" aria-hidden="true"></i> All <span class="badge badge-light">{{ result_list_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_serial_list' %}?q={{ request.GET.q }}">TV Series</a> <span class="badge badge-light">{{ serials_c }}</span></li>
+                <li class="breadcrumb-item "><a href="{% url 'search_person_list' %}?q={{ request.GET.q }}">Persons</a> <span class="badge badge-light">{{ persons_c }}</span></li>
             </ol>
         </div> 
     {% for i in result_list %}
@@ -129,39 +130,72 @@
             </div>
         </div>
         {% endif %}
+        {% if i in persons %}
+        <div class="row box-item mb-3 mr-auto ml-auto">
+            <div class="col-lg-1">
+                {{ forloop.counter0|add:result_list.start_index }}.
+            </div>
+            <div class="col-lg-2">
+                <a class="detail" href="{% url 'person_detail' first_name=i.first_name last_name=i.last_name %}">
+                    <img class="poster" height="105" width="105" src="{{ i.photo.url }}">
+                </a>
+            </div>
+            <div class="col-lg-2">
+                <a class="detail" href="{% url 'person_detail' first_name=i.first_name last_name=i.last_name %}">
+                    <span class="h6">{{ i.first_name }} {{ i.last_name }}</span>
+                </a>
+                <h6 class="text-muted">Person</h6>
+            </div>
+            <div class="col-lg-2">
+                <h6>
+                    {{ i.birthdate }}
+                </h6>
+            </div>
+            <div class="col-lg-3">
+
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        {% endif %}
     {% empty %}
     <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches anything.</h3>
     {% endfor %}
     {% if result_list.has_other_pages %}
-    <nav aria-label="...">
-        <ul class="pagination mb-5 pull-right">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <nav aria-label="..." class="pull-right">
+                <ul class="pagination mb-5">
 
-        {% if result_list.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ result_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
-            </li>
-        {% else %}
-            <li class="page-item disabled"><span class="page-link">Prev</span></li>
-        {% endif %}
+                {% if result_list.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ result_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                {% endif %}
 
-        {% for i in result_list.paginator.page_range %}
-            {% if result_list.number == i %}
-            <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
-            {% else %}
-            <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
-            {% endif %}
-        {% endfor %}
+                {% for i in result_list.paginator.page_range %}
+                    {% if result_list.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                    <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
 
-        {% if result_list.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ result_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
-            </li>
-        {% else %}
-            <li class="page-item disabled"><span class="page-link">Next</span></li>
-        {% endif %}
+                {% if result_list.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ result_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                {% endif %}
 
-        </ul>
-    </nav>
+                </ul>
+            </nav>
+        </div>
+    </div>
     {% endif %}
     </div>
     {% else %}

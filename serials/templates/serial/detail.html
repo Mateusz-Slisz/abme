@@ -128,21 +128,31 @@
                     </table>
                 </div>
             </div>
-            <div class="col-xl-3 d-xl-block d-none">
+            <div class="col-xl-3 d-xl-block d-none mt-1">
+                <div class="search">
+                    <form action="{% url 'search_serial_list' %}">
+                        <div class="input-group stylish-input-group">
+                            <input type="text" class="form-control" placeholder="Search serial" name="q">
+                            <span class="input-group-addon">
+                                <button type="submit">
+                                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                </button>  
+                            </span>
+                        </div>
+                    </form>
+                </div>
                 <div class="latest-article">
-                    <h3>Latest article:</h3>
+                    <h5>Latest article:</h5>
                     <div class="card" >
-                        <a href="{% url 'article_detail' pk=latest_article.pk %}">
-                            <img src="{{ latest_article.image.url }}" class="card-img-top">
-                        </a>
                         <div class="card-body">
-                                <p class="article-date">
-                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                {{ latest_article.created_date|date:"F d, Y"}}
-                                </p>
-                                <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
-                                <h4 class="card-title">{{ latest_article.title }}</h4>
-                                </a>
+                            <p class="article-date">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            {{ latest_article.created_date|date:"F d, Y"}}
+                            </p>
+                            <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                            <h4 class="card-title">{{ latest_article.title }}</h4>
+                            </a>
+                            <p class="card-text">{{ latest_article.text|truncatechars:40 }}</p>
                         </div>
                     </div>
                 </div>

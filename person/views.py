@@ -3,7 +3,7 @@ from operator import attrgetter
 from datetime import date
 from django.db.models.functions import Coalesce
 from django.shortcuts import render, get_object_or_404
-from api.models import Person, Film, Serial
+from api.models import Person, Film, Serial, Article
 from search.views import Round
 from django.db.models import Avg
 
@@ -15,6 +15,7 @@ def detail(request, first_name, last_name):
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0))
     films = Film.objects.get_queryset().annotate(
         average_score=Coalesce(Round(Avg('filmrating__rate')), 0))
+    latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     today = date.today()
     age = None
@@ -64,5 +65,6 @@ def detail(request, first_name, last_name):
         'director_list': director_list,
         'actor_list': actor_list,
         'actor_list_count': actor_list_count,
+        'latest_article': latest_article,
     }
     return render(request, 'person/detail.html', context)

@@ -33,6 +33,7 @@
                 <li class="breadcrumb-item "><a href="{% url 'search_list' %}?q={{ request.GET.q }}"><i class="fa fa-th-list" aria-hidden="true"></i> All </a><span class="badge badge-light">{{ result_list_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
                 <li class="breadcrumb-item active">TV Series <span class="badge badge-light">{{ serials_c }}</span></li>
+                <li class="breadcrumb-item "><a href="{% url 'search_person_list' %}?q={{ request.GET.q }}">Persons</a> <span class="badge badge-light">{{ persons_c }}</span></li>
             </ol>
         </div>
         {% for serial in serials %}
@@ -83,35 +84,39 @@
         <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any serial.</h3>
         {% endfor %}
         {% if serials.has_other_pages %}
-        <nav aria-label="...">
-            <ul class="pagination mb-5 pull-right">
-    
-            {% if serials.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ serials.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled"><span class="page-link">Prev</span></li>
-            {% endif %}
-    
-            {% for i in serials.paginator.page_range %}
-                {% if serials.number == i %}
-                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
-                {% else %}
-                <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
-                {% endif %}
-            {% endfor %}
-    
-            {% if serials.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ serials.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled"><span class="page-link">Next</span></li>
-            {% endif %}
-    
-            </ul>
-        </nav>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <nav aria-label="..." class="pull-right">
+                    <ul class="pagination mb-5">
+            
+                    {% if serials.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ serials.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                    {% endif %}
+            
+                    {% for i in serials.paginator.page_range %}
+                        {% if serials.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                        <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+            
+                    {% if serials.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ serials.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                    {% endif %}
+            
+                    </ul>
+                </nav>
+            </div>
+        </div>
         {% endif %}
     </div>
     {% else %}

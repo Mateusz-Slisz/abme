@@ -3,7 +3,7 @@
 {% block content %}
 <div class="mt-5">
     <div class="row">
-        <div class="person-info col-xl-9 col-lg-9 col-md-12 col-sm-12 ">
+        <div class="person-info col-xl-9 col-lg-12 col-md-12 col-sm-12 ">
             <div class="row main-info-person">
                 <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5">
                     <img class="rounded" height="200" width="200" src="{{ person.photo.url }}">
@@ -212,8 +212,34 @@
             </div>
         </div>
         
-        <div class="person-right col-xl-3 col-lg-3 d-none d-xl-block d-lg-block" style="border-left: 1px solid">
-            
+        <div class="col-xl-3 d-xl-block d-none">
+            <div class="search">
+                <form action="{% url 'search_person_list' %}">
+                    <div class="input-group stylish-input-group">
+                        <input type="text" class="form-control" placeholder="Search person" name="q">
+                        <span class="input-group-addon">
+                            <button type="submit">
+                                <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            </button>  
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="latest-article">
+                <h5>Latest article:</h5>
+                <div class="card" >
+                    <div class="card-body">
+                        <p class="article-date">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        {{ latest_article.created_date|date:"F d, Y"}}
+                        </p>
+                        <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                        <h4 class="card-title">{{ latest_article.title }}</h4>
+                        </a>
+                        <p class="card-text">{{ latest_article.text|truncatechars:40 }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

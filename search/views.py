@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models.functions import Coalesce
 from django.db.models import Avg, Func, Count, Q
 from django.contrib.auth.models import User
-from api.models import Film, Serial
+from api.models import Film, Serial, Person
 from serials.models import SerialRating, SerialWatchlist
 from films.models import FilmRating, FilmWatchlist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -16,13 +16,15 @@ class Round(Func):
 
 
 def list(request):
-    films = Film.objects.get_queryset().annotate(
+    films = Film.objects.get_queryset().order_by('id').annotate(
         average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True))
 
     serials = Serial.objects.get_queryset().order_by('id').annotate(
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True))
+
+    persons = Person.objects.get_queryset().order_by('id')
 
     keywords = request.GET.get('q')
     page = request.GET.get('page')
@@ -34,15 +36,21 @@ def list(request):
         serials = serials.filter(
             Q(title__icontains=keywords)
         )
+        for word in keywords.split():
+            persons = persons.filter(
+                Q(first_name__icontains=word)|
+                Q(last_name__icontains=word)
+            )
 
     films_c = films.count()
     serials_c = serials.count()
+    persons_c = persons.count()
 
     result_list = sorted(
-        chain(films, serials),
-        key=attrgetter('title'))
+        chain(films, serials, persons),
+        key=attrgetter('id'))
 
-    result_list_c = films_c + serials_c
+    result_list_c = films_c + serials_c + persons_c
 
     paginator = Paginator(result_list, per_page=10)
     try:
@@ -124,8 +132,10 @@ def list(request):
         context = {
             'serials': serials,
             'films': films,
+            'persons': persons,
             'serials_c': serials_c,
             'films_c': films_c,
+            'persons_c': persons_c,
             'result_list': result_list,
             'result_list_c': result_list_c,
             'f_id': f_id,
@@ -139,8 +149,10 @@ def list(request):
         context = {
             'serials': serials,
             'films': films,
+            'persons': persons,
             'serials_c': serials_c,
             'films_c': films_c,
+            'persons_c': persons_c,
             'result_list': result_list,
             'result_list_c': result_list_c,
         }
@@ -155,6 +167,7 @@ def film_list(request):
     serials = Serial.objects.get_queryset().order_by('id').annotate(
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True))
+    persons = Person.objects.get_queryset().order_by('id')
 
     keywords = request.GET.get('q')
     page = request.GET.get('page')
@@ -166,10 +179,16 @@ def film_list(request):
         serials = serials.filter(
             Q(title__icontains=keywords)
         )
+        for word in keywords.split():
+            persons = persons.filter(
+                Q(first_name__icontains=word)|
+                Q(last_name__icontains=word)
+            )
 
     films_c = films.count()
     serials_c = serials.count()
-    result_list_c = films_c + serials_c
+    persons_c = persons.count()
+    result_list_c = films_c + serials_c + persons_c
 
     paginator = Paginator(films, per_page=10)
     try:
@@ -221,6 +240,7 @@ def film_list(request):
             'films': films,
             'serials_c': serials_c,
             'films_c': films_c,
+            'persons_c': persons_c,
             'result_list_c': result_list_c,
             'f_id': f_id,
             'filmrating': filmrating,
@@ -230,8 +250,10 @@ def film_list(request):
         context = {
             'serials': serials,
             'films': films,
+            'persons': persons,
             'serials_c': serials_c,
             'films_c': films_c,
+            'persons_c': persons_c,
             'result_list_c': result_list_c,
         }
 
@@ -246,6 +268,7 @@ def serial_list(request):
     serials = Serial.objects.get_queryset().order_by('id').annotate(
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True))
+    persons = Person.objects.get_queryset().order_by('id')
 
     keywords = request.GET.get('q')
     page = request.GET.get('page')
@@ -257,10 +280,16 @@ def serial_list(request):
         serials = serials.filter(
             Q(title__icontains=keywords)
         )
+        for word in keywords.split():
+            persons = persons.filter(
+                Q(first_name__icontains=word)|
+                Q(last_name__icontains=word)
+            )
 
     films_c = films.count()
     serials_c = serials.count()
-    result_list_c = films_c + serials_c
+    persons_c = persons.count()
+    result_list_c = films_c + serials_c + persons_c
 
     paginator = Paginator(serials, per_page=10)
     try:
@@ -310,8 +339,10 @@ def serial_list(request):
         context = {
             'serials': serials,
             'films': films,
+            'persons': persons,
             'serials_c': serials_c,
             'films_c': films_c,
+            'persons_c': persons_c,
             'result_list_c': result_list_c,
             's_id': s_id,
             'serialrating': serialrating,
@@ -321,8 +352,62 @@ def serial_list(request):
         context = {
             'serials': serials,
             'films': films,
+            'persons': persons,
             'serials_c': serials_c,
             'films_c': films_c,
+            'persons_c': persons_c,
             'result_list_c': result_list_c,
         }
     return render(request, 'serial_list.html', context)
+
+
+def person_list(request):
+    films = Film.objects.get_queryset().annotate(
+        average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
+        votes=Count('filmrating__user', distinct=True))
+
+    serials = Serial.objects.get_queryset().order_by('id').annotate(
+        average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
+        votes=Count('serialrating__user', distinct=True))
+    persons = Person.objects.get_queryset().order_by('id')
+
+    keywords = request.GET.get('q')
+    page = request.GET.get('page')
+
+    if keywords:
+        films = films.filter(
+            Q(title__icontains=keywords)
+        )
+        serials = serials.filter(
+            Q(title__icontains=keywords)
+        )
+        for word in keywords.split():
+            persons = persons.filter(
+                Q(first_name__icontains=word)|
+                Q(last_name__icontains=word)
+            )
+
+    films_c = films.count()
+    serials_c = serials.count()
+    persons_c = persons.count()
+    result_list_c = films_c + serials_c + persons_c
+
+    paginator = Paginator(persons, per_page=10)
+    try:
+        persons = paginator.page(page)
+    except PageNotAnInteger:
+        persons = paginator.page(1)
+    except EmptyPage:
+        persons = paginator(paginator.num_pages)
+
+
+    context = {
+        'serials': serials,
+        'films': films,
+        'persons': persons,
+        'serials_c': serials_c,
+        'films_c': films_c,
+        'persons_c': persons_c,
+        'result_list_c': result_list_c,
+    }
+    return render(request, 'person_list.html', context)

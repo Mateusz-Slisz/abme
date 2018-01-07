@@ -34,6 +34,7 @@
                 <li class="breadcrumb-item active">Films <span class="badge badge-light">{{ films_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_serial_list' %}?q={{ request.GET.q }}">TV Series</a> <span class="badge badge-light">{{ serials_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_person_list' %}?q={{ request.GET.q }}">Persons</a> <span class="badge badge-light">{{ persons_c }}</span></li>
+                <li class="breadcrumb-item "><a href="{% url 'search_article_list' %}?q={{ request.GET.q }}">Articles</a> <span class="badge badge-light">{{ articles_c }}</span></li>
             </ol>
         </div>
         {% for film in films %}

@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^films/$', search_views.film_list, name='search_film_list'),
     url(r'^serials/$', search_views.serial_list, name='search_serial_list'),
     url(r'^persons/$', search_views.person_list, name='search_person_list'),
+    url(r'^articles/$', search_views.article_list, name='search_article_list'),
 ]

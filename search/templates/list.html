@@ -34,35 +34,36 @@
                 <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_serial_list' %}?q={{ request.GET.q }}">TV Series</a> <span class="badge badge-light">{{ serials_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_person_list' %}?q={{ request.GET.q }}">Persons</a> <span class="badge badge-light">{{ persons_c }}</span></li>
+                <li class="breadcrumb-item "><a href="{% url 'search_article_list' %}?q={{ request.GET.q }}">Articles</a> <span class="badge badge-light">{{ articles_c }}</span></li>
             </ol>
         </div> 
     {% for i in result_list %}
         {% if i in films %}
         <div class="row box-item mb-3 mr-auto ml-auto">
-            <div class="col-lg-1">
+            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                 {{ forloop.counter0|add:result_list.start_index }}.
             </div>
-            <div class="col-lg-2">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4">
                 <a class="detail" href="{% url 'film_detail' pk=i.pk %}">
                     <img class="poster" height="105" width="75" src="{{ i.image.url }}">
                 </a>
             </div>
-            <div class="col-lg-2">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-6">
                 <a class="detail" href="{% url 'film_detail' pk=i.pk %}">
-                    <span class="h6">{{ i.title }}</span>
+                    <h6>{{ i.title }}</h6>
                 </a>
-                ({{ i.year }})
+                <h6>({{ i.year }})</h6>
                 <h6 class="text-muted">Film</h6>
                 
             </div>
-            <div class="col-lg-2">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
                 <h6>
                     <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                     {{ i.average_score }}
                 </h6>
                 {{ i.votes }} votes
             </div>
-            <div class="col-lg-3">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-7">
                 {% if i.id in f_id %}
                 <div class="demofilm" film_id="{{ i.id }}" data-score="{% for ratings in filmrating %}{% if i.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
                     <span>{% for ratings in filmrating %}{% if i.id == ratings.film.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
@@ -75,7 +76,7 @@
                 <div class="demofilm" film_id="{{ i.id }}" data-score="{% for ratings in filmrating %}{% if i.id == ratings.film.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
                 {% endif %}
             </div>
-            <div class="col-lg-2">
+            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6 col-2">
                 {% if i.id in watchlist_film_id %}
                     <a class="dellwatchlistfilm" del_watchlist="{{ i.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
                 {% else %}
@@ -86,29 +87,29 @@
         {% endif %}
         {% if i in serials %}
         <div class="row box-item mb-3 mr-auto ml-auto">
-            <div class="col-lg-1">
+            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                 {{ forloop.counter0|add:result_list.start_index }}.
             </div>
-            <div class="col-lg-2">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4">
                 <a class="detail" href="{% url 'serial_detail' pk=i.pk %}">
                     <img class="poster" height="105" width="75" src="{{ i.image.url }}">
                 </a>
             </div>
-            <div class="col-lg-2">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-6">
                 <a class="detail" href="{% url 'serial_detail' pk=i.pk %}">
-                    <span class="h6">{{ i.title }}</span>
+                    <h6>{{ i.title }}</h6>
                 </a>
-                ({{ i.year }}- )
+                <h6>({{ i.year }}- )</h6>
                 <h6 class="text-muted">TV Series</h6>
             </div>
-            <div class="col-lg-2">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
                 <h6>
                     <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                     {{ i.average_score }}
                 </h6>
                 {{ i.votes }} votes
             </div>
-            <div class="col-lg-3">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-7">
                 {% if i.id in s_id %}
                 <div class="demoserial" serial_id="{{ i.id }}" data-score="{% for ratings in serialrating %}{% if i.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
                     <span>{% for ratings in serialrating %}{% if i.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
@@ -121,7 +122,7 @@
                 <div class="demoserial" serial_id="{{ i.id }}" data-score="{% for ratings in serialrating %}{% if i.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
                 {% endif %}
             </div>
-            <div class="col-lg-2">
+            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6 col-2">
                 {% if i.id in watchlist_serial_id %}
                     <a class="dellwatchlistserial" del_watchlist="{{ i.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
                 {% else %}
@@ -153,6 +154,39 @@
             </div>
             <div class="col-lg-3">
 
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        {% endif %}
+        {% if i in articles %}
+        <div class="row box-item mb-3 mr-auto ml-auto">
+            <div class="col-lg-1">
+                {{ forloop.counter0|add:result_list.start_index }}.
+            </div>
+            <div class="col-lg-2" >
+                <div style="height: 105px;">
+                <a href="{% url 'article_detail' pk=i.pk %}">
+                    <div class="imgarticle" style="background: url('{{ i.image.url }}') center; background-size: cover;">
+                    </div>
+                </a>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <a class="detail" href="{% url 'article_detail' pk=i.pk %}">
+                    <span class="h6">{{ i.title }}</span>
+                </a>
+            </div>
+            <div class="col-lg-2">
+                <h6>
+                    {{ i.created_date|date:"F d, Y"}}
+                </h6>
+            </div>
+            <div class="col-lg-3">
+                <h6>
+                    {% for category in i.category.all %} {{ category }}{% if forloop.last %}{% else %},{% endif %} {% endfor %}
+                </h6>
             </div>
             <div class="col-lg-2">
 

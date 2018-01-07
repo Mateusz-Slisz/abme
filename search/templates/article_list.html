@@ -33,65 +33,67 @@
                 <li class="breadcrumb-item "><a href="{% url 'search_list' %}?q={{ request.GET.q }}"><i class="fa fa-th-list" aria-hidden="true"></i> All </a><span class="badge badge-light">{{ result_list_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
                 <li class="breadcrumb-item "><a href="{% url 'search_serial_list' %}?q={{ request.GET.q }}">TV Series</a> <span class="badge badge-light">{{ serials_c }}</span></li>
-                <li class="breadcrumb-item active">Persons <span class="badge badge-light">{{ persons_c }}</span></li>
-                <li class="breadcrumb-item "><a href="{% url 'search_article_list' %}?q={{ request.GET.q }}">Articles</a> <span class="badge badge-light">{{ articles_c }}</span></li>
+                <li class="breadcrumb-item "><a href="{% url 'search_person_list' %}?q={{ request.GET.q }}">Persons</a> <span class="badge badge-light">{{ persons_c }}</span></li>
+                <li class="breadcrumb-item active">Articles <span class="badge badge-light">{{ articles_c }}</span></li>
             </ol>
         </div>
-        {% for person in persons %}
+        {% for article in articles %}
         <div class="row box-item mb-3 mr-auto ml-auto">
             <div class="col-lg-1">
-                {{ forloop.counter0|add:persons.start_index }}.
+                {{ forloop.counter0|add:articles.start_index }}.
             </div>
             <div class="col-lg-2">
-                <a class="detail" href="{% url 'person_detail' first_name=person.first_name last_name=person.last_name %}">
-                    <img class="poster" height="105" width="105" src="{{ person.photo.url }}">
+                <a class="detail" href="{% url 'article_detail' pk=article.pk %}">
+                    <img class="poster" height="105" width="105" src="{{ article.image.url }}">
                 </a>
             </div>
             <div class="col-lg-2">
-                <a class="detail" href="{% url 'person_detail' first_name=person.first_name last_name=person.last_name %}">
-                    <span class="h6">{{ person.first_name }} {{ person.last_name }}</span>
+                <a class="detail" href="{% url 'article_detail' pk=article.pk %}">
+                    <span class="h6">{{ article.title }}</span>
                 </a>
             </div>
             <div class="col-lg-2">
                 <h6>
-                    {{ person.birthdate }}
+                    {{ article.created_date|date:"F d, Y"}}
                 </h6>
             </div>
             <div class="col-lg-3">
-
+                <h6>
+                    {% for category in article.category.all %} {{ category }}{% if forloop.last %}{% else %},{% endif %} {% endfor %}
+                </h6>
             </div>
             <div class="col-lg-2">
-
+                
             </div>
         </div>
         {% empty %}
-        <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any person.</h3>
+        <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any article.</h3>
         {% endfor %}
-        {% if persons.has_other_pages %}
+        {% if articles.has_other_pages %}
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <nav aria-label="..." class="pull-right">
                     <ul class="pagination mb-5">
             
-                    {% if persons.has_previous %}
+                    {% if articles.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ persons.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
+                            <a class="page-link" href="?page={{ articles.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
                         </li>
                     {% else %}
                         <li class="page-item disabled"><span class="page-link">Prev</span></li>
                     {% endif %}
             
-                    {% for i in persons.paginator.page_range %}
-                        {% if persons.number == i %}
+                    {% for i in articles.paginator.page_range %}
+                        {% if articles.number == i %}
                         <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
                         {% else %}
                         <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
                         {% endif %}
                     {% endfor %}
             
-                    {% if persons.has_next %}
+                    {% if articles.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ persons.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+                            <a class="page-link" href="?page={{ articles.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
                         </li>
                     {% else %}
                         <li class="page-item disabled"><span class="page-link">Next</span></li>

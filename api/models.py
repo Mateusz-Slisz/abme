@@ -55,7 +55,7 @@ class Film(models.Model):
     title = models.CharField(max_length=60)
     year = models.IntegerField(choices=YEARS)
     image = models.ImageField(upload_to="images/films/", default="images/none/blank_poster.jpg")
-    directors = models.ManyToManyField(Person, blank=True, related_name='film_director')
+    directors = models.ManyToManyField(Person, blank=True, related_name='film_directors')
     writers = models.ManyToManyField(Person, blank=True, related_name='film_writers')
     actors = models.ManyToManyField(Person, through='Filmcast', blank=True, related_name='film_actors')
     category = models.ManyToManyField(Category, blank=True)

@@ -44,7 +44,7 @@
                                     {% if rating %}
                                     {% for r in rating %}
                                     <div class="demo" serial_id="{{ serial.id }}" data-score="{{ r.rate }}">
-                                        <span>{{ r.rate }}</span>
+                                        <span class="h6">{{ r.rate }}</span>
                                     </div>
                                     <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
                                     rate_data-catid="{{ r.rate }}" style="color: white">
@@ -53,7 +53,7 @@
                                     {% endfor %}
                                     {% else %}
                                     <div class="demo" serial_id="{{ serial.id }}" data-score="0">
-                                        <span>0</span>
+                                        <span class="h6">0</span>
                                     </div>
                                     {% endif %}
                 

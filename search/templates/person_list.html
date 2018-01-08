@@ -2,120 +2,143 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="mt-2">
-    {% if request.GET.q == '' %}
-    <h1 class="text-center">Enter the word!</h1>
-    <form>
-        <div class="input-group stylish-input-group">
-            <input type="text" class="form-control" placeholder="Search" name="q">
-            <span class="input-group-addon">
-                <button type="submit">
-                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
-                </button>  
-            </span>
-        </div>
-    </form>
-    {% elif request.GET.q %}
-    <h1 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h1>
-    <form>
-        <div class="input-group stylish-input-group">
-            <input type="text" class="form-control" placeholder="Search" name="q">
-            <span class="input-group-addon">
-                <button type="submit">
-                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
-                </button>  
-            </span>
-        </div>
-    </form>
-    <div class="main-box mt-3">
-        <div class="search-nav">
-            <ol class="breadcrumb breadcrumb-color">
-                <li class="breadcrumb-item "><a href="{% url 'search_list' %}?q={{ request.GET.q }}"><i class="fa fa-th-list" aria-hidden="true"></i> All </a><span class="badge badge-light">{{ result_list_c }}</span></li>
-                <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
-                <li class="breadcrumb-item "><a href="{% url 'search_serial_list' %}?q={{ request.GET.q }}">TV Series</a> <span class="badge badge-light">{{ serials_c }}</span></li>
-                <li class="breadcrumb-item active">Persons <span class="badge badge-light">{{ persons_c }}</span></li>
-                <li class="breadcrumb-item "><a href="{% url 'search_article_list' %}?q={{ request.GET.q }}">Articles</a> <span class="badge badge-light">{{ articles_c }}</span></li>
-            </ol>
-        </div>
-        {% for person in persons %}
-        <div class="row box-item mb-3 mr-auto ml-auto">
-            <div class="col-lg-1">
-                {{ forloop.counter0|add:persons.start_index }}.
+<div class="row mt-2">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
+        {% if request.GET.q == '' %}
+        <h1 class="text-center">Enter the word!</h1>
+        <form>
+            <div class="input-group stylish-input-group">
+                <input type="text" class="form-control" placeholder="Search" name="q">
+                <span class="input-group-addon">
+                    <button type="submit">
+                        <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </button>  
+                </span>
             </div>
-            <div class="col-lg-2">
-                <a class="detail" href="{% url 'person_detail' first_name=person.first_name last_name=person.last_name %}">
-                    <img class="poster" height="105" width="105" src="{{ person.photo.url }}">
-                </a>
+        </form>
+        {% elif request.GET.q %}
+        <h1 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h1>
+        <form>
+            <div class="input-group stylish-input-group">
+                <input type="text" class="form-control" placeholder="Search" name="q">
+                <span class="input-group-addon">
+                    <button type="submit">
+                        <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </button>  
+                </span>
             </div>
-            <div class="col-lg-2">
-                <a class="detail" href="{% url 'person_detail' first_name=person.first_name last_name=person.last_name %}">
-                    <span class="h6">{{ person.first_name }} {{ person.last_name }}</span>
-                </a>
+        </form>
+        <div class="main-box mt-3">
+            <div class="search-nav">
+                <ol class="breadcrumb breadcrumb-color">
+                    <li class="breadcrumb-item "><a href="{% url 'search_list' %}?q={{ request.GET.q }}"><i class="fa fa-th-list" aria-hidden="true"></i> All </a><span class="badge badge-light">{{ result_list_c }}</span></li>
+                    <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
+                    <li class="breadcrumb-item "><a href="{% url 'search_serial_list' %}?q={{ request.GET.q }}">TV Series</a> <span class="badge badge-light">{{ serials_c }}</span></li>
+                    <li class="breadcrumb-item active">Persons <span class="badge badge-light">{{ persons_c }}</span></li>
+                    <li class="breadcrumb-item "><a href="{% url 'search_article_list' %}?q={{ request.GET.q }}">Articles</a> <span class="badge badge-light">{{ articles_c }}</span></li>
+                </ol>
             </div>
-            <div class="col-lg-2">
-                <h6>
-                    {{ person.birthdate }}
-                </h6>
-            </div>
-            <div class="col-lg-3">
-
-            </div>
-            <div class="col-lg-2">
-
-            </div>
-        </div>
-        {% empty %}
-        <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any person.</h3>
-        {% endfor %}
-        {% if persons.has_other_pages %}
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <nav aria-label="..." class="pull-right">
-                    <ul class="pagination mb-5">
-            
-                    {% if persons.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ persons.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled"><span class="page-link">Prev</span></li>
-                    {% endif %}
-            
-                    {% for i in persons.paginator.page_range %}
-                        {% if persons.number == i %}
-                        <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
-                        {% else %}
-                        <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
+            {% for person in persons %}
+            <div class="row box-item mb-3 mr-auto ml-auto">
+                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
+                    <span class="h6">{{ forloop.counter0|add:persons.start_index }}</span>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                    <a class="detail" href="{% url 'person_detail' first_name=person.first_name last_name=person.last_name %}">
+                        <img class="poster" height="105" width="105" src="{{ person.photo.url }}">
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
+                    <a class="detail" href="{% url 'person_detail' first_name=person.first_name last_name=person.last_name %}">
+                        <span class="h6">{{ person.first_name }} {{ person.last_name }}</span>
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                    <h6>
+                        {{ person.birthdate }}
+                    </h6>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-6 col-7 d-none d-md-block d-lg-block d-xl-block">
+                    <h6>
+                        {% if person.film_actors.all or person.serial_actors.all and person.serial_creators.all and person.film_writers.all and person.film_directors.all %}Actor, Creator, Writer, Director
+                        {% elif person.serial_creators.all and person.film_writers.all and person.film_directors.all %}Creator, Writer, Director
+                        {% elif person.film_writers.all and person.film_directors.all %}Writer, Director
+                        {% elif person.film_directors.all %}Director
+                        {% else %}nothing
                         {% endif %}
-                    {% endfor %}
-            
-                    {% if persons.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ persons.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled"><span class="page-link">Next</span></li>
-                    {% endif %}
-            
-                    </ul>
-                </nav>
+                    </h6>
+                </div>
             </div>
+            {% empty %}
+            <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any person.</h3>
+            {% endfor %}
+            {% if persons.has_other_pages %}
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <nav aria-label="..." class="pull-right">
+                        <ul class="pagination mb-5">
+                
+                        {% if persons.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ persons.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                        {% endif %}
+                
+                        {% for i in persons.paginator.page_range %}
+                            {% if persons.number == i %}
+                            <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                            <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                
+                        {% if persons.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ persons.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">Next</span></li>
+                        {% endif %}
+                
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            {% endif %}
         </div>
+        {% else %}
+        <h1 class="text-center"><span class="main-list">Search</span></h1>
+        <form>
+            <div class="input-group stylish-input-group">
+                <input type="text" class="form-control" placeholder="Search" name="q">
+                <span class="input-group-addon">
+                    <button type="submit">
+                        <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </button>  
+                </span>
+            </div>
+        </form>
         {% endif %}
     </div>
-    {% else %}
-    <h1 class="text-center"><span class="main-list">Search</span></h1>
-    <form>
-        <div class="input-group stylish-input-group">
-            <input type="text" class="form-control" placeholder="Search" name="q">
-            <span class="input-group-addon">
-                <button type="submit">
-                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
-                </button>  
-            </span>
+    <div class="col-xl-3 d-xl-block d-none">
+        <div class="latest-article">
+            <h5>Latest article:</h5>
+            <div class="card" >
+                <div class="card-body">
+                    <p class="article-date">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{ latest_article.created_date|date:"F d, Y"}}
+                    </p>
+                    <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                    <h4 class="card-title">{{ latest_article.title }}</h4>
+                    </a>
+                    <p class="card-text">{{ latest_article.text|truncatechars:40 }}</p>
+                </div>
+            </div>
         </div>
-    </form>
-    {% endif %}
+    </div>
 </div>
 
 {% endblock %}

@@ -14,12 +14,12 @@
                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                         <span class="h6">{{ forloop.counter0|add:serials.start_index }}</span>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
                         <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
                             <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
                         </a>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-6">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
                         <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
                             <h6>{{ serial.title }}</h6>
                         </a>
@@ -32,10 +32,10 @@
                         </h6>
                         {{ serial.votes }} votes
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-7">
+                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-6 col-7 d-none d-md-block d-lg-block d-xl-block">
                         {% if serial.id in s_id %}
                         <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
-                            <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+                            <span class="h6">{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
                         </div>
                         <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
                         rate_data-catid="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
@@ -45,7 +45,7 @@
                         <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
                         {% endif %}
                     </div>
-                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6 col-2">
+                    <div class="col-xl-1 col-lg-1 col-md-0 col-sm-6 col-2 d-none d-lg-block d-xl-block">
                         {% if serial.id in watchlist_id %}
                             <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
                         {% else %}

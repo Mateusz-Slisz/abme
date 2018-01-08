@@ -26,6 +26,7 @@ def list(request):
 
     persons = Person.objects.get_queryset().order_by('id')
     articles = Article.objects.get_queryset().order_by('id')
+    latest_article = articles.order_by('-created_date').first()
 
     keywords = request.GET.get('q')
     page = request.GET.get('page')
@@ -152,6 +153,7 @@ def list(request):
             's_id': s_id,
             'watchlist_serial_id': watchlist_serial_id,
             'serialrating': serialrating,
+            'latest_article': latest_article,
         }
     else:
         context = {
@@ -165,6 +167,7 @@ def list(request):
             'articles_c': articles_c,
             'result_list': result_list,
             'result_list_c': result_list_c,
+            'latest_article': latest_article,
         }
     return render(request, 'list.html', context)
 
@@ -179,6 +182,7 @@ def film_list(request):
         votes=Count('serialrating__user', distinct=True))
     persons = Person.objects.get_queryset().order_by('id')
     articles = Article.objects.get_queryset().order_by('id')
+    latest_article = articles.order_by('-created_date').first()
 
     keywords = request.GET.get('q')
     page = request.GET.get('page')
@@ -263,6 +267,7 @@ def film_list(request):
             'f_id': f_id,
             'filmrating': filmrating,
             'watchlist_id': watchlist_id,
+            'latest_article': latest_article,
         }
     else:
         context = {
@@ -275,6 +280,7 @@ def film_list(request):
             'persons_c': persons_c,
             'articles_c': articles_c,
             'result_list_c': result_list_c,
+            'latest_article': latest_article,
         }
 
     return render(request, 'film_list.html', context)
@@ -290,6 +296,7 @@ def serial_list(request):
         votes=Count('serialrating__user', distinct=True))
     persons = Person.objects.get_queryset().order_by('id')
     articles = Article.objects.get_queryset().order_by('id')
+    latest_article = articles.order_by('-created_date').first()
 
     keywords = request.GET.get('q')
     page = request.GET.get('page')
@@ -374,6 +381,7 @@ def serial_list(request):
             's_id': s_id,
             'serialrating': serialrating,
             'watchlist_id': watchlist_id,
+            'latest_article': latest_article,
         }
     else:
         context = {
@@ -386,6 +394,7 @@ def serial_list(request):
             'persons_c': persons_c,
             'articles_c': articles_c,
             'result_list_c': result_list_c,
+            'latest_article': latest_article,
         }
     return render(request, 'serial_list.html', context)
 
@@ -400,6 +409,7 @@ def person_list(request):
         votes=Count('serialrating__user', distinct=True))
     persons = Person.objects.get_queryset().order_by('id')
     articles = Article.objects.get_queryset().order_by('id')
+    latest_article = articles.order_by('-created_date').first()
 
     keywords = request.GET.get('q')
     page = request.GET.get('page')
@@ -445,6 +455,7 @@ def person_list(request):
         'persons_c': persons_c,
         'articles_c': articles_c,
         'result_list_c': result_list_c,
+        'latest_article': latest_article,
     }
     return render(request, 'person_list.html', context)
 
@@ -459,6 +470,7 @@ def article_list(request):
         votes=Count('serialrating__user', distinct=True))
     persons = Person.objects.get_queryset().order_by('id')
     articles = Article.objects.get_queryset().order_by('id')
+    latest_article = articles.order_by('-created_date').first()
 
     keywords = request.GET.get('q')
     page = request.GET.get('page')
@@ -504,5 +516,6 @@ def article_list(request):
         'persons_c': persons_c,
         'articles_c': articles_c,
         'result_list_c': result_list_c,
+        'latest_article': latest_article,
     }
     return render(request, 'article_list.html', context)

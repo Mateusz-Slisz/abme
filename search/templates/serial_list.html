@@ -2,137 +2,156 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="mt-2">
-    {% if request.GET.q == '' %}
-    <h1 class="text-center">Enter the word!</h1>
-    <form>
-        <div class="input-group stylish-input-group">
-            <input type="text" class="form-control" placeholder="Search" name="q">
-            <span class="input-group-addon">
-                <button type="submit">
-                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
-                </button>  
-            </span>
-        </div>
-    </form>
-    {% elif request.GET.q %}
-    <h1 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h1>
-    <form>
-        <div class="input-group stylish-input-group">
-            <input type="text" class="form-control" placeholder="Search" name="q">
-            <span class="input-group-addon">
-                <button type="submit">
-                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
-                </button>  
-            </span>
-        </div>
-    </form>
-    <div class="main-box mt-3">
-        <div class="search-nav">
-            <ol class="breadcrumb breadcrumb-color">
-                <li class="breadcrumb-item "><a href="{% url 'search_list' %}?q={{ request.GET.q }}"><i class="fa fa-th-list" aria-hidden="true"></i> All </a><span class="badge badge-light">{{ result_list_c }}</span></li>
-                <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
-                <li class="breadcrumb-item active">TV Series <span class="badge badge-light">{{ serials_c }}</span></li>
-                <li class="breadcrumb-item "><a href="{% url 'search_person_list' %}?q={{ request.GET.q }}">Persons</a> <span class="badge badge-light">{{ persons_c }}</span></li>
-                <li class="breadcrumb-item "><a href="{% url 'search_article_list' %}?q={{ request.GET.q }}">Articles</a> <span class="badge badge-light">{{ articles_c }}</span></li>
-            </ol>
-        </div>
-        {% for serial in serials %}
-        <div class="row box-item mb-3 mr-auto ml-auto">
-            <div class="col-lg-1">
-                {{ forloop.counter0|add:serials.start_index }}.
+<div class="row mt-2">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
+        {% if request.GET.q == '' %}
+        <h1 class="text-center">Enter the word!</h1>
+        <form>
+            <div class="input-group stylish-input-group">
+                <input type="text" class="form-control" placeholder="Search" name="q">
+                <span class="input-group-addon">
+                    <button type="submit">
+                        <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </button>  
+                </span>
             </div>
-            <div class="col-lg-2">
-                <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
-                    <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
-                </a>
+        </form>
+        {% elif request.GET.q %}
+        <h1 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h1>
+        <form>
+            <div class="input-group stylish-input-group">
+                <input type="text" class="form-control" placeholder="Search" name="q">
+                <span class="input-group-addon">
+                    <button type="submit">
+                        <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </button>  
+                </span>
             </div>
-            <div class="col-lg-2">
-                <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
-                    <span class="h6">{{ serial.title }}</span>
-                </a>
-                ({{ serial.year }}- )
+        </form>
+        <div class="main-box mt-3">
+            <div class="search-nav">
+                <ol class="breadcrumb breadcrumb-color">
+                    <li class="breadcrumb-item "><a href="{% url 'search_list' %}?q={{ request.GET.q }}"><i class="fa fa-th-list" aria-hidden="true"></i> All </a><span class="badge badge-light">{{ result_list_c }}</span></li>
+                    <li class="breadcrumb-item "><a href="{% url 'search_film_list' %}?q={{ request.GET.q }}">Films</a> <span class="badge badge-light">{{ films_c }}</span></li>
+                    <li class="breadcrumb-item active">TV Series <span class="badge badge-light">{{ serials_c }}</span></li>
+                    <li class="breadcrumb-item "><a href="{% url 'search_person_list' %}?q={{ request.GET.q }}">Persons</a> <span class="badge badge-light">{{ persons_c }}</span></li>
+                    <li class="breadcrumb-item "><a href="{% url 'search_article_list' %}?q={{ request.GET.q }}">Articles</a> <span class="badge badge-light">{{ articles_c }}</span></li>
+                </ol>
             </div>
-            <div class="col-lg-2">
-                <h6>
-                    <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
-                    {{ serial.average_score }}
-                </h6>
-                {{ serial.votes }} votes
-            </div>
-            <div class="col-lg-3">
-                {% if serial.id in s_id %}
-                <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
-                    <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+            {% for serial in serials %}
+            <div class="row box-item mb-3 mr-auto ml-auto">
+                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
+                    <span class="h6">{{ forloop.counter0|add:serials.start_index }}</span>
                 </div>
-                <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
-                rate_data-catid="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
-                    {% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i> {% endif %}{% endfor %}
-                </a>   
-                {% else %}
-                <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
-                {% endif %}
-            </div>
-            <div class="col-lg-2">
-                {% if serial.id in watchlist_id %}
-                    <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
-                {% else %}
-                    <a class="addwatchlist" add_watchlist="{{ serial.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
-                {% endif %}
-            </div>
-        </div>
-        {% empty %}
-        <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any serial.</h3>
-        {% endfor %}
-        {% if serials.has_other_pages %}
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <nav aria-label="..." class="pull-right">
-                    <ul class="pagination mb-5">
-            
-                    {% if serials.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ serials.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
-                        </li>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                    <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
+                        <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
+                    <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
+                        <h6>{{ serial.title }}</h6>
+                    </a>
+                    ({{ serial.year }}- )
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                    <h6>
+                        <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
+                        {{ serial.average_score }}
+                    </h6>
+                    {{ serial.votes }} votes
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-5 col-sm-6 col-7 d-none d-md-block d-lg-block d-xl-block">
+                    {% if serial.id in s_id %}
+                    <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}">
+                        <span>{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %}{{ratings.rate}}{% endif %}{% endfor %}</span>
+                    </div>
+                    <a class="delbutton" id="del {{ serial.id }} " href="" del_data-catid=" {{ serial.id }} " 
+                    rate_data-catid="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}" style="color:black;">
+                        {% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} <i class="fa fa-minus-circle" title="Click to remove" aria-hidden="true"></i> {% endif %}{% endfor %}
+                    </a>   
                     {% else %}
-                        <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                    <div class="demo" serial_id="{{ serial.id }}" data-score="{% for ratings in serialrating %}{% if serial.id == ratings.serial.id %} {{ ratings.rate }} {% endif %}{% endfor %}"></div>
                     {% endif %}
-            
-                    {% for i in serials.paginator.page_range %}
-                        {% if serials.number == i %}
-                        <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                </div>
+                <div class="col-xl-1 col-lg-1 col-md-0 col-sm-6 col-2 d-none d-lg-block d-xl-block">
+                    {% if serial.id in watchlist_id %}
+                        <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                    {% else %}
+                        <a class="addwatchlist" add_watchlist="{{ serial.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <h3 class="text-center">Looks like "{{ request.GET.q }}" do not matches any serial.</h3>
+            {% endfor %}
+            {% if serials.has_other_pages %}
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <nav aria-label="..." class="pull-right">
+                        <ul class="pagination mb-5">
+                
+                        {% if serials.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ serials.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
+                            </li>
                         {% else %}
-                        <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
+                            <li class="page-item disabled"><span class="page-link">Prev</span></li>
                         {% endif %}
-                    {% endfor %}
-            
-                    {% if serials.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ serials.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled"><span class="page-link">Next</span></li>
-                    {% endif %}
-            
-                    </ul>
-                </nav>
+                
+                        {% for i in serials.paginator.page_range %}
+                            {% if serials.number == i %}
+                            <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                            <li><a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                
+                        {% if serials.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ serials.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">Next</span></li>
+                        {% endif %}
+                
+                        </ul>
+                    </nav>
+                </div>
             </div>
+            {% endif %}
         </div>
+        {% else %}
+        <h1 class="text-center"><span class="main-list">Search</span></h1>
+        <form>
+            <div class="input-group stylish-input-group">
+                <input type="text" class="form-control" placeholder="Search" name="q">
+                <span class="input-group-addon">
+                    <button type="submit">
+                        <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </button>  
+                </span>
+            </div>
+        </form>
         {% endif %}
     </div>
-    {% else %}
-    <h1 class="text-center"><span class="main-list">Search</span></h1>
-    <form>
-        <div class="input-group stylish-input-group">
-            <input type="text" class="form-control" placeholder="Search" name="q">
-            <span class="input-group-addon">
-                <button type="submit">
-                    <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
-                </button>  
-            </span>
+    <div class="col-xl-3 d-xl-block d-none">
+        <div class="latest-article">
+            <h5>Latest article:</h5>
+            <div class="card" >
+                <div class="card-body">
+                    <p class="article-date">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{ latest_article.created_date|date:"F d, Y"}}
+                    </p>
+                    <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                    <h4 class="card-title">{{ latest_article.title }}</h4>
+                    </a>
+                    <p class="card-text">{{ latest_article.text|truncatechars:40 }}</p>
+                </div>
+            </div>
         </div>
-    </form>
-    {% endif %}
+    </div>
 </div>
 <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

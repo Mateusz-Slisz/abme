@@ -1,106 +1,132 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="text-center">Your watchlist</h1>
-<form>
-        <div class="form-row">
-            <div class="form-group col-xl-5 col-lg-5 col-md-4 col-sm-4 col-4">
-                <select class="form-control" name="sort_by">
-                <option value="" selected disabled hidden>Sort by:</option>
-                <option {% if request.GET.sort_by == 'Data added' %}selected{% endif %}>Data added</option>
-                <option {% if request.GET.sort_by == 'Popularity' %}selected{% endif %}>Popularity</option>
-                <option {% if request.GET.sort_by == 'Global rating' %}selected{% endif %}>Global rating</option>
-                </select>
-            </div>
-            <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-                    <select class="form-control" name="order">
-                    <option value="" selected disabled hidden>Order:</option>
-                    <option {% if request.GET.order == 'Ascending' %}selected{% endif %}>Ascending</option>
-                    <option {% if request.GET.order == 'Descending' %}selected{% endif %}>Descending</option>
-                    </select>
-            </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;" title="Filter objects">
-            </div>
-            <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
-                <a class="btn btn-danger btn-block" href="{% url 'user_watchlist' %}" role="button" title="Reset filters"><i class="fa fa-times" aria-hidden="true"></i></a>
-            </div>
-        </div>
-    </form>
-<h4 class="text-muted">Sorted by:{% if request.GET %} {{ request.GET.sort_by|lower }} {{ request.GET.order|lower }} {% else %} id {% endif %}</h4>
-<div class="row mt-3">
-    {% for i in watchlist_all %}
-        {% if i.film %}
-        <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
-            <a class="detail" href="{% url 'film_detail' pk=i.film.pk %}">
-                <img class="pull-left poster poster-border" src="{{ i.film.image.url }}" height="210px" width="150px">
-            </a>
-            <div class="pull-left ml-1">
-            <a class="dellfilmwatchlist" del_film_watchlist="{{ i.film.id }}" href="">
-                <i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green" title="Click to remove"></i>
-            </a>
-            <a class="detail" href="{% url 'film_detail' pk=i.film.pk %}">
-                <h5>{{ i.film.title|truncatechars:15 }}</h5>
-            </a>
-            <h6>Film ({{ i.film.year }})</h6>
-            <h6><i class="fa fa-star star" aria-hidden="true"></i> {{ i.average_score }}</h6>
-            <h6>{{ i.date|date:"d M, Y" }}</h6>
-            </div>
-        </div>
-        {% endif %}
-        {% if i.serial %}
-        <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
-            <a class="detail" href="{% url 'serial_detail' pk=i.serial.pk %}">
-                <img class="pull-left poster poster-border" src="{{ i.serial.image.url }}" height="210px" width="150px">
-            </a>
-            <div class="pull-left ml-1">
-            <a class="dellserialwatchlist" del_serial_watchlist="{{ i.serial.id }}" href="">
-                <i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green" title="Click to remove"></i>
-            </a>
-            <a class="detail" href="{% url 'serial_detail' pk=i.serial.pk %}">
-                <h5>{{ i.serial.title|truncatechars:15 }}</h5>
-            </a>
-            <h6>TV Series ({{ i.serial.year }}- )</h6>
-            <h6><i class="fa fa-star star" aria-hidden="true"></i> {{ i.average_score }}</h6>
-            <h6>{{ i.date|date:"d M, Y" }}</h6>
-            </div>
-        </div>
-        {% endif %}
-    {% endfor %}
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-        {% if watchlist_all.has_other_pages %}
-        <nav aria-label="...">
-            <ul class="pagination mb-5 pull-right">
-        
-            {% if watchlist_all.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ watchlist_all.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">Prev</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled"><span class="page-link">Prev</span></li>
-            {% endif %}
-        
-            {% for i in watchlist_all.paginator.page_range %}
-                {% if watchlist_all.number == i %}
-                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
-                {% else %}
-                <li><a class="page-link" href="?page={{ i }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">{{ i }}</a></li>
+<div class="row">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
+        <h1 class="text-center">Your watchlist</h1>
+        <form>
+                <div class="form-row">
+                    <div class="form-group col-xl-5 col-lg-5 col-md-4 col-sm-4 col-4">
+                        <select class="form-control" name="sort_by">
+                        <option value="" selected disabled hidden>Sort by:</option>
+                        <option {% if request.GET.sort_by == 'Data added' %}selected{% endif %}>Data added</option>
+                        <option {% if request.GET.sort_by == 'Popularity' %}selected{% endif %}>Popularity</option>
+                        <option {% if request.GET.sort_by == 'Global rating' %}selected{% endif %}>Global rating</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                            <select class="form-control" name="order">
+                            <option value="" selected disabled hidden>Order:</option>
+                            <option {% if request.GET.order == 'Ascending' %}selected{% endif %}>Ascending</option>
+                            <option {% if request.GET.order == 'Descending' %}selected{% endif %}>Descending</option>
+                            </select>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                        <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;" title="Filter objects">
+                    </div>
+                    <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                        <a class="btn btn-danger btn-block" href="{% url 'user_watchlist' %}" role="button" title="Reset filters"><i class="fa fa-times" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </form>
+        <h4 class="text-muted">Sorted by:{% if request.GET %} {{ request.GET.sort_by|lower }} {{ request.GET.order|lower }} {% else %} id {% endif %}</h4>
+        <div class="row mt-3">
+            {% for i in watchlist_all %}
+                {% if i.film %}
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-2">
+                    <div class="watchlist-size">
+                        <div>
+                            <a class="detail" href="{% url 'film_detail' pk=i.film.pk %}">
+                                <img class="pull-left poster poster-border" src="{{ i.film.image.url }}" height="210px" width="150px">
+                            </a>
+                            <a class="dellfilmwatchlist ribbon" del_film_watchlist="{{ i.film.id }}" href="">
+                                <i class="fa fa-bookmark fa-2x" aria-hidden="true" title="Click to remove"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="detail text-center" href="{% url 'film_detail' pk=i.film.pk %}">
+                                <h6 class="m-0">{{ i.film.title|truncatechars:15 }}</h6>
+                            </a>
+                            <span class="h6 watchlist-year pull-left">Film ({{ i.film.year }})</span>
+                            <span class="h6 watchlist-year pull-right"><i class="fa fa-star star" aria-hidden="true"></i> {{ i.average_score }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if i.serial %}
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-2">
+                    <div class="watchlist-size">
+                        <div>
+                            <a class="detail" href="{% url 'serial_detail' pk=i.serial.pk %}">
+                                <img class="pull-left poster poster-border" src="{{ i.serial.image.url }}" height="210px" width="150px">
+                            </a>
+                            <a class="dellserialwatchlist ribbon" del_serial_watchlist="{{ i.serial.id }}" href="">
+                                <i class="fa fa-bookmark fa-2x" aria-hidden="true" title="Click to remove"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="detail text-center" href="{% url 'serial_detail' pk=i.serial.pk %}">
+                                <h6 class="m-0">{{ i.serial.title|truncatechars:15 }}</h6>
+                            </a>
+                            <span class="h6 watchlist-year pull-left">TV Series ({{ i.serial.year }}- )</span>
+                            <span class="h6 watchlist-year pull-right"><i class="fa fa-star star" aria-hidden="true"></i> {{ i.average_score }}</span>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
             {% endfor %}
-        
-            {% if watchlist_all.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ watchlist_all.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">Next</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled"><span class="page-link">Next</span></li>
-            {% endif %}
-        
-            </ul>
-        </nav>
-        {% endif %}
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-5">
+                {% if watchlist_all.has_other_pages %}
+                <nav aria-label="...">
+                    <ul class="pagination mb-5 pull-right">
+                
+                    {% if watchlist_all.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ watchlist_all.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">Prev</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                    {% endif %}
+                
+                    {% for i in watchlist_all.paginator.page_range %}
+                        {% if watchlist_all.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                        <li><a class="page-link" href="?page={{ i }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                
+                    {% if watchlist_all.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ watchlist_all.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">Next</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                    {% endif %}
+                
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 d-xl-block d-none">
+        <div class="latest-article">
+            <h5>Latest article:</h5>
+            <div class="card" >
+                <div class="card-body">
+                    <p class="article-date">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{ latest_article.created_date|date:"F d, Y"}}
+                    </p>
+                    <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                    <h4 class="card-title">{{ latest_article.title }}</h4>
+                    </a>
+                    <p class="card-text">{{ latest_article.text|truncatechars:40 }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript">
     

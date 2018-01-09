@@ -304,3 +304,38 @@ a.detfilmo.active {
     padding-bottom: 20px;
     border-bottom: 1px solid rgb(224, 224, 224);
 }
+
+.ribbon {
+    position: absolute;
+    top: -2px;
+    left: 20px;
+    color: rgba(0, 128, 0, 0.78);
+}
+
+.ribbon:hover {
+    color: rgba(0, 128, 0, 0.62);
+}
+
+.watchlist-size {
+    width: 150px;
+}
+
+.watchlist-year {
+    font-size: 13px;
+}
+
+#watchlist-active {
+    color: green;
+}
+
+#watchlist-active:hover {
+    color: rgba(0, 128, 0, 0.76);
+}
+
+#watchlist-inactive {
+    color: silver;
+}
+
+#watchlist-inactive:hover {
+    color: rgba(192, 192, 192, 0.76);
+}

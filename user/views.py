@@ -12,7 +12,7 @@ from django.db import transaction
 from films.models import FilmRating, FilmWatchlist
 from books.models import BookRating, BookWatchlist
 from serials.models import SerialRating, SerialWatchlist
-from api.models import Serial, Film
+from api.models import Serial, Film, Article
 from django.db.models import Avg, Count
 from django.db.models.functions import Coalesce
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -195,6 +195,8 @@ def watchlist(request):
         average_score=Coalesce(Round(Avg('serial__serialrating__rate')), 0),
         votes=Count('serial__serialrating__user', distinct=True))
 
+    latest_article = Article.objects.get_queryset().order_by('-created_date').first()
+
     page = request.GET.get('page')
     sort_by = request.GET.get('sort_by')
     order = request.GET.get('order')
@@ -237,7 +239,7 @@ def watchlist(request):
                 key=attrgetter('votes'),
                 reverse=True)
 
-    paginator = Paginator(watchlist_all, per_page=9)
+    paginator = Paginator(watchlist_all, per_page=12)
     try:
         watchlist_all = paginator.page(page)
     except PageNotAnInteger:
@@ -247,5 +249,6 @@ def watchlist(request):
 
     context = {
         'watchlist_all': watchlist_all,
+        'latest_article': latest_article,
     }
     return render(request, 'user/watchlist.html', context)

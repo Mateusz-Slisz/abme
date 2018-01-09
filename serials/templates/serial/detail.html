@@ -19,9 +19,9 @@
                         <div class="row mr-1 ml-1 mt-2">
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3">
                                 {% if serial.id == watchlist.serial.id %}
-                                    <a class="dellwatchlist" del_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green" title="Click to remove"></i></a>
+                                    <a class="dellwatchlist" del_watchlist="{{ serial.id }}" href="" id="watchlist-active"><i class="fa fa-bookmark fa-2x" aria-hidden="true" title="Click to remove"></i></a>
                                 {% else %}
-                                    <a class="addwatchlist" add_watchlist="{{ serial.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:silver" title="Click to add"></i></a>
+                                    <a class="addwatchlist" add_watchlist="{{ serial.id }}" href="" id="watchlist-inactive"><i class="fa fa-bookmark fa-2x" aria-hidden="true" title="Click to add"></i></a>
                                 {% endif %}
                                 <h2>{{ serial.title }}</h2>
                             </div>

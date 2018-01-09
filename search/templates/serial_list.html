@@ -76,9 +76,9 @@
                 </div>
                 <div class="col-xl-1 col-lg-1 col-md-0 col-sm-6 col-2 d-none d-lg-block d-xl-block">
                     {% if serial.id in watchlist_id %}
-                        <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:green"></i></a>
+                        <a class="dellwatchlist" del_watchlist="{{ serial.id }}" title="Click to remove" href="" id="watchlist-active"><i class="fa fa-bookmark" aria-hidden="true"></i></a>
                     {% else %}
-                        <a class="addwatchlist" add_watchlist="{{ serial.id }}" title="Click to add" href=""><i class="fa fa-bookmark" aria-hidden="true" style="color:silver"></i></a>
+                        <a class="addwatchlist" add_watchlist="{{ serial.id }}" title="Click to add" href="" id="watchlist-inactive"><i class="fa fa-bookmark" aria-hidden="true"></i></a>
                     {% endif %}
                 </div>
             </div>

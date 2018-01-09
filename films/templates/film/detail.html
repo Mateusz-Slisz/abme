@@ -17,9 +17,9 @@
                     <div class="row mr-1 ml-1 mt-2">
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3">
                             {% if film.id == watchlist.film.id %}
-                                <a class="dellwatchlist" del_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:green" title="Click to remove"></i></a>
+                                <a class="dellwatchlist" del_watchlist="{{ film.id }}" href="" id="watchlist-active"><i class="fa fa-bookmark fa-2x" aria-hidden="true" title="Click to remove"></i></a>
                             {% else %}
-                                <a class="addwatchlist" add_watchlist="{{ film.id }}" href=""><i class="fa fa-bookmark fa-2x" aria-hidden="true" style="color:silver" title="Click to add"></i></a>
+                                <a class="addwatchlist" add_watchlist="{{ film.id }}" href="" id="watchlist-inactive"><i class="fa fa-bookmark fa-2x" aria-hidden="true" title="Click to add"></i></a>
                             {% endif %}
                             <h2>{{ film.title }} <span class="h5 text-muted">({{ film.year }})</span></h2>
                         </div>

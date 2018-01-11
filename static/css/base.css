@@ -26,7 +26,7 @@
     font-size: 12px;
 }
 
-.extras .col-lg-4 {
+.extras .col-lg-6 {
     text-align: center;
 }
 
@@ -293,6 +293,12 @@ a.detfilmo.active {
 .latest-article {
     padding-top: 20px;
     padding-bottom: 20px;
+    border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.getting-started {
+    padding-bottom: 20px;
+    padding-top: 20px;
     border-bottom: 1px solid rgb(224, 224, 224);
 }
 

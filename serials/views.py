@@ -155,11 +155,26 @@ def detail(request, pk):
 def top_rated(request):
     serial_list = Serial.objects.get_queryset().annotate(
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
-        votes=Count('serialrating__user', distinct=True)).order_by('-average_score')[:100]
+        votes=Count('serialrating__user', distinct=True))
+    categories = Category.objects.all()
     latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     page = request.GET.get('page')
-    paginator = Paginator(serial_list, per_page=10)
+    year = request.GET.get('year')
+    category = request.GET.get('category')
+
+    if year:
+        serial_list = serial_list.filter(
+            Q(year__icontains=year)
+            )
+    if category:
+        serial_list = serial_list.filter(
+            Q(category__name__icontains=category)
+            )
+
+    serial_list = serial_list.order_by('-average_score')[:100]
+
+    paginator = Paginator(serial_list, per_page=100)
     try:
         serials = paginator.page(page)
     except PageNotAnInteger:
@@ -212,11 +227,13 @@ def top_rated(request):
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
             'latest_article': latest_article,
+            'categories': categories,
         }
         return render(request, 'serial/top_rated.html', context)
     else:
         context = {
             'serials': serials,
             'latest_article': latest_article,
+            'categories': categories,
         }
         return render(request, 'serial/top_rated.html', context)

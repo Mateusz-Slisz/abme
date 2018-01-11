@@ -1,15 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
 from .serializers import (
-    AuthorSerializer, PersonSerializer,
+    PersonSerializer,
     CategorySerializer, ArticleCategorySerializer,
-    BookSerializer,
     FilmSerializer,
     SerialSerializer,
     FilmcastSerializer,
     SerialcastSerializer,
     ArticleSerializer,
     )
-from .models import Author, Person, Category, Book, Film, Serial, Filmcast, Serialcast, ArticleCategory, Article
+from .models import Person, Category, Film, Serial, Filmcast, Serialcast, ArticleCategory, Article
 
 
 class ArticleCategoryViewSet(ModelViewSet):
@@ -22,11 +21,6 @@ class ArticleViewSet(ModelViewSet):
     queryset = Article.objects.all()
 
 
-class AuthorViewSet(ModelViewSet):
-    serializer_class = AuthorSerializer
-    queryset = Author.objects.all()
-
-
 class PersonViewSet(ModelViewSet):
     serializer_class = PersonSerializer
     queryset = Person.objects.all()
@@ -35,11 +29,6 @@ class PersonViewSet(ModelViewSet):
 class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-
-
-class BookViewSet(ModelViewSet):
-    serializer_class = BookSerializer
-    queryset = Book.objects.all()
 
 
 class FilmViewSet(ModelViewSet):

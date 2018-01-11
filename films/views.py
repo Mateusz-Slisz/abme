@@ -155,11 +155,26 @@ def detail(request, pk):
 def top_rated(request):
     film_list = Film.objects.get_queryset().annotate(
         average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
-        votes=Count('filmrating__user', distinct=True)).order_by('-average_score')[:100]
+        votes=Count('filmrating__user', distinct=True))
+    categories = Category.objects.all()
     latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 
     page = request.GET.get('page')
-    paginator = Paginator(film_list, per_page=10)
+    year = request.GET.get('year')
+    category = request.GET.get('category')
+
+    if year:
+        film_list = film_list.filter(
+            Q(year__icontains=year)
+            )
+    if category:
+        film_list = film_list.filter(
+            Q(category__name__icontains=category)
+            )
+
+    film_list = film_list.order_by('-average_score')[:100]
+
+    paginator = Paginator(film_list, per_page=100)
     try:
         films = paginator.page(page)
     except PageNotAnInteger:
@@ -212,11 +227,13 @@ def top_rated(request):
             'activ_profile': activ_profile,
             'watchlist_id': watchlist_id,
             'latest_article': latest_article,
+            'categories': categories,
         }
         return render(request, 'film/top_rated.html', context)
     else:
         context = {
             'films': films,
             'latest_article': latest_article,
+            'categories': categories,
         }
         return render(request, 'film/top_rated.html', context)

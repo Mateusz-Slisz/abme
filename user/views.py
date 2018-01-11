@@ -10,7 +10,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 from films.models import FilmRating, FilmWatchlist
-from books.models import BookRating, BookWatchlist
 from serials.models import SerialRating, SerialWatchlist
 from api.models import Serial, Film, Article
 from django.db.models import Avg, Count
@@ -95,7 +94,6 @@ def profile(request, username):
     serialrating = SerialRating.objects.filter(user=user)
 
     f_ratings = filmrating.order_by('-rate')[0:4]
-    b_ratings = BookRating.objects.filter(user=user).order_by('-rate')[0:8]
     s_ratings = serialrating.order_by('-rate')[0:4]
 
     user_rate_1 = filmrating.filter(rate=1).count() + serialrating.filter(rate=1).count()
@@ -123,7 +121,6 @@ def profile(request, username):
         'user': user,
         'full_name': full_name,
         'f_ratings': f_ratings,
-        'b_ratings': b_ratings,
         's_ratings': s_ratings,
         'all_votes': all_votes,
         'user_votes': user_votes,
@@ -156,19 +153,6 @@ def profile_serials(request, username):
         's_ratings': s_ratings,
     }
     return render(request, 'user/profile_serials.html', context)
-
-
-def profile_books(request, username):
-    user = get_object_or_404(User, username=username)
-    var = get_object_or_404(Profile, user=user)
-
-    b_ratings = BookRating.objects.filter(user=user).order_by('-id')
-
-    context = {
-        'user': user,
-        'b_ratings': b_ratings,
-    }
-    return render(request, 'user/profile_books.html', context)
 
 
 @login_required

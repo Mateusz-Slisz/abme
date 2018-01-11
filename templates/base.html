@@ -50,9 +50,6 @@
                   <a class="dropdown-item" href="{% url 'serial_top_rated' %}">Top 100 rated</a>
                 </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'book_list' %}">Books</a>
-            </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'user_watchlist' %}" style="color: gold">Watchlist</a>

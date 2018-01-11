@@ -11,9 +11,6 @@
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3 profiledeactive">
                 <a href="{% url 'user_profile_serials' user %}">Serials</a>
             </div>
-            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3 profiledeactive">
-                <a href="{% url 'user_profile_books' user %}">Books</a>
-            </div>
         </div>
     </nav>
 
@@ -81,25 +78,6 @@
                                 </a>
                                 <h6 class="text-muted">({{ ratings.serial.year }}- )</h6>
                                 <i class="fa fa-star star" aria-hidden="true"></i> {{ ratings.rate }}
-                                </div>
-                        </li>
-                        {% endfor %}
-                        </div>
-                    </ul>
-                </div>
-                {% endif %}
-                {% if b_ratings %}
-                <div class="bestratebooks">
-                    <h5>Best rated books:</h5>
-                    <ul class="p-0">
-                        <div class="row">
-                        {% for ratings in b_ratings %}
-                        <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block">
-                                <img class="pull-left poster" src="{{ ratings.book.image.url }}" height="70px" width="50px">
-                                <div class="pull-left ml-1">
-                                <h6>{{ ratings.book.title|truncatechars:15 }}</h6>
-                                <h6 class="text-muted">{{ ratings.book.author }}</h6>
-                                <i class="fa fa-star" aria-hidden="true"></i> {{ ratings.rate }}
                                 </div>
                         </li>
                         {% endfor %}

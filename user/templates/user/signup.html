@@ -64,12 +64,14 @@
                             {% csrf_token %}
                             {{ form|crispy }}
                             <input class="btn btn-success btn-block" role="button" type="submit" value="Signip" style="cursor: pointer;"/>
+                            <span class="text-muted signup-note">Minimum latters for username and email is 4.</span>
                         </form>
                     </div>
                 </fieldset>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="{% static 'images/sleeping.png' %}">
+            <div class="col-lg-6 text-center mt-5">
+                <h2 class="signup-heading">Don't wake the cat, <br><span class="text-muted">just make an account.</span></h2>
+                <img src="{% static 'images/sleeping.png' %}" class="mt-5">
             </div>
           </div>
       </div>

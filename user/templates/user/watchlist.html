@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row">
+<div class="row mt-2">
     <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
         <h1 class="text-center">Your watchlist</h1>
         <form>
@@ -142,6 +142,9 @@
             data:{
                     del_serial_watchlist: id,
             },
+            success: function () {
+                    window.location.reload();
+            }
         })
         });
 
@@ -155,6 +158,9 @@
             data:{
                     del_film_watchlist: id,
             },
+            success: function () {
+                    window.location.reload();
+            }
         })
         });
 </script>

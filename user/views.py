@@ -116,6 +116,8 @@ def profile(request, username):
         all_votes += rate
 
     max_vote = max(user_votes)
+    f_rating_count = filmrating.count()
+    s_rating_count = serialrating.count()
 
     context = {
         'user': user,
@@ -125,6 +127,8 @@ def profile(request, username):
         'all_votes': all_votes,
         'user_votes': user_votes,
         'max_vote': max_vote,
+        'user_films_count': f_rating_count,
+        'user_serials_count': s_rating_count,
     }
     return render(request, 'user/profile.html', context)
 

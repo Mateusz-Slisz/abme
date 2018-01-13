@@ -155,7 +155,7 @@ def detail(request, pk):
 def top_rated(request):
     serial_list = Serial.objects.get_queryset().annotate(
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
-        votes=Count('serialrating__user', distinct=True))
+        votes=Count('serialrating__user', distinct=True)).filter(votes__gte=10)
     categories = Category.objects.all()
     latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 

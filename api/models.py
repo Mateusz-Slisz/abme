@@ -42,7 +42,7 @@ class Film(models.Model):
     writers = models.ManyToManyField(Person, blank=True, related_name='film_writers')
     actors = models.ManyToManyField(Person, through='Filmcast', blank=True, related_name='film_actors')
     category = models.ManyToManyField(Category, blank=True)
-    description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
+    description = models.CharField(max_length=500, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
     iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
@@ -71,7 +71,7 @@ class Serial(models.Model):
     actors = models.ManyToManyField(Person, through='Serialcast', blank=True, related_name='serial_actors')
     seasons = models.PositiveSmallIntegerField(default=1)
     creators = models.ManyToManyField(Person, blank=True, related_name='serial_creators')
-    description = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
+    description = models.CharField(max_length=500, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
     iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.

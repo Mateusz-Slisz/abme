@@ -88,17 +88,48 @@
         <h5>Getting started</h5>
         <div class="card bg-light">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item {% if not user.first_name %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
-                <span class="h6">Update first name</span>{% if not user.first_name %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}
+              <li class="list-group-item bg-light">
+                {% if not user.first_name %} 
+                <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                <a href="{% url 'user_settings' %}" class="text-dark">
+                  <span class="h6">Update first name</span>
+                </a>
+                {% else %}
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+                <span class="h6 text-dark">Update first name</span>
+                {% endif %}
               </li>
-              <li class="list-group-item {% if not user.profile.bio %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
-                <span class="h6">Update your bio</span>{% if not user.profile.bio %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}
+              <li class="list-group-item bg-light">
+                {% if not user.profile.picture is 'photos/none/default.png' %}
+                <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                <a href="{% url 'user_settings' %}" class="text-dark">
+                  <span class="h6">Update your picture</span>
+                </a>
+                {% else %}
+                <span class="h6 text-dark">Update your picture</span> <i class="fa fa-check" aria-hidden="true"></i>
+                {% endif %}
               </li>
-              <li class="list-group-item {% if not user_film_vote %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
-                <span class="h6">Vote a film</span>{% if not user_film_vote %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}
+              <li class="list-group-item bg-light">
+                {% if not user_film_vote %}
+                <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                <a href="{% url 'film_list' %}" class="text-dark">
+                  <span class="h6">Vote a film</span>
+                </a>
+                {% else %}
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+                <span class="h6 text-dark">Vote a film</span>
+                {% endif %}
               </li>
-              <li class="list-group-item {% if not user_serial_vote %}list-group-item-danger{% else %}list-group-item-success{% endif %}">
-                <span class="h6">Vote a serial</span>{% if not user_serial_vote %} <i class="fa fa-times" aria-hidden="true"></i>{% else %} <i class="fa fa-check" aria-hidden="true"></i>{% endif %}
+              <li class="list-group-item bg-light">
+                  {% if not user_serial_vote %}
+                  <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                  <a href="{% url 'serial_list' %}" class="text-dark">
+                    <span class="h6">Vote a serial</span>
+                  </a>
+                  {% else %}
+                  <i class="fa fa-check text-success" aria-hidden="true"></i>
+                  <span class="h6 text-dark">Vote a serial</span>
+                  {% endif %}
               </li>
             </ul>
         </div>

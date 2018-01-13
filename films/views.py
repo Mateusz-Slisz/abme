@@ -155,7 +155,7 @@ def detail(request, pk):
 def top_rated(request):
     film_list = Film.objects.get_queryset().annotate(
         average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
-        votes=Count('filmrating__user', distinct=True))
+        votes=Count('filmrating__user', distinct=True)).filter(votes__gte=10)
     categories = Category.objects.all()
     latest_article = Article.objects.get_queryset().order_by('-created_date').first()
 

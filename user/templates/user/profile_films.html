@@ -1,33 +1,55 @@
 {% extends "base.html" %}
-{% block content %}
-<nav role="navigation" class="mt-2">
-    <div class="row mr-auto ml-auto profile-nav">
-        <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3 profiledeactive">
-            <a href="{% url 'user_profile' user %}">Profile</a>
-        </div>
-        <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3 profileactive">
-            Films
-        </div>
-        <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3 profiledeactive">
-            <a href="{% url 'user_profile_serials' user %}">Serials</a>
-        </div>
-    </div>
-</nav>
+{% load staticfiles %}
 
-{% for ratings in f_ratings %}
-    <div class="row mr-auto ml-auto mt-3">
-        <div classs="col-lg">
-            <a class="detail" href="{% url 'film_detail' pk=ratings.film.pk %}">
-                <img class="pull-left poster poster-border" src="{{ ratings.film.image.url }}" height="210px" width="150px" >
-            </a>
-            <div class="pull-left ml-1">
-            <a class="detail" href="{% url 'film_detail' pk=ratings.film.pk %}">
-                <h5>{{ forloop.counter }}. {{ ratings.film.title|truncatechars:15 }}</h5>
-            </a>
-            <h6>Year: {{ ratings.film.year }}</h6>
-            <i class="fa fa-star star" aria-hidden="true"></i> {{ ratings.rate }}
+{% block content %}
+    <nav role="navigation" class="mt-2">
+        <div class="row mr-auto ml-auto profile-nav">
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3 profiledeactive">
+                <a href="{% url 'user_profile' user %}">Profile</a>
+            </div>
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3 profileactive">
+                Films
+            </div>
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3 profiledeactive">
+                <a href="{% url 'user_profile_serials' user %}">Serials</a>
             </div>
         </div>
-    </div>
-{% endfor %}
+    </nav>
+
+
+    <table class="table">
+        <tbody>
+        {% for rating in f_ratings %}
+        <tr class="row mr-auto ml-auto">
+            <td class="col-2 col-lg-1"><a class="detail" href="{% url 'film_detail' pk=rating.film.pk %}"><img class="poster" height="70" width="50" src="{{ rating.film.image.url }}"></a></td>
+            <td class="col-2 col-lg-4">
+                <a class="detail" href="{% url 'film_detail' pk=rating.film.pk %}">
+                    <h6>{{ rating.film.title }}</h6>
+                </a>
+                ({{ rating.film.year }})
+            </td>
+            <td class="col-6 col-lg-4">
+                <div class="rating" data-score="{{ rating.rate }}">
+                    <span class="h6">{{ rating.rate }}</span>
+                </div>
+            </td>
+            <td class="col-2">
+                <h6>{{ rating.date|date:"F d, Y" }}</h6>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{% static 'lib/jquery.raty.js' %}"></script>
+
+    <script type="text/javascript">
+        $('.rating').raty({
+            path: '{% static "lib/images" %}',
+            number: 10,
+            hints:['1','2','3','4','5','6','7','8','9','10'],
+            readOnly: true 
+            });
+    </script>
 {% endblock %}

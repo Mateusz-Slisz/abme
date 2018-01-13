@@ -199,6 +199,9 @@
                         rate: rate,
                         del_serial_id: catid,
                 },
+                success: function () {
+                    window.location.reload();
+                }
              })
             });
     </script>
@@ -214,6 +217,9 @@
                 data:{
                         add_watchlist: id,
                 },
+                success: function () {
+                    window.location.reload();
+                }
             })
             });
         
@@ -227,6 +233,9 @@
                 data:{
                         del_watchlist: id,
                 },
+                success: function () {
+                    window.location.reload();
+                }
             })
             });
     </script>

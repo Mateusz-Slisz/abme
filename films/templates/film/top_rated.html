@@ -8,6 +8,7 @@
     <div class="row mt-5">
         <div class="top-rated-list col-xl-9 col-lg-12 col-md-12 col-sm-12">
             <h1 class="text-center"><span class="top100">Top 100</span> rated films</h1>
+            <h6 class="text-muted text-center">Minimum votes for the film is 10.</h6>
             <div class="main-box mt-5">
                 <form>
                     <div class="form-row">
@@ -125,6 +126,9 @@
                 data:{
                         add_watchlist: id,
                 },
+                success: function () {
+                    window.location.reload();
+                }
             })
             });
         
@@ -138,6 +142,9 @@
                 data:{
                         del_watchlist: id,
                 },
+                success: function () {
+                    window.location.reload();
+                }
             })
             });
     </script>
@@ -176,6 +183,9 @@
                     rate: rate,
                     del_film_id: catid,
             },
+            success: function () {
+                    window.location.reload();
+            }
          })
         });
     </script>

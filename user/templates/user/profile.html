@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 {% endif %}
-                {% if f_ratings %}
+                {% if user_films_count > 3 %}
                 <div class="bestratefilms">
                     <h5>Best rated movies:</h5>
                     <ul class="p-0">
@@ -62,7 +62,7 @@
                     </ul>
                 </div>
                 {% endif %}
-                {% if s_ratings %}
+                {% if user_serials_count > 3 %}
                 <div class="bestratebooks">
                     <h5>Best rated serials:</h5>
                     <ul class="p-0">

@@ -137,7 +137,17 @@ def profile_films(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
+    page = request.GET.get('page')
+
     f_ratings = FilmRating.objects.filter(user=user).order_by('-date')
+
+    paginator = Paginator(f_ratings, per_page=10)
+    try:
+        f_ratings = paginator.page(page)
+    except PageNotAnInteger:
+        f_ratings = paginator.page(1)
+    except EmptyPage:
+        f_ratings = paginator(paginator.num_pages)
 
     context = {
         'user': user,
@@ -150,7 +160,17 @@ def profile_serials(request, username):
     user = get_object_or_404(User, username=username)
     var = get_object_or_404(Profile, user=user)
 
+    page = request.GET.get('page')
+
     s_ratings = SerialRating.objects.filter(user=user).order_by('-date')
+
+    paginator = Paginator(s_ratings, per_page=10)
+    try:
+        s_ratings = paginator.page(page)
+    except PageNotAnInteger:
+        s_ratings = paginator.page(1)
+    except EmptyPage:
+        s_ratings = paginator(paginator.num_pages)
 
     context = {
         'user': user,

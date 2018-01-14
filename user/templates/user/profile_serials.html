@@ -17,6 +17,14 @@
     </nav>
 
     <table class="table">
+        <thead>
+            <tr class="row mr-auto ml-auto">
+                <th scope="col" class="col-2 col-lg-1">Img</th>
+                <th scope="col" class="col-2 col-lg-4">Title</th>
+                <th scope="col" class="col-6 col-lg-4">Rate</th>
+                <th scope="col" class="col-2 col-lg-3">Date</th>
+            </tr>
+        </thead>
         <tbody>
         {% for rating in s_ratings %}
         <tr class="row mr-auto ml-auto">
@@ -39,6 +47,43 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="row">
+        <div class="col-12">
+        {% if f_ratings.has_other_pages %}
+        <nav aria-label="...">
+            <ul class="pagination pull-right">
+        
+            {% if f_ratings.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ f_ratings.previous_page_number }}">Prev</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Prev</span></li>
+            {% endif %}
+        
+            {% for i in f_ratings.paginator.page_range %}
+                {% if f_ratings.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+        
+            {% if f_ratings.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ f_ratings.next_page_number }}">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        
+            </ul>
+        </nav>
+        {% endif %}
+        </div>
+    </div>
+
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{% static 'lib/jquery.raty.js' %}"></script>

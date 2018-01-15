@@ -19,10 +19,22 @@
     <table class="table">
         <thead>
             <tr class="row mr-auto ml-auto">
-                <th scope="col" class="col-2 col-lg-1">Img</th>
-                <th scope="col" class="col-2 col-lg-4">Title</th>
-                <th scope="col" class="col-6 col-lg-4">Rate</th>
-                <th scope="col" class="col-2 col-lg-3">Date</th>
+                <th scope="col" class="col-2 col-lg-1"></th>
+                <th scope="col" class="col-2 col-lg-4">
+                    <a href="?order_by={% if request.GET.order_by == '-film' %}film{% else %}-film{% endif %}" class="text-dark">
+                        Name <i class="fa fa-sort{% if request.GET.order_by == '-film' %}-desc{% elif request.GET.order_by == 'film' %}-asc{% endif %}" aria-hidden="true"></i>
+                    </a>
+                </th>
+                <th scope="col" class="col-6 col-lg-4">
+                    <a href="?order_by={% if request.GET.order_by == '-rate' %}rate{% else %}-rate{% endif %}" class="text-dark">
+                        Rate <i class="fa fa-sort{% if request.GET.order_by == '-rate' %}-desc{% elif request.GET.order_by == 'rate' %}-asc{% endif %}" aria-hidden="true"></i>
+                    </a>
+                </th>
+                <th scope="col" class="col-2 col-lg-3">
+                    <a href="?order_by={% if request.GET.order_by == 'date' %}-date{% else %}date{% endif %}" class="text-dark">
+                        Date <i class="fa fa-sort{% if request.GET.order_by == '-date' %}-desc{% elif request.GET.order_by == 'date' %}-asc{% elif not request.GET.order_by %}-desc{% endif %}" aria-hidden="true"></i>
+                    </a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -60,7 +72,7 @@
         
             {% if f_ratings.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ f_ratings.previous_page_number }}">Prev</a>
+                    <a class="page-link" href="?page={{ f_ratings.previous_page_number }}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">Prev</a>
                 </li>
             {% else %}
                 <li class="page-item disabled"><span class="page-link">Prev</span></li>
@@ -70,13 +82,13 @@
                 {% if f_ratings.number == i %}
                 <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
                 {% else %}
-                <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                <li><a class="page-link" href="?page={{ i }}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">{{ i }}</a></li>
                 {% endif %}
             {% endfor %}
         
             {% if f_ratings.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ f_ratings.next_page_number }}">Next</a>
+                    <a class="page-link" href="?page={{ f_ratings.next_page_number }}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">Next</a>
                 </li>
             {% else %}
                 <li class="page-item disabled"><span class="page-link">Next</span></li>

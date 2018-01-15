@@ -138,8 +138,9 @@ def profile_films(request, username):
     var = get_object_or_404(Profile, user=user)
 
     page = request.GET.get('page')
+    order_by = request.GET.get('order_by', '-date')
 
-    f_ratings = FilmRating.objects.filter(user=user).order_by('-date')
+    f_ratings = FilmRating.objects.filter(user=user).order_by(order_by)
 
     paginator = Paginator(f_ratings, per_page=10)
     try:
@@ -161,8 +162,9 @@ def profile_serials(request, username):
     var = get_object_or_404(Profile, user=user)
 
     page = request.GET.get('page')
+    order_by = request.GET.get('order_by', '-date')
 
-    s_ratings = SerialRating.objects.filter(user=user).order_by('-date')
+    s_ratings = SerialRating.objects.filter(user=user).order_by(order_by)
 
     paginator = Paginator(s_ratings, per_page=10)
     try:

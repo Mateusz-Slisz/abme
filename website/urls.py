@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^person/', include('person.urls')),
     url(r'^article/', include('article.urls')),
     url(r'^analytics/', include('analytics.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
 ]
 
 if settings.DEBUG:

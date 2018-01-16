@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'person',
     'article',
     'analytics',
+    'tinymce',
 ]
 
 

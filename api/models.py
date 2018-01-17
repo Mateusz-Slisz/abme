@@ -1,7 +1,8 @@
 from django.db import models
 from datetime import datetime
 from django.utils import timezone
-from tinymce.models import HTMLField
+from ckeditor.fields import RichTextField
+
 
 class Person(models.Model):
     first_name = models.CharField(max_length=20)
@@ -97,7 +98,7 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
-    text = HTMLField()
+    text = RichTextField()
     image = models.ImageField(upload_to='images/articles/', default="images/none/blank_article.jpg")
     category = models.ManyToManyField(ArticleCategory, blank=True)
     created_date = models.DateTimeField(

@@ -151,9 +151,8 @@
                             {{ latest_article.created_date|date:"F d, Y"}}
                             </p>
                             <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
-                            <h4 class="card-title">{{ latest_article.title }}</h4>
+                            <h5 class="card-title">{{ latest_article.title|truncatechars:90 }}</h5>
                             </a>
-                            <p class="card-text">{{ latest_article.text|truncatechars:40 }}</p>
                         </div>
                     </div>
                 </div>

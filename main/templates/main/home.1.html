@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content %}
 <div class="row mt-3">
   <div class="col-xl-9 col-lg-9 col-md-12">
@@ -8,14 +9,14 @@
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
             <div class="card">
               <div class="row ">
-                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="height: 166px;">
+                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="height: 200px;">
                     <a href="{% url 'article_detail' pk=article.pk %}">
                       <div class="imgarticle" style="background: url('{{ article.image.url }}') center; background-size: cover;">
                       </div>
                     </a>
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 px-3">
-                  <div class="card-block px-3">
+                  <div class="card-body">
                     {% for category in article.category.all %}
                     <span class="article-category article-category-{{ category|lower|cut:" " }}">
                       {{ category }}
@@ -26,9 +27,8 @@
                       {{ article.created_date|date:"F d, Y"}}
                     </p>
                     <a href="{% url 'article_detail' pk=article.pk %}" class="article-title">
-                      <h4 class="card-title">{{ article.title }}</h4>
+                      <h4 class="card-title">{{ article.title|truncatechars:48 }}</h4>
                     </a>
-                    <p class="card-text">{{ article.text|truncatechars:40 }}</p>
                     <a href="{% url 'article_detail' pk=article.pk %}" id="readmore" class="pull-right">Read More</a>
                   </div>
                 </div>

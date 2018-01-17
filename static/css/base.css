@@ -246,6 +246,9 @@ a.detfilmo.active {
     font-weight: bold;
     font-size: 14px;
     font-family: Lato, sans-serif;
+    position: absolute;
+    bottom: 2px;
+    right: 40px;
 }
 
 #readmore:hover {

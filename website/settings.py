@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'person',
     'article',
     'analytics',
-    'tinymce',
+    'ckeditor',
 ]
 
 
@@ -153,3 +153,5 @@ LOGIN_REDIRECT_URL = 'website_home'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"

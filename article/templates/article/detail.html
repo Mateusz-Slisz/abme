@@ -9,9 +9,11 @@
                 </div>
                 <div class="card-body">
                     {% for category in article.category.all %}
+                    <a href="{% url 'article_category' name=category|lower %}">
                     <span class="article-category article-category-{{ category|lower|cut:" " }}">
                         {{ category }}
                     </span>
+                    </a>
                     {% endfor %}
                     <p class="mt-1 article-date">
                         <i class="fa fa-calendar" aria-hidden="true"></i>

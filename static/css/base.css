@@ -266,8 +266,16 @@ a.detfilmo.active {
     color: #FFA955;
 }
 
-.article-category-tvmovie{
+.article-category-film:hover {
+    color: rgb(255, 139, 23);
+}
+
+.article-category-serial {
     color: #B5BC02;
+}
+
+.article-category-serial:hover {
+    color: rgb(115, 119, 4);
 }
 
 .article-title {
@@ -364,3 +372,16 @@ a.detfilmo.active {
     border-right: 1px solid black !important;
     border-bottom: 1px solid black !important;
 }
+
+blockquote {
+    font-style: italic;
+    font-family: Georgia, Times, "Times New Roman", serif;
+    padding: 2px 0;
+    border-style: solid;
+    border-color: #ccc;
+    border-width: 0;
+    padding-left: 20px;
+    padding-right: 8px;
+    border-left-width: 5px;
+}
+

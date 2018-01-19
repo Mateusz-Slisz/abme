@@ -155,3 +155,25 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'UltraFull',
+        'height': 500,
+        'toolbar_UltraFull': [
+            ['Font', 'FontSize', 'Format'],
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+            [
+                'NumberedList', 'BulletedList', '-',
+                'Outdent', 'Indent', '-',
+                'Blockquote', '-',
+                'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'
+            ],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule', 'PageBreak', 'Smiley', 'SpecialChar'],
+            ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+            ['TextColor', 'BGColor'],
+            ['Maximize', 'Source'],
+        ],
+        'forcePasteAsPlainText': True,
+    },
+}

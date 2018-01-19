@@ -18,9 +18,11 @@
                 <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 px-3">
                   <div class="card-body">
                     {% for category in article.category.all %}
+                    <a href="{% url 'article_category' name=category|lower %}">
                     <span class="article-category article-category-{{ category|lower|cut:" " }}">
                       {{ category }}
                     </span>
+                    </a>
                     {% endfor %}
                     <p class="mt-1 article-date">
                       <i class="fa fa-calendar" aria-hidden="true"></i>

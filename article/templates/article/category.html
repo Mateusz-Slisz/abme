@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mt-3">
+    <div class="col-xl-9 col-lg-9 col-md-12">
+        <h1 id="news">{{ art_category }} news</h1>
+        <div class="articles row">
+            {% for article in articles %}
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
+                  <div class="card">
+                    <div class="row ">
+                      <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="height: 200px;">
+                          <a href="{% url 'article_detail' pk=article.pk %}">
+                            <div class="imgarticle" style="background: url('{{ article.image.url }}') center; background-size: cover;">
+                            </div>
+                          </a>
+                      </div>
+                      <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 px-3">
+                        <div class="card-body">
+                          {% for category in article.category.all %}
+                          <a href="{% url 'article_category' name=category|lower %}">
+                          <span class="article-category article-category-{{ category|lower|cut:" " }}">
+                            {{ category }}
+                          </span>
+                          </a>
+                          {% endfor %}
+                          <p class="mt-1 article-date">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            {{ article.created_date|date:"F d, Y"}}
+                          </p>
+                          <a href="{% url 'article_detail' pk=article.pk %}" class="article-title">
+                            <h4 class="card-title">{{ article.title|truncatechars:48 }}</h4>
+                          </a>
+                          <a href="{% url 'article_detail' pk=article.pk %}" id="readmore" class="pull-right">Read More</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+          </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none">
+        <div class="search">
+            <form action="{% url 'search_article_list' %}">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control" placeholder="Search article" name="q">
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </button>  
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="latest-article">
+            <h5>Latest article:</h5>
+            <div class="card" >
+                <div class="card-body">
+                    <p class="article-date">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{ latest_article.created_date|date:"F d, Y"}}
+                    </p>
+                    <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                    <h5 class="card-title">{{ latest_article.title|truncatechars:90 }}</h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

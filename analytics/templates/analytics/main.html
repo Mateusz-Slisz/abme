@@ -1,0 +1,55 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ABME</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link href="{% static 'css/base.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css'%}">
+    <script src="https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  </head>
+  <body class="pt-5">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #1e2225;">
+        <div class="container">
+        <a class="navbar-brand" href="/" id="logo">
+          ABME
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+        data-target="#navbarCollapseItems" aria-expended="false" aria-label="Toggle Navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapseItems">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="/">Home <span class="sr-only"></span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+              </li>
+              <li class="nav-item inline">
+                <a class="nav-link sign text-light" href="{% url 'user_signup' %}">Sign up</a>
+              </li>
+              <li class="navbar-text inline">or</li>
+              <li class="nav-item inline last-inline">
+                <a class="nav-link sign text-light" href="{% url 'website_login' %}">Login</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+  </body>
+</html>

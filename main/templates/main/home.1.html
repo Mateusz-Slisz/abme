@@ -10,7 +10,7 @@
             <div class="card">
               <div class="row ">
                 <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="height: 200px;">
-                    <a href="{% url 'article_detail' pk=article.pk %}">
+                    <a href="{% url 'article_detail' slug=article.slug pk=article.pk %}">
                       <div class="imgarticle" style="background: url('{{ article.image.url }}') center; background-size: cover;">
                       </div>
                     </a>
@@ -28,10 +28,10 @@
                       <i class="fa fa-calendar" aria-hidden="true"></i>
                       {{ article.created_date|date:"F d, Y"}}
                     </p>
-                    <a href="{% url 'article_detail' pk=article.pk %}" class="article-title">
+                    <a href="{% url 'article_detail' slug=article.slug pk=article.pk %}" class="article-title">
                       <h4 class="card-title">{{ article.title|truncatechars:48 }}</h4>
                     </a>
-                    <a href="{% url 'article_detail' pk=article.pk %}" id="readmore" class="pull-right">Read More</a>
+                    <a href="{% url 'article_detail' slug=article.slug pk=article.pk %}" id="readmore" class="pull-right">Read More</a>
                   </div>
                 </div>
               </div>

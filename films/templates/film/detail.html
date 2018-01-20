@@ -71,7 +71,7 @@
                                 {% endif %}
                                 <td>
                                     {% for director in film.directors.all %}
-                                    <a class="person" href="{% url 'person_detail' first_name=director.first_name last_name=director.last_name %}"><span class="h6">{{ director }}</span></a>{% if forloop.last %}{% else %}, {% endif %}
+                                    <a class="person" href="{% url 'person_detail' slug=director.slug pk=director.pk %}"><span class="h6">{{ director }}</span></a>{% if forloop.last %}{% else %}, {% endif %}
                                     {% endfor %}
                                 </td>
                             </tr>
@@ -83,7 +83,7 @@
                                 {% endif %}
                                 <td>
                                     {% for writer in film.writers.all %}
-                                    <a class="person" href="{% url 'person_detail' first_name=writer.first_name last_name=writer.last_name %}"><span class="h6">{{ writer }}</span></a>{% if forloop.last %}{% else %}, {% endif %}
+                                    <a class="person" href="{% url 'person_detail' slug=writer.slug pk=writer.pk %}"><span class="h6">{{ writer }}</span></a>{% if forloop.last %}{% else %}, {% endif %}
                                     {% endfor %}
                                 </td>
                             </tr>
@@ -108,7 +108,7 @@
                             <img height="45" width="45" src="{{ cast.actor.photo.url }}">
                         </td>
                         <td class="first-actor-td">
-                            <a class="person" href="{% url 'person_detail' first_name=cast.actor.first_name last_name=cast.actor.last_name %}">
+                            <a class="person" href="{% url 'person_detail' slug=cast.actor.slug pk=cast.actor.pk %}">
                                 <h6>{{ cast.actor }}</h6>
                             </a>
                         </td>
@@ -123,7 +123,7 @@
                             <img height="45" width="45" src="{{ cast.actor.photo.url }}">
                         </td>
                         <td class="actor-td">
-                            <a class="person" href="{% url 'person_detail' first_name=cast.actor.first_name last_name=cast.actor.last_name %}">
+                            <a class="person" href="{% url 'person_detail' slug=cast.actor.slug pk=cast.actor.pk %}">
                                 <h6>{{ cast.actor }}</h6>
                             </a>
                         </td>
@@ -160,7 +160,7 @@
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                         {{ latest_article.created_date|date:"F d, Y"}}
                         </p>
-                        <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                        <a href="{% url 'article_detail' slug=latest_article.slug pk=latest_article.pk %}" class="article-title">
                         <h5 class="card-title">{{ latest_article.title|truncatechars:90 }}</h5>
                         </a>
                     </div>

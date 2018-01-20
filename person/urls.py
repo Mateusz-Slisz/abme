@@ -3,6 +3,6 @@ from person import views as person_views
 
 
 urlpatterns = [
-    url(r'^(?P<first_name>[\w.@+-]+)-(?P<last_name>[\w.@+-]+)$',
+    url(r'^(?P<slug>[-\w]+)-(?P<pk>\d+)/$',
         person_views.detail, name='person_detail'),
 ]

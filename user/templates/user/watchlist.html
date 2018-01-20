@@ -35,7 +35,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-2">
                     <div class="watchlist-size">
                         <div>
-                            <a class="detail" href="{% url 'film_detail' pk=i.film.pk %}">
+                            <a class="detail" href="{% url 'film_detail' slug=i.film.slug pk=i.film.pk %}">
                                 <img class="pull-left poster poster-border" src="{{ i.film.image.url }}" height="210px" width="150px">
                             </a>
                             <a class="dellfilmwatchlist ribbon" del_film_watchlist="{{ i.film.id }}" href="">
@@ -43,7 +43,7 @@
                             </a>
                         </div>
                         <div>
-                            <a class="detail text-center" href="{% url 'film_detail' pk=i.film.pk %}">
+                            <a class="detail text-center" href="{% url 'film_detail' slug=i.film.slug pk=i.film.pk %}">
                                 <h6 class="m-0">{{ i.film.title|truncatechars:15 }}</h6>
                             </a>
                             <span class="h6 watchlist-year pull-left">Film ({{ i.film.year }})</span>
@@ -56,7 +56,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-2">
                     <div class="watchlist-size">
                         <div>
-                            <a class="detail" href="{% url 'serial_detail' pk=i.serial.pk %}">
+                            <a class="detail" href="{% url 'serial_detail' slug=i.serial.slug pk=i.serial.pk %}">
                                 <img class="pull-left poster poster-border" src="{{ i.serial.image.url }}" height="210px" width="150px">
                             </a>
                             <a class="dellserialwatchlist ribbon" del_serial_watchlist="{{ i.serial.id }}" href="">
@@ -64,7 +64,7 @@
                             </a>
                         </div>
                         <div>
-                            <a class="detail text-center" href="{% url 'serial_detail' pk=i.serial.pk %}">
+                            <a class="detail text-center" href="{% url 'serial_detail' slug=i.serial.slug pk=i.serial.pk %}">
                                 <h6 class="m-0">{{ i.serial.title|truncatechars:15 }}</h6>
                             </a>
                             <span class="h6 watchlist-year pull-left">TV Series ({{ i.serial.year }}- )</span>

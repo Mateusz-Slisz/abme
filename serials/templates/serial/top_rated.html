@@ -37,12 +37,12 @@
                         <span class="h6">{{ forloop.counter0|add:serials.start_index }}</span>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
-                        <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
+                        <a class="detail" href="{% url 'serial_detail' slug=serial.slug pk=serial.pk %}">
                             <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
                         </a>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
-                        <a class="detail" href="{% url 'serial_detail' pk=serial.pk %}">
+                        <a class="detail" href="{% url 'serial_detail' slug=serial.slug pk=serial.pk %}">
                             <h6>{{ serial.title }}</h6>
                         </a>
                         ({{ serial.year }}- )
@@ -100,7 +100,7 @@
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                         {{ latest_article.created_date|date:"F d, Y"}}
                         </p>
-                        <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                        <a href="{% url 'article_detail' slug=latest_article.slug pk=latest_article.pk %}" class="article-title">
                         <h5 class="card-title">{{ latest_article.title|truncatechars:90 }}</h5>
                         </a>
                     </div>

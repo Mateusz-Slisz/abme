@@ -37,12 +37,12 @@
                         <span class="h6">{{ forloop.counter0|add:films.start_index }}</span>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
-                        <a class="detail" href="{% url 'film_detail' pk=film.pk %}">
+                        <a class="detail" href="{% url 'film_detail' slug=film.slug pk=film.pk %}">
                             <img class="poster" height="105" width="75" src="{{ film.image.url }}">
                         </a>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
-                        <a class="detail" href="{% url 'film_detail' pk=film.pk %}">
+                        <a class="detail" href="{% url 'film_detail' slug=film.slug pk=film.pk %}">
                             <h6>{{ film.title }}</h6>
                         </a>
                         ({{ film.year }})

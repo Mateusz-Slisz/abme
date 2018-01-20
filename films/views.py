@@ -98,8 +98,8 @@ def list(request):
         return render(request, 'film/list.html', context)
 
 
-def detail(request, pk):
-    film = get_object_or_404(Film, pk=pk)
+def detail(request, pk, slug):
+    film = get_object_or_404(Film, pk=pk, slug=slug)
     current_film = Film.objects.filter(id=film.id).annotate(
         average_score=Coalesce(Round(Avg('filmrating__rate')), 0),
         votes=Count('filmrating__user', distinct=True),

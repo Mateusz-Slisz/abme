@@ -73,7 +73,7 @@
                                     {% endif %}
                                     <td>
                                         {% for creator in serial.creators.all %}
-                                        <a class="person" href="{% url 'person_detail' first_name=creator.first_name last_name=creator.last_name %}"><span class="h6">{{ creator }}</span></a>{% if forloop.last %}{% else %},{% endif %} 
+                                        <a class="person" href="{% url 'person_detail' slug=creator.slug pk=creator.pk %}"><span class="h6">{{ creator }}</span></a>{% if forloop.last %}{% else %},{% endif %} 
                                         {% endfor %}
                                     </td>
                                 </tr>
@@ -98,7 +98,7 @@
                                 <img height="45" width="45" src="{{ cast.actor.photo.url }}">
                             </td>
                             <td class="first-actor-td">
-                                <a class="person" href="{% url 'person_detail' first_name=cast.actor.first_name last_name=cast.actor.last_name %}">
+                                <a class="person" href="{% url 'person_detail' slug=cast.actor.slug pk=cast.actor.pk %}">
                                     <h6>{{ cast.actor }}</h6>
                                 </a>
                             </td>
@@ -113,7 +113,7 @@
                                 <img height="45" width="45" src="{{ cast.actor.photo.url }}">
                             </td>
                             <td class="actor-td">
-                                <a class="person" href="{% url 'person_detail' first_name=cast.actor.first_name last_name=cast.actor.last_name %}">
+                                <a class="person" href="{% url 'person_detail' slug=cast.actor.slug pk=cast.actor.pk %}">
                                     <h6>{{ cast.actor }}</h6>
                                 </a>
                             </td>
@@ -150,7 +150,7 @@
                             <i class="fa fa-calendar" aria-hidden="true"></i>
                             {{ latest_article.created_date|date:"F d, Y"}}
                             </p>
-                            <a href="{% url 'article_detail' pk=latest_article.pk %}" class="article-title">
+                            <a href="{% url 'article_detail' slug=latest_article.slug pk=latest_article.pk %}" class="article-title">
                             <h5 class="card-title">{{ latest_article.title|truncatechars:90 }}</h5>
                             </a>
                         </div>

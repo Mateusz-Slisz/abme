@@ -41,12 +41,12 @@
         {% for rating in f_ratings %}
         <tr class="row mr-auto ml-auto">
             <th scope="row" class="col-2 col-lg-1">
-                <a class="detail" href="{% url 'film_detail' pk=rating.film.pk %}">
+                <a class="detail" href="{% url 'film_detail' slug=rating.film.slug pk=rating.film.pk %}">
                     <img class="poster" height="70" width="50" src="{{ rating.film.image.url }}">
                 </a>
             </th>
             <td class="col-2 col-lg-4">
-                <a class="detail" href="{% url 'film_detail' pk=rating.film.pk %}">
+                <a class="detail" href="{% url 'film_detail' slug=rating.film.slug pk=rating.film.pk %}">
                     <h6>{{ rating.film.title }}</h6>
                 </a>
                 ({{ rating.film.year }})

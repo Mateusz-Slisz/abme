@@ -40,9 +40,9 @@
         <tbody>
         {% for rating in s_ratings %}
         <tr class="row mr-auto ml-auto">
-            <td class="col-2 col-lg-1"><a class="detail" href="{% url 'serial_detail' pk=rating.serial.pk %}"><img class="poster" height="70" width="50" src="{{ rating.serial.image.url }}"></a></td>
+            <td class="col-2 col-lg-1"><a class="detail" href="{% url 'serial_detail' slug=rating.serial.slug pk=rating.serial.pk %}"><img class="poster" height="70" width="50" src="{{ rating.serial.image.url }}"></a></td>
             <td class="col-2 col-lg-4">
-                <a class="detail" href="{% url 'serial_detail' pk=rating.serial.pk %}">
+                <a class="detail" href="{% url 'serial_detail' slug=rating.serial.slug pk=rating.serial.pk %}">
                     <h6>{{ rating.serial.title }}</h6>
                 </a>
                 ({{ rating.serial.year }})

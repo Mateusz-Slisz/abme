@@ -9,8 +9,8 @@ from django.db.models import Avg
 
 
 
-def detail(request, first_name, last_name):
-    person = get_object_or_404(Person, first_name=first_name, last_name=last_name)
+def detail(request, slug, pk):
+    person = get_object_or_404(Person, slug=slug, pk=pk)
     serials = Serial.objects.get_queryset().annotate(
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0))
     films = Film.objects.get_queryset().annotate(

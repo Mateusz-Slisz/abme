@@ -2,22 +2,29 @@ from django.db import models
 from datetime import datetime
 from django.utils import timezone
 from ckeditor.fields import RichTextField
+from django.template.defaultfilters import slugify
 
 
 class Person(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     birthdate = models.DateField(null=True, blank=True)
-    biography = models.CharField(max_length=200, default="""Lorem ipsum dolor sit amet,
+    biography = models.CharField(max_length=500, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
     iaculis id. Nulla hendrerit risus at justo imperdiet, eget sagittis felis consequat. 
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
     Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
     blandit ante at ipsum feugiat, vitae ultrices enim blandit.""")
     photo = models.ImageField(upload_to="photos/persons/", default="photos/none/default.png")
+    slug = models.SlugField(unique=True, blank=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.first_name) + "-" + slugify(self.last_name)
+        super(Person, self).save(*args, **kwargs)
 
 
 class Category(models.Model):
@@ -49,9 +56,16 @@ class Film(models.Model):
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
     Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
     blandit ante at ipsum feugiat, vitae ultrices enim blandit.""", blank=True)
+    slug = models.SlugField(unique=True, blank=True)
+
 
     def __str__(self):
         return f'{self.title}'
+    
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Film, self).save(*args, **kwargs)
 
 
 class Filmcast(models.Model):
@@ -78,9 +92,16 @@ class Serial(models.Model):
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
     Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
     blandit ante at ipsum feugiat, vitae ultrices enim blandit.""", blank=True)
+    slug = models.SlugField(unique=True, blank=True)
+
 
     def __str__(self):
         return f'{self.title}'
+    
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Serial, self).save(*args, **kwargs)
 
 
 class Serialcast(models.Model):
@@ -103,7 +124,11 @@ class Article(models.Model):
     category = models.ManyToManyField(ArticleCategory, blank=True)
     created_date = models.DateTimeField(
         default=timezone.now)
+    slug = models.SlugField(unique=True, blank=True)
 
     def __str__(self):
         return f'{self.title}'
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Article, self).save(*args, **kwargs)

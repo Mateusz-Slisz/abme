@@ -98,8 +98,8 @@ def list(request):
         return render(request, 'serial/list.html', context)
 
 
-def detail(request, pk):
-    serial = get_object_or_404(Serial, pk=pk)
+def detail(request, slug, pk):
+    serial = get_object_or_404(Serial, slug=slug, pk=pk)
     current_serial = Serial.objects.filter(id=serial.id).annotate(
         average_score=Coalesce(Round(Avg('serialrating__rate')), 0),
         votes=Count('serialrating__user', distinct=True),

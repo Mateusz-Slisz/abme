@@ -16,7 +16,7 @@
     font-size: 12px;
 }
 
-.extras-b .col-lg-6 {
+.extras-b .col-md-4 {
     text-align: center;
 }
 
@@ -263,7 +263,7 @@ a.detfilmo.active {
 }
 
 .article-category-film {
-    color: #FFA955;
+    color: rgb(255, 169, 85);
 }
 
 .article-category-film:hover {
@@ -271,11 +271,11 @@ a.detfilmo.active {
 }
 
 .article-category-serial {
-    color: #B5BC02;
+    color: rgb(181, 188, 2);
 }
 
 .article-category-serial:hover {
-    color: rgb(115, 119, 4);
+    color: rgb(159, 165, 0);
 }
 
 .article-title {

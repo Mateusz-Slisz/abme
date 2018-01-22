@@ -44,12 +44,12 @@
                     <span class="h6">{{ forloop.counter0|add:persons.start_index }}</span>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
-                    <a class="detail" href="{% url 'person_detail' first_name=person.first_name last_name=person.last_name %}">
+                    <a class="detail" href="{% url 'person_detail' slug=person.slug pk=person.pk %}">
                         <img class="poster" height="105" width="105" src="{{ person.photo.url }}">
                     </a>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
-                    <a class="detail" href="{% url 'person_detail' first_name=person.first_name last_name=person.last_name %}">
+                    <a class="detail" href="{% url 'person_detail' slug=person.slug pk=person.pk %}">
                         <span class="h6">{{ person.first_name }} {{ person.last_name }}</span>
                     </a>
                 </div>

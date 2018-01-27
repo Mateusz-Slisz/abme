@@ -29,7 +29,7 @@
             </div>
         
             <div class="col-lg-9 col-md-8 col-sm-6 col-6">
-                {% if all_votes > 10 %}
+                {% if all_votes %}
                 <div class="chart" >
                     <div class="row">
                         <div class="col-lg-7 mx-auto">
@@ -88,7 +88,7 @@
             </div>
         </div>
     </div>
-    {% if all_votes > 10 %}
+    {% if all_votes %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script type="text/javascript">

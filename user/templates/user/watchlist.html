@@ -2,7 +2,7 @@
 {% block content %}
 <div class="row mt-2">
     <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
-        <h1 class="text-center">Your watchlist</h1>
+        <h1 class="">Your watchlist</h1>
         <form>
                 <div class="form-row">
                     <div class="form-group col-xl-5 col-lg-5 col-md-4 col-sm-4 col-4">
@@ -73,9 +73,15 @@
                     </div>
                 </div>
                 {% endif %}
+            {% empty %}
+                <div class="col-6 mr-auto ml-auto mt-5">
+                    <h1 class="text-center text-muted">:(</h1>
+                    <h5 class="text-center">Looks like your watchlist is empty</h5>
+                    <h6 class="text-center">Feel free and add some.</h6>
+                </div>
             {% endfor %}
+            {% if watchlist_all.has_other_pages %}
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-5">
-                {% if watchlist_all.has_other_pages %}
                 <nav aria-label="...">
                     <ul class="pagination mb-5 pull-right">
                 
@@ -105,8 +111,8 @@
                 
                     </ul>
                 </nav>
-                {% endif %}
             </div>
+            {% endif %}
         </div>
     </div>
     <div class="col-xl-3 d-xl-block d-none">

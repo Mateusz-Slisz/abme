@@ -16,7 +16,7 @@ class Person(models.Model):
     Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
     blandit ante at ipsum feugiat, vitae ultrices enim blandit.""")
     photo = models.ImageField(upload_to="photos/persons/", default="photos/none/default.png")
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -56,7 +56,7 @@ class Film(models.Model):
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
     Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
     blandit ante at ipsum feugiat, vitae ultrices enim blandit.""", blank=True)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True)
 
 
     def __str__(self):
@@ -92,7 +92,7 @@ class Serial(models.Model):
     Ut tempor luctus felis id ullamcorper. Ut fringilla pharetra magna a scelerisque.
     Maecenas nec sem varius mi rhoncus scelerisque sed sed enim. Suspendisse
     blandit ante at ipsum feugiat, vitae ultrices enim blandit.""", blank=True)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True)
 
 
     def __str__(self):
@@ -124,7 +124,7 @@ class Article(models.Model):
     category = models.ManyToManyField(ArticleCategory, blank=True)
     created_date = models.DateTimeField(
         default=timezone.now)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return f'{self.title}'

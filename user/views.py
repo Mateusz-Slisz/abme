@@ -96,26 +96,15 @@ def profile(request, username):
     f_ratings = filmrating.order_by('-rate')[0:4]
     s_ratings = serialrating.order_by('-rate')[0:4]
 
-    user_rate_1 = filmrating.filter(rate=1).count() + serialrating.filter(rate=1).count()
-    user_rate_2 = filmrating.filter(rate=2).count() + serialrating.filter(rate=2).count()
-    user_rate_3 = filmrating.filter(rate=3).count() + serialrating.filter(rate=3).count()
-    user_rate_4 = filmrating.filter(rate=4).count() + serialrating.filter(rate=4).count()
-    user_rate_5 = filmrating.filter(rate=5).count() + serialrating.filter(rate=5).count()
-    user_rate_6 = filmrating.filter(rate=6).count() + serialrating.filter(rate=6).count()
-    user_rate_7 = filmrating.filter(rate=7).count() + serialrating.filter(rate=7).count()
-    user_rate_8 = filmrating.filter(rate=8).count() + serialrating.filter(rate=8).count()
-    user_rate_9 = filmrating.filter(rate=9).count() + serialrating.filter(rate=9).count()
-    user_rate_10 = filmrating.filter(rate=10).count() + serialrating.filter(rate=10).count()
+    user_votes = []
+    for i in range(1, 11):
+        fvotes = filmrating.filter(rate=i).count()
+        svotes = serialrating.filter(rate=i).count()
+        user_votes.append(fvotes + svotes)
 
-    user_votes = [user_rate_1, user_rate_2, user_rate_3, user_rate_4, user_rate_5,
-                  user_rate_6, user_rate_7, user_rate_8, user_rate_9, user_rate_10]
-
-    all_votes = 0
-
-    for rate in user_votes:
-        all_votes += rate
-
+    all_votes = sum(user_votes)
     max_vote = max(user_votes)
+
     f_rating_count = filmrating.count()
     s_rating_count = serialrating.count()
 

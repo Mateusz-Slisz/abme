@@ -36,33 +36,47 @@
     <div class="main">
       <h3 class="mt-3">Dashboard</h3>
       <div class="row">
-
-        <div class="col-4">
-          asd
-        </div>
-
-        <div class="col-4">
-          asd
-        </div>
-
-        <div class="col-4">
-          asd
-        </div>
-
-        <div class="col-6">
+        <div class="col-12 mb-3">
           <div class="card">
             <div class="card-header">
               <i class="fa fa-line-chart"></i>
-              Cast votes line chart
+              Cast votes in {{ today.year }}
             </div>
             <div class="card-body">
               <div class="chart" >
-                  <canvas id="myChart" width="200" height="100"></canvas>
+                  <canvas id="myChart" height="100" width="400"></canvas>
               </div>
             </div>
           </div>
         </div>
 
+        <div class="col-8">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-bar-chart"></i>
+              Amount of ratings in {{ today.year }}
+            </div>
+            <div class="card-body">
+              <div class="chart" >
+                  <canvas id="aorChart" ></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-pie-chart"></i>
+              Amount of votes in {{ today.year }}
+            </div>
+            <div class="card-body">
+              <div class="chart" >
+                  <canvas id="aovChart"  height="100" width="100"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -73,6 +87,73 @@
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
+                  labels: [{% for i in current_months %}'{{ i }}', {% endfor %}],
+                  datasets: [{
+                      label: 'Number of votes',
+                      data: [{% for i in all_votes %}{{ i }}, {% endfor %}],
+                      backgroundColor: '#99b3ff50',
+                      borderColor: '#3e7899',
+                      borderWidth: 2,
+                      pointBackgroundColor: '#287eaf',
+                      pointBorderWidth: 1,
+                  }],
+                },
+                options: {
+                    legend: {
+                        display: false,
+                    },
+                }});
+
+            var aov = document.getElementById("aovChart");
+            var aovChart = new Chart(aov, {
+                type: 'doughnut',
+                data: {
+                  datasets: [{
+                      data: [{{ film_votes_countyear }}, {{ serial_votes_countyear }}],
+                      backgroundColor: ['#4285f4', '#ea4335'],
+                  }],
+              
+                  // These labels appear in the legend and in the tooltips when hovering different arcs
+                  labels: [
+                      'Films',
+                      'TV Movies',
+                  ]
+              }});
+
+            var aor = document.getElementById("aorChart");
+            var aorChart = new Chart(aor, {
+                type: 'bar',
+                data: {
+                  labels: [{% for i in all_rate_votes %}{{ forloop.counter }}, {% endfor %}],
+                  datasets: [{
+                      label: 'Number of ratings',
+                      data: [{% for i in all_rate_votes %}{{ i }}, {% endfor %}],
+                      backgroundColor: [
+                        '#0085c3',
+                        '#7ab800',
+                        '#f2af00',
+                        '#dc5034',
+                        '#ce1126',
+                        '#b7295a',
+                        '#6e2585',
+                        '#71c6c1',
+                        '#5482ab',
+                        '#444444',
+                        ],
+                  }],
+                },
+                options: {
+                    legend: {
+                        display: false,
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontSize: 12,
+                                min: 0,
+                            }
+                        }],
+                    },
                 }});
   </script>
 

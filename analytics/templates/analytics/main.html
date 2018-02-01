@@ -35,31 +35,98 @@
 
     <div class="main">
       <h3 class="mt-3">Dashboard</h3>
+
       <div class="row">
         <div class="col-12 mb-3">
           <div class="card">
             <div class="card-header">
               <i class="fa fa-line-chart"></i>
-              Cast votes in {{ today.year }}
+              Dependence in {{ today.year }}
             </div>
             <div class="card-body">
-              <div class="chart" >
-                  <canvas id="myChart" height="100" width="400"></canvas>
+              <div class="row">
+                <div class="chart col-10">
+                    <canvas id="myChart" height="100" width="300"></canvas>
+                </div>
+                <div class="col-2 text-center my-auto">
+                    <div class="h4" style="color: #3e7899">Votes</div>
+                    <div class="small">
+                      <span class="text-muted">MAX:</span>
+                      <span class="text-success"> {{ max_all_votes }}</span>
+                    </div>
+                    <div class="small">
+                        <span class="text-muted">MIN:</span>
+                        <span class="text-danger"> {{ min_all_votes }}</span>
+                    </div>
+                    <hr>
+                    <div class="h4" style="color: #00AA8D">Watchlist</div>
+                    <div class="small">
+                      <span class="text-muted">MAX:</span>
+                      <span class="text-success"> {{ max_all_watchlist }}</span>
+                    </div>
+                    <div class="small">
+                        <span class="text-muted">MIN:</span>
+                        <span class="text-danger"> {{ min_all_watchlist }}</span>
+                    </div>
+                    <hr>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
+      <div class="row">
         <div class="col-8">
-          <div class="card">
-            <div class="card-header">
-              <i class="fa fa-bar-chart"></i>
-              Amount of ratings in {{ today.year }}
-            </div>
-            <div class="card-body">
-              <div class="chart" >
-                  <canvas id="aorChart" ></canvas>
+          <div class="row">
+
+            <div class="col-12">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fa fa-bar-chart"></i>
+                  Ratings in {{ today.year }}
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="chart col-10">
+                        <canvas id="aorChart" height="40" width="100"></canvas>
+                    </div>
+                    <div class="col-2 text-center my-auto">
+                      <div class="h4 text-primary">{{ sum_rate_votes }} votes</div>
+                      <div class="small text-muted">TOTAL AMOUNT</div>
+                      <hr>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card">
+                  <div class="card-header">
+                    <i class="fa fa-pie-chart"></i>
+                    Votes in {{ today.year }}
+                  </div>
+                  <div class="card-body">
+                    <div class="chart" >
+                        <canvas id="aovChart"></canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                      <i class="fa fa-pie-chart"></i>
+                      Watchlist in {{ today.year }}
+                    </div>
+                    <div class="card-body">
+                      <div class="chart" >
+                          <canvas id="aowChart"></canvas>
+                      </div>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
@@ -67,12 +134,18 @@
         <div class="col-4">
           <div class="card">
             <div class="card-header">
-              <i class="fa fa-pie-chart"></i>
-              Amount of votes in {{ today.year }}
+              <i class="fa fa-bar-chart"></i>
+               New things in {{ today.year }}
             </div>
             <div class="card-body">
-              <div class="chart" >
-                  <canvas id="aovChart"  height="100" width="100"></canvas>
+              <div class="row">
+                <div class="col-6 text-center my-auto mr-auto ml-auto">
+                    <div class="h4">{{ sum_new_things }} new things</div>
+                    <hr>
+                </div>
+                <div class="chart col-12">
+                    <canvas id="ntChart"  height="100" width="100"></canvas>
+                </div>
               </div>
             </div>
           </div>
@@ -96,11 +169,33 @@
                       borderWidth: 2,
                       pointBackgroundColor: '#287eaf',
                       pointBorderWidth: 1,
+                  },
+                  {
+                      label: 'Number of watchlist',
+                      data: [{% for i in all_watchlist %}{{ i }}, {% endfor %}],
+                      backgroundColor: '#00BF9A50',
+                      borderColor: '#00AA8D',
+                      borderWidth: 2,
+                      pointBackgroundColor: '#00AA8D',
+                      pointBorderWidth: 1,
                   }],
                 },
                 options: {
-                    legend: {
-                        display: false,
+                    tooltips: {
+                      enabled: true,
+                      mode: 'label'
+                    },         
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                              min: 0,
+                              callback: function(value, index, values) {
+                                  if (Math.floor(value) === value) {
+                                      return value;
+                                  }
+                              }
+                            }
+                        }],
                     },
                 }});
 
@@ -112,8 +207,20 @@
                       data: [{{ film_votes_countyear }}, {{ serial_votes_countyear }}],
                       backgroundColor: ['#4285f4', '#ea4335'],
                   }],
-              
-                  // These labels appear in the legend and in the tooltips when hovering different arcs
+                  labels: [
+                      'Films',
+                      'TV Movies',
+                  ]
+              }});
+            
+            var aow = document.getElementById("aowChart");
+            var aowChart = new Chart(aow, {
+                type: 'doughnut',
+                data: {
+                  datasets: [{
+                      data: [{{ film_watchlist_countyear }}, {{ serial_watchlist_countyear }}],
+                      backgroundColor: ['#4285f4', '#ea4335'],
+                  }],
                   labels: [
                       'Films',
                       'TV Movies',
@@ -149,8 +256,49 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                fontSize: 12,
-                                min: 0,
+                              min: 0,
+                              callback: function(value, index, values) {
+                                  if (Math.floor(value) === value) {
+                                      return value;
+                                  }
+                              }
+                            }
+                        }],
+                    },
+                }});
+              
+            var nt = document.getElementById("ntChart");
+            var ntChart = new Chart(nt, {
+                type: 'horizontalBar',
+                data: {
+                  labels: [
+                    "Votes",
+                    "Watchlist",
+                    "Articles"
+                    ],
+                  datasets: [{
+                      label: 'Quantity',
+                      data: [{{ sum_all_votes }}, {{ sum_all_watchlist }}, {{ sum_all_articles }}],
+                      backgroundColor: [
+                        '#0085c3',
+                        '#7ab800',
+                        '#f2af00',
+                        ],
+                  }],
+                },
+                options: {
+                    legend: {
+                        display: false,
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                              min: 0,
+                              callback: function(value, index, values) {
+                                  if (Math.floor(value) === value) {
+                                      return value;
+                                  }
+                              }
                             }
                         }],
                     },

@@ -28,6 +28,10 @@
     line-height: 50px;
     cursor: pointer;
   }
+  .nav-side-menu a {
+    color: #e1ffff !important;
+    text-decoration: none !important;
+  }
   .nav-side-menu ul :not(collapsed) .arrow:before,
   .nav-side-menu li :not(collapsed) .arrow:before {
     font-family: FontAwesome;
@@ -71,7 +75,7 @@
     text-decoration: none;
     color: #e1ffff;
   }
-  .nav-side-menu li a i {
+  .nav-side-menu li i {
     padding-left: 10px;
     width: 20px;
     padding-right: 20px;

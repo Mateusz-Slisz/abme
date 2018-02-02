@@ -48,7 +48,8 @@ class Film(models.Model):
     image = models.ImageField(upload_to="images/films/", default="images/none/blank_poster.jpg")
     directors = models.ManyToManyField(Person, blank=True, related_name='film_directors')
     writers = models.ManyToManyField(Person, blank=True, related_name='film_writers')
-    actors = models.ManyToManyField(Person, through='Filmcast', blank=True, related_name='film_actors')
+    actors = models.ManyToManyField(Person, through='Filmcast',
+                                    blank=True, related_name='film_actors')
     category = models.ManyToManyField(Category, blank=True)
     description = models.CharField(max_length=500, default="""Lorem ipsum dolor sit amet,
     consectetur adipiscing elit. Etiam maximus efficitur lacus, sit amet pretium lorem 
@@ -61,7 +62,7 @@ class Film(models.Model):
 
     def __str__(self):
         return f'{self.title}'
-    
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -83,7 +84,8 @@ class Serial(models.Model):
     year = models.IntegerField(choices=YEARS)
     category = models.ManyToManyField(Category, blank=True)
     image = models.ImageField(upload_to="images/serials/", default="images/none/blank_poster.jpg")
-    actors = models.ManyToManyField(Person, through='Serialcast', blank=True, related_name='serial_actors')
+    actors = models.ManyToManyField(Person, through='Serialcast',
+                                    blank=True, related_name='serial_actors')
     seasons = models.PositiveSmallIntegerField(default=1)
     creators = models.ManyToManyField(Person, blank=True, related_name='serial_creators')
     description = models.CharField(max_length=500, default="""Lorem ipsum dolor sit amet,
@@ -97,7 +99,7 @@ class Serial(models.Model):
 
     def __str__(self):
         return f'{self.title}'
-    
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -122,8 +124,7 @@ class Article(models.Model):
     text = RichTextField()
     image = models.ImageField(upload_to='images/articles/', default="images/none/blank_article.jpg")
     category = models.ManyToManyField(ArticleCategory, blank=True)
-    created_date = models.DateTimeField(
-        default=timezone.now)
+    created_date = models.DateTimeField(default=timezone.now)
     slug = models.SlugField(blank=True)
 
     def __str__(self):

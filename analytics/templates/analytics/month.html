@@ -24,34 +24,33 @@
       <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
           <div class="menu-list">
               <ul id="menu-content" class="menu-content collapse out">
-                  <li class="active">
+                <a href="{% url 'analytics' %}">
+                    <li>
                         <i class="fa fa-hashtag fa-lg"></i> Year
-                  </li>
-
-                  <a href="{% url 'analytics_month' %}" class="text-white">
-                    <li>
-                            <i class="fa fa-hashtag fa-lg"></i> Month
                     </li>
-                  </a>
 
-                  <a href="#" class="text-white">
-                    <li>
-                            <i class="fa fa-hashtag fa-lg"></i> Day
+                    <li class="active">
+                        <i class="fa fa-hashtag fa-lg"></i> Month
                     </li>
-                  </a>
+
+                <a href="#">
+                    <li>
+                        <i class="fa fa-hashtag fa-lg"></i> Day
+                    </li>
+                </a>
               </ul>
           </div>
     </div>
 
     <div class="main">
-      <h3 class="mt-3">Year</h3>
+      <h3 class="mt-3">Month</h3>
 
       <div class="row">
         <div class="col-12 mb-3">
           <div class="card">
             <div class="card-header">
               <i class="fa fa-line-chart"></i>
-              Dependence in {{ today.year }}
+              Dependence in {{ today_month }} {{ today.year }}
             </div>
             <div class="card-body">
               <div class="row">
@@ -94,7 +93,7 @@
               <div class="card mb-3">
                 <div class="card-header">
                   <i class="fa fa-bar-chart"></i>
-                  Ratings in {{ today.year }}
+                  Ratings in {{ today_month }} {{ today.year }}
                 </div>
                 <div class="card-body">
                   <div class="row">
@@ -115,7 +114,7 @@
               <div class="card">
                   <div class="card-header">
                     <i class="fa fa-pie-chart"></i>
-                    Votes in {{ today.year }}
+                    Votes in {{ today_month }} {{ today.year }}
                   </div>
                   <div class="card-body">
                     <div class="chart" >
@@ -129,7 +128,7 @@
                 <div class="card">
                     <div class="card-header">
                       <i class="fa fa-pie-chart"></i>
-                      Watchlist in {{ today.year }}
+                      Watchlist in {{ today_month }} {{ today.year }}
                     </div>
                     <div class="card-body">
                       <div class="chart" >
@@ -145,7 +144,7 @@
           <div class="card">
             <div class="card-header">
               <i class="fa fa-bar-chart"></i>
-               New things in {{ today.year }}
+               New things in {{ today_month }} {{ today.year }}
             </div>
             <div class="card-body">
               <div class="row">
@@ -170,7 +169,7 @@
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                  labels: [{% for i in current_months %}'{{ i }}', {% endfor %}],
+                  labels: [{% for i in current_days %}'{{ i }}', {% endfor %}],
                   datasets: [{
                       label: 'Number of votes',
                       data: [{% for i in all_votes %}{{ i }}, {% endfor %}],
@@ -214,7 +213,7 @@
                 type: 'doughnut',
                 data: {
                   datasets: [{
-                      data: [{{ film_votes_countyear }}, {{ serial_votes_countyear }}],
+                      data: [{{ film_votes_countmonth }}, {{ serial_votes_countmonth }}],
                       backgroundColor: ['#4285f4', '#ea4335'],
                   }],
                   labels: [
@@ -228,7 +227,7 @@
                 type: 'doughnut',
                 data: {
                   datasets: [{
-                      data: [{{ film_watchlist_countyear }}, {{ serial_watchlist_countyear }}],
+                      data: [{{ film_watchlist_countmonth }}, {{ serial_watchlist_countmonth }}],
                       backgroundColor: ['#4285f4', '#ea4335'],
                   }],
                   labels: [

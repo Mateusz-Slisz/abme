@@ -83,7 +83,7 @@
   .nav-side-menu li:hover {
     background-color: #4f5b69;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 991px) {
     .nav-side-menu {
       position: relative;
       width: 100%;
@@ -109,7 +109,7 @@
       line-height: 50px !important;
     }
   }
-  @media (min-width: 767px) {
+  @media (min-width: 991px) {
     .nav-side-menu .menu-list .menu-content {
       display: block;
     }
@@ -120,14 +120,14 @@
     background-color: rgb(230, 230, 230);
   }
 
-@media (min-width: 767px) {
+@media (min-width: 991px) {
   .main {
     margin-left:320px;
     margin-right: 20px;
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .main {
     margin-left: 20px;
     margin-right: 20px;

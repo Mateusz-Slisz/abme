@@ -1,15 +1,29 @@
 function clock()
 {
     var today = new Date();
-    var day = today.getDate();
-    var month = today.getMonth();
-    var year = today.getFullYear();
+    var day = today.getUTCDate();
+    var month = today.getUTCMonth();
+    var year = today.getUTCFullYear();
 
-    var hours = today.getHours();
-    var minutes = today.getMinutes();
-    var seconds = today.getSeconds();
-    document.querySelector(".clock").innerHTML = "Current time: " + day + "." + month + "." + year + " " + hours + ":" + minutes + ":" + seconds;
+    if (month < 10) {
+        month = "0" + month;
+    }
+    if (day < 10) {
+        day = "0" + day;
+    }
 
-    setTimeout(clock, 1000);
+    var hours = today.getUTCHours();
+    var minutes = today.getUTCMinutes();
+
+    if (hours < 10) {
+        hours = "0" + hours;
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+
+    document.querySelector(".clock").innerHTML = "UTC: " + day + "." + month + "." + year + " " + hours + ":" + minutes;
+
+    setTimeout(clock, 60000);
 }
 window.addEventListener("load", clock);

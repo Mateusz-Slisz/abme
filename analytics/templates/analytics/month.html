@@ -43,7 +43,17 @@
     </div>
 
     <div class="main">
-      <h3 class="mt-3">Month</h3>
+
+    <div class="row mt-3">
+        <div class="col-2">
+            <h3 class="text-dark">Month</h3>
+        </div>
+        <div class="col-10">
+            <div class="h3 clock text-right text-dark">
+
+            </div>
+        </div>
+    </div>
 
       <div class="row">
         <div class="col-12 mb-3">
@@ -54,30 +64,36 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="chart col-10">
+                <div class="chart col-12 col-xl-10">
                     <canvas id="myChart" height="100" width="300"></canvas>
                 </div>
-                <div class="col-2 text-center my-auto">
-                    <div class="h4" style="color: #3e7899">Votes</div>
-                    <div class="small">
-                      <span class="text-muted">MAX:</span>
-                      <span class="text-success"> {{ max_all_votes }}</span>
+                <div class="col-12 col-xl-2 text-center my-auto">
+                    <div class="row">
+                        <div class="col-6 col-xl-12">
+                            <div class="h4" style="color: #3e7899">Votes</div>
+                            <div class="small">
+                            <span class="text-muted">MAX:</span>
+                            <span class="text-success"> {{ max_all_votes }}</span>
+                            </div>
+                            <div class="small">
+                                <span class="text-muted">MIN:</span>
+                                <span class="text-danger"> {{ min_all_votes }}</span>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="col-6 col-xl-12">
+                            <div class="h4" style="color: #00AA8D">Watchlist</div>
+                            <div class="small">
+                            <span class="text-muted">MAX:</span>
+                            <span class="text-success"> {{ max_all_watchlist }}</span>
+                            </div>
+                            <div class="small">
+                                <span class="text-muted">MIN:</span>
+                                <span class="text-danger"> {{ min_all_watchlist }}</span>
+                            </div>
+                            <hr>
+                        </div>
                     </div>
-                    <div class="small">
-                        <span class="text-muted">MIN:</span>
-                        <span class="text-danger"> {{ min_all_votes }}</span>
-                    </div>
-                    <hr>
-                    <div class="h4" style="color: #00AA8D">Watchlist</div>
-                    <div class="small">
-                      <span class="text-muted">MAX:</span>
-                      <span class="text-success"> {{ max_all_watchlist }}</span>
-                    </div>
-                    <div class="small">
-                        <span class="text-muted">MIN:</span>
-                        <span class="text-danger"> {{ min_all_watchlist }}</span>
-                    </div>
-                    <hr>
                 </div>
               </div>
             </div>
@@ -86,7 +102,7 @@
       </div>
 
       <div class="row">
-        <div class="col-8">
+        <div class="col-12 col-xl-8">
           <div class="row">
 
             <div class="col-12">
@@ -111,7 +127,7 @@
             </div>
 
             <div class="col-6">
-              <div class="card">
+              <div class="card mb-3">
                   <div class="card-header">
                     <i class="fa fa-pie-chart"></i>
                     Votes in {{ today|date:"F Y" }}
@@ -125,7 +141,7 @@
             </div>
 
             <div class="col-6">
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header">
                       <i class="fa fa-pie-chart"></i>
                       Watchlist in {{ today|date:"F Y" }}
@@ -140,7 +156,7 @@
           </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-12 col-xl-4">
           <div class="card">
             <div class="card-header">
               <i class="fa fa-bar-chart"></i>
@@ -164,6 +180,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="{% static 'js/clock.js' %}"></script>
     <script type="text/javascript">
             var ctx = document.getElementById("myChart");
             var myChart = new Chart(ctx, {

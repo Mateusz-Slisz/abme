@@ -21,6 +21,24 @@
                     </p>
                     <h5 class="card-title">{{ article.title }}</h5>
                     <p class="card-text">{{ article.text|safe }}</p>
+                    <div class="comments mt-5">
+                        <hr>
+                        <h4>Leave a comment:</h4>
+                        <div id="disqus_thread"></div>
+                    </div>
+                    <script>
+                        var disqus_config = function () {
+                        this.page.url = 'http://abme.herokuapp.com{% url 'article_detail' slug=latest_article.slug pk=latest_article.pk %}';
+                        this.page.identifier = '{% url 'article_detail' slug=latest_article.slug pk=latest_article.pk %}';
+                        };
+                        (function() {
+                        var d = document, s = d.createElement('script');
+                        s.src = 'https://http-abme-herokuapp-com.disqus.com/embed.js';
+                        s.setAttribute('data-timestamp', +new Date());
+                        (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
                 </div>
             </div>
         </div>

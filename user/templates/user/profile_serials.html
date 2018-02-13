@@ -60,9 +60,18 @@
         </tbody>
     </table>
 
+    {% if not s_ratings %}
+    <div class="row">
+        <div class="col-6 mr-auto ml-auto mt-2">
+            <h1 class="text-center text-muted">:(</h1>
+            <h5 class="text-center">It looks empty</h5>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if f_ratings.has_other_pages %}
     <div class="row">
         <div class="col-12">
-        {% if f_ratings.has_other_pages %}
         <nav aria-label="...">
             <ul class="pagination pull-right">
         
@@ -92,9 +101,9 @@
         
             </ul>
         </nav>
-        {% endif %}
         </div>
     </div>
+    {% endif %}
 
     <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

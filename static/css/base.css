@@ -6,12 +6,6 @@
     
 }
 
-@media (max-width: 991px) {
-    .container {
-      padding:0;
-    }
-}
-
 .signup-note {
     font-size: 12px;
 }

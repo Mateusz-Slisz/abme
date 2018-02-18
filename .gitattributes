@@ -1,8 +1,10 @@
 templates/* linguist-vendored
 static/* linguist-vendored
 user/templates/* linguist-vendored
-books/templates/list/* linguist-vendored
-films/templates/list/* linguist-vendored
-user/templates/user/* linguist-vendored
+books/templates/* linguist-vendored
+films/templates/* linguist-vendored
+user/templates/* linguist-vendored
 search/templates/* linguist-vendored
-main/templates/main/* linguist-vendored
+main/templates/* linguist-vendored
+article/templates/* linguist-vendored
+analytics/templates/* linguist-vendored

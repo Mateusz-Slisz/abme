@@ -385,3 +385,7 @@ blockquote {
     border-left-width: 5px;
 }
 
+.g-recaptcha {
+    transform-origin: left top;
+    -webkit-transform-origin: left top;
+}

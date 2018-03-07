@@ -43,10 +43,17 @@ def main(request):
         s_rate_votes = serial_votes_year.filter(rate=i).count()
         all_rate_votes.append(f_rate_votes + s_rate_votes)
 
-    max_all_votes = max(all_votes)
-    min_all_votes = min(all_votes[:today.month])
-    max_all_watchlist = max(all_watchlist)
-    min_all_watchlist = min(all_watchlist[:today.month])
+    if not all_votes:
+        max_all_votes = 0
+        min_all_votes = 0
+        max_all_watchlist = 0
+        min_all_watchlist = 0
+    else:
+        max_all_votes = max(all_votes)
+        min_all_votes = min(all_votes[:today.month])
+        max_all_watchlist = max(all_watchlist)
+        min_all_watchlist = min(all_watchlist[:today.month])
+
     sum_rate_votes = sum(all_rate_votes)
     sum_all_votes = sum(all_votes)
     sum_all_watchlist = sum(all_watchlist)
@@ -124,10 +131,17 @@ def month(request):
         s_rate_votes = serial_votes_month.filter(rate=i).count()
         all_rate_votes.append(f_rate_votes + s_rate_votes)
 
-    max_all_votes = max(all_votes)
-    min_all_votes = min(all_votes[:today.day])
-    max_all_watchlist = max(all_watchlist)
-    min_all_watchlist = min(all_watchlist[:today.day])
+    if not all_votes:
+        max_all_votes = 0
+        min_all_votes = 0
+        max_all_watchlist = 0
+        min_all_watchlist = 0
+    else:
+        max_all_votes = max(all_votes)
+        min_all_votes = min(all_votes[:today.day])
+        max_all_watchlist = max(all_watchlist)
+        min_all_watchlist = min(all_watchlist[:today.day])
+
     sum_rate_votes = sum(all_rate_votes)
     sum_all_votes = sum(all_votes)
     sum_all_watchlist = sum(all_watchlist)
@@ -205,10 +219,17 @@ def day(request):
         s_rate_votes = serial_votes_day.filter(rate=i).count()
         all_rate_votes.append(f_rate_votes + s_rate_votes)
 
-    max_all_votes = max(all_votes)
-    min_all_votes = min(all_votes[:today.hour])
-    max_all_watchlist = max(all_watchlist)
-    min_all_watchlist = min(all_watchlist[:today.hour])
+    if not all_votes:
+        max_all_votes = 0
+        min_all_votes = 0
+        max_all_watchlist = 0
+        min_all_watchlist = 0
+    else:
+        max_all_votes = max(all_votes)
+        min_all_votes = min(all_votes[:today.hour])
+        max_all_watchlist = max(all_watchlist)
+        min_all_watchlist = min(all_watchlist[:today.hour])
+
     sum_rate_votes = sum(all_rate_votes)
     sum_all_votes = sum(all_votes)
     sum_all_watchlist = sum(all_watchlist)

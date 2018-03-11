@@ -34,10 +34,10 @@
               <a class="nav-link active" href="/">Home <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href="{% url 'analytics' %}">Analytics</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="http://abme.herokuapp.com/api">API</a>
             </li>
             <li class="nav-item inline">
               <a class="nav-link sign text-light" href="{% url 'user_signup' %}">Sign up</a>
@@ -92,10 +92,9 @@
               ABME is...
             </h4>
             <p>
-                ec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.
-                ec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. 
-                ec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. 
-                ec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. 
+              A fully working application, dedicated to movies, tv series and many others.<br>
+              Created by me, just for non-commercial using.<br>
+              More information about Abme is placed <a target="_blank" href="//github.com/b1oader/abme">here</a>
             </p>
           </div>
         </div>
@@ -110,29 +109,30 @@
               Why should I use it?
           </h3>
           <div class="row justify-content-between">
-            <div class="col-lg-4 order-2 order-lg-1 mt-auto mb-auto">
+            <div class="col-lg-4 order-2 order-lg-1 mt-auto mb-auto text-center text-lg-left">
               <div class="mb-5">
                 <h5>
                   Manage your votes
                 </h5>
                 <p>
-                    Etiam porta sem malesuada magna mollis euismod.Etiam porta sem malesuada magna mollis euismod.
+                  Do you want to sort or change?<br>
+                  You can do this and much more, easly from the user's panel. 
                 </p>
               </div>
               <div class="mb-5">
                 <h5>
                   Observe the world of cinema
                 </h5>
-                <p>Etiam porta sem malesuada magna mollis euismod.Etiam porta sem malesuada magna mollis euismod.</p>
+                <p>News, articles about your favorite movies.</p>
               </div>
               <div class="mb-5">
                 <h5>
                   Show off your friends
                 </h5>
-                <p>Etiam porta sem malesuada magna mollis euismod.Etiam porta sem malesuada magna mollis euismod.</p>
+                <p>All profiles are public.<br> Show off friends what movies you like.</p>
               </div>
             </div>
-            <div class="col-lg-6 order-1 order-lg-2 text-center">
+            <div class="col-lg-6 order-1 order-lg-2 text-center mb-5">
               <img src="{% static 'images/rocket.svg' %}" width="174" height="550">
             </div>
           </div>
@@ -150,7 +150,7 @@
           <div class="col-md-4 mr-auto ml-auto">
             <img src="{% static 'images/analytics.svg' %}" width="140" height="140">
             <h2>Analytics</h2>
-            <p>nec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            <p>Daily, monthly and yearly charts, just for you, to have a better view of the changes in Abme.</p>
             <p>
               <a class="btn btn-secondary" href="{% url 'analytics' %}" role="button">View details »</a>
             </p>
@@ -158,9 +158,9 @@
           <div class="col-md-4 mr-auto ml-auto">
             <img src="{% static 'images/api.svg' %}" width="140" height="140">   
             <h2>API</h2>
-            <p>nec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            <p>Application Programming Interface. <br>Do you want a permit? send an email below.</p>
             <p>
-              <a class="btn btn-secondary" href="#" role="button">View details »</a>
+              <a class="btn btn-secondary" href="http://abme.herokuapp.com/api" role="button">View details »</a>
             </p>
           </div>
         </div>
@@ -231,7 +231,7 @@
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mt-2">
                 <h5 class="text-light">Communication</h5>
                 <ul class="list-unstyled text-gray">
-                  <li><a href="" class="text-light">API</a></li>
+                  <li><a href="http://abme.herokuapp.com/api" class="text-light">API</a></li>
                   <li><a href="{% url 'analytics' %}" class="text-light">Analytics</a></li>
                 </ul>
             </div>

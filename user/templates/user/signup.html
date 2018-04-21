@@ -20,44 +20,46 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #1e2225;">
-      <div class="container">
-      <a class="navbar-brand" href="/" id="logo">
-        ABME
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" 
-      data-target="#navbarCollapseItems" aria-expended="false" aria-label="Toggle Navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapseItems">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="/">Home <span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'analytics' %}">Analytics</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="http://abme.herokuapp.com/api/">API</a>
-            </li>
-            <li class="nav-item inline">
-              <a class="nav-link sign text-light" href="{% url 'user_signup' %}">Sign up</a>
-            </li>
-            <li class="navbar-text inline">or</li>
-            <li class="nav-item inline last-inline">
-              <a class="nav-link sign text-light" href="{% url 'website_login' %}">Login</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      <nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #1e2225;">
+          <div class="container">
+          <a class="navbar-brand" href="/" id="logo">
+            ABME
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" 
+          data-target="#navbarCollapseItems" aria-expended="false" aria-label="Toggle Navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapseItems">
+              <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'analytics' %}">Analytics</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="http://abme.herokuapp.com/api">API</a>
+                  </li>
+              </ul>
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item inline">
+                    <a class="nav-link sign text-light" href="{% url 'user_signup' %}">Sign up</a>
+                  </li>
+                  <li class="navbar-text inline">or</li>
+                  <li class="nav-item inline last-inline">
+                    <a class="nav-link sign text-light" href="{% url 'website_login' %}">Login</a>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
     <div class="signupbox mt-4" style="min-height: 910px;">
       <div class="container">
           <div class="row">
             <div class="col-lg-6">
                 <fieldset>
                     <legend>
-                        Create an account
+                        Join to ABME
                     </legend>
                     <div class="panel-body">
                         <form action="" method="post">

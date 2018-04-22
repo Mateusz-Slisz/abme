@@ -3,8 +3,8 @@ import calendar
 from itertools import chain
 from django.shortcuts import render
 from api.models import Article
-from films.models import FilmRating, FilmWatchlist
-from serials.models import SerialRating, SerialWatchlist
+from film.models import FilmRating, FilmWatchlist
+from serial.models import SerialRating, SerialWatchlist
 
 
 def main(request):

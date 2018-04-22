@@ -9,8 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
-from films.models import FilmRating, FilmWatchlist
-from serials.models import SerialRating, SerialWatchlist
+from film.models import FilmRating, FilmWatchlist
+from serial.models import SerialRating, SerialWatchlist
 from api.models import Serial, Film, Article
 from django.db.models import Avg, Count
 from django.db.models.functions import Coalesce

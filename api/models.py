@@ -34,12 +34,8 @@ class Category(models.Model):
         return f'{self.name}'
 
 
-def tuplify(x):
-    return (x, x)
-
-
 current_year = datetime.now().year
-YEARS = map(tuplify, range(1990, current_year + 1))
+YEARS = [(year, year) for year in range(1990, current_year + 1)]
 
 
 class Film(models.Model):
@@ -73,10 +69,6 @@ class Filmcast(models.Model):
     actor = models.ForeignKey(Person)
     film = models.ForeignKey(Film)
     name = models.CharField(max_length=20)
-
-
-current_year = datetime.now().year
-YEARS = map(tuplify, range(1990, current_year + 1))
 
 
 class Serial(models.Model):

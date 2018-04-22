@@ -5,8 +5,8 @@ from django.db.models.functions import Coalesce
 from django.db.models import Avg, Func, Count, Q
 from django.contrib.auth.models import User
 from api.models import Film, Serial, Person, Article
-from serials.models import SerialRating, SerialWatchlist
-from films.models import FilmRating, FilmWatchlist
+from serial.models import SerialRating, SerialWatchlist
+from film.models import FilmRating, FilmWatchlist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 

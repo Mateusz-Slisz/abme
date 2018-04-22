@@ -5,8 +5,8 @@ from .forms import ContactForm
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.models import User
-from serials.models import SerialRating
-from films.models import FilmRating
+from serial.models import SerialRating
+from film.models import FilmRating
 from user.forms import CustomUserCreationForm
 from api.models import Article
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger

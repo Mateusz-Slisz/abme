@@ -5,11 +5,11 @@
 {% block content %}
 
 
-    <div class="row mt-5">
-        <div class="top-rated-list col-xl-9 col-lg-12 col-md-12 col-sm-12">
-            <h1 class="text-center"><span class="top100">Top 100</span> rated films</h1>
+    <div class="row">
+        <div class="top-rated-list col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-4">
+            <h3 class="text-center"><span class="top100">Top 100</span> rated films</h1>
             <h6 class="text-muted text-center">Placing the film requires a minimum 10 votes.</h6>
-            <div class="main-box mt-5">
+            <div class="main-box mt-4">
                 <form>
                     <div class="form-row">
                         <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
@@ -32,7 +32,7 @@
                     </div>
                 </form>
                 {% for film in films %}
-                <div class="row box-item mb-3 mr-auto ml-auto">
+                <div class="row box-item mb-3 mr-auto ml-auto bg-white">
                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                         <span class="h6">{{ forloop.counter0|add:films.start_index }}</span>
                     </div>
@@ -78,7 +78,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-xl-3 d-xl-block d-none">
+        <div class="col-xl-3 d-xl-block d-none mt-4">
             <div class="search">
                 <form action="{% url 'search_film_list' %}">
                     <div class="input-group stylish-input-group">
@@ -159,7 +159,7 @@
                 id = $(this).attr("film_id");
                 $.ajax(
                 {
-                    url: "http://127.0.0.1:8000/films/",
+                    url: "http://127.0.0.1:8000/film/",
                     type:"get",
                     data:{
                             add_film_id: id,

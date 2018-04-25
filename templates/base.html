@@ -19,7 +19,7 @@
     {{ form.media }}
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #1e2225;">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark"  style="background-color: #1e2225;">
       <div class="container">
       <a class="navbar-brand" href="/" id="logo">
         ABME
@@ -31,14 +31,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapseItems">
         <ul class="navbar-nav">
             <form action="{% url 'search_list' %}" class="mr-2">
-                <div class="input-group stylish-input-group">
-                    <input type="text" class="form-control custom-search-text" placeholder="Search" name="q">
-                    <span class="input-group-addon custom-search-submit">
-                        <button type="submit">
-                            <span style="cursor: pointer"><i class="fa fa-search" aria-hidden="true"></i></span>
-                        </button>  
-                    </span>
-                </div>
+                <input type="text" class="form-control custom-search-text" placeholder="Search" name="q">
             </form>
             <li class="nav-item">
               <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
@@ -54,7 +47,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="#navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    TV Series
+                    Serials
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item"href="{% url 'serial_list' %}">List</a>
@@ -91,11 +84,13 @@
         </div>
       </div>
     </nav>
-    <div class="container" style="min-height: 910px;">
-      {% block content %}
-      {% endblock content %}
+    <div id="main" class="pb-5">
+      <div class="container" style="min-height: 910px;">
+        {% block content %}
+        {% endblock content %}
+      </div>
     </div>
-    <footer class="footer mt-5">
+    <footer class="footer">
         <div class="container">
           <div class="row">
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2">
@@ -111,7 +106,7 @@
                 </ul>
             </div>
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mt-2">
-                <h5 class="text-light">TV Series</h5>
+                <h5 class="text-light">Serials</h5>
                 <ul class="list-unstyled text-light">
                   <li><a href="{% url 'serial_list' %}" class="text-light">List</a></li>
                   <li><a href="{% url 'serial_top_rated' %}" class="text-light">Top rated</a></li>

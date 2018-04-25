@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row mt-3">
-  <div class="col-xl-9 col-lg-9 col-md-12">
-    <h1 id="news">News</h1>
+<div class="row">
+  <div class="col-xl-9 col-lg-9 col-md-12 mt-4">
+    <h4 id="news">General news</h4>
     <div class="articles row">
       {% for article in articles %}
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
-            <div class="card">
-              <div class="row ">
+            <div class="card no-border">
+              <div class="row">
                 <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="height: 200px;">
-                    <a href="{% url 'article_detail' slug=article.slug pk=article.pk %}">
-                      <div class="imgarticle" style="background: url('{{ article.image.url }}') center; background-size: cover;">
+                    <a href="{% url 'article_detail' slug=article.slug pk=article.pk %}" id="articlehover ">
+                      <div class="imgarticle_thumb linktransform">
+                        <img class="imgarticle" src="{{ article.image.url }}">
                       </div>
                     </a>
                 </div>
@@ -73,7 +74,7 @@
     </div>
     {% endif %}
   </div>
-  <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none">
+  <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none mt-4">
       <div class="search">
           <form action="{% url 'search_article_list' %}">
               <div class="input-group stylish-input-group">
@@ -88,9 +89,9 @@
       </div>
       <div class="getting-started">
         <h5>Getting started</h5>
-        <div class="card bg-light">
+        <div class="card bg-white">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item bg-light">
+              <li class="list-group-item bg-white">
                 {% if not user.first_name %} 
                 <i class="fa fa-times text-danger" aria-hidden="true"></i>
                 <a href="{% url 'user_settings' %}" class="text-dark">
@@ -101,7 +102,7 @@
                 <span class="h6 text-dark">Update first name</span>
                 {% endif %}
               </li>
-              <li class="list-group-item bg-light">
+              <li class="list-group-item bg-white">
                 {% if not user.profile.picture is 'photos/none/default.png' %}
                 <i class="fa fa-times text-danger" aria-hidden="true"></i>
                 <a href="{% url 'user_settings' %}" class="text-dark">
@@ -111,7 +112,7 @@
                 <span class="h6 text-dark">Update your picture</span> <i class="fa fa-check" aria-hidden="true"></i>
                 {% endif %}
               </li>
-              <li class="list-group-item bg-light">
+              <li class="list-group-item bg-white">
                 {% if not user_film_vote %}
                 <i class="fa fa-times text-danger" aria-hidden="true"></i>
                 <a href="{% url 'film_list' %}" class="text-dark">
@@ -122,7 +123,7 @@
                 <span class="h6 text-dark">Vote a film</span>
                 {% endif %}
               </li>
-              <li class="list-group-item bg-light">
+              <li class="list-group-item bg-white">
                   {% if not user_serial_vote %}
                   <i class="fa fa-times text-danger" aria-hidden="true"></i>
                   <a href="{% url 'serial_list' %}" class="text-dark">

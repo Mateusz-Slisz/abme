@@ -2,8 +2,8 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="row mt-2">
-    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
+<div class="row">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12  mt-2">
         {% if request.GET.q == '' %}
         <h1 class="text-center">Enter the word!</h1>
         <form>
@@ -39,7 +39,7 @@
                 </ol>
             </div>
             {% for film in films %}
-            <div class="row box-item mb-3 mr-auto ml-auto">
+            <div class="row box-item mb-3 mr-auto ml-auto bg-white">
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:films.start_index }}</span>
                 </div>
@@ -135,7 +135,7 @@
         </form>
         {% endif %}
     </div>
-    <div class="col-xl-3 d-xl-block d-none">
+    <div class="col-xl-3 d-xl-block d-none  mt-2">
         {% if latest_article %}
         <div class="latest-article">
             <h5>Latest article:</h5>
@@ -198,7 +198,7 @@
             id = $(this).attr("film_id");
             $.ajax(
             {
-                url: "http://127.0.0.1:8000/films/",
+                url: "http://127.0.0.1:8000/film/",
                 type:"get",
                 data:{
                         add_film_id: id,

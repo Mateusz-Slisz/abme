@@ -2,10 +2,10 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="row mt-2">
-    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
+<div class="row">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-4">
         {% if request.GET.q == '' %}
-        <h1 class="text-center">Enter the word!</h1>
+        <h3 class="text-center">Enter the word!</h3>
         <form>
             <div class="input-group stylish-input-group">
                 <input type="text" class="form-control" placeholder="Search" name="q">
@@ -17,7 +17,7 @@
             </div>
         </form>
         {% elif request.GET.q %}
-        <h1 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h1>
+        <h3 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h3>
         <form>
             <div class="input-group stylish-input-group">
                 <input type="text" class="form-control" placeholder="Search" name="q">
@@ -40,7 +40,7 @@
             </div> 
         {% for i in result_list %}
             {% if i in films %}
-            <div class="row box-item mb-3 mr-auto ml-auto">
+            <div class="row box-item mb-3 mr-auto ml-auto bg-white">
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:result_list.start_index }}</span>
                 </div>
@@ -88,7 +88,7 @@
             </div>
             {% endif %}
             {% if i in serials %}
-            <div class="row box-item mb-3 mr-auto ml-auto">
+            <div class="row box-item mb-3 mr-auto ml-auto bg-white">
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:result_list.start_index }}</span>
                 </div>
@@ -136,7 +136,7 @@
             </div>
             {% endif %}
             {% if i in persons %}
-            <div class="row box-item mb-3 mr-auto ml-auto">
+            <div class="row box-item mb-3 mr-auto ml-auto bg-white">
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:result_list.start_index }}</span>
                 </div>
@@ -171,7 +171,7 @@
             </div>
             {% endif %}
             {% if i in articles %}
-            <div class="row box-item mb-3 mr-auto ml-auto">
+            <div class="row box-item mb-3 mr-auto ml-auto bg-white">
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:result_list.start_index }}</span>
                 </div>
@@ -253,9 +253,9 @@
         </form>
         {% endif %}
     </div>
-    <div class="col-xl-3 d-xl-block d-none">
+    <div class="col-xl-3 d-xl-block d-none  mt-4">
         {% if latest_article %}
-        <div class="latest-article">
+        <div class="latest-article-top">
             <h5>Latest article:</h5>
             <div class="card" >
                 <div class="card-body">
@@ -342,7 +342,7 @@
             id = $(this).attr("serial_id");
             $.ajax(
             {
-                url: "http://127.0.0.1:8000/serials/",
+                url: "http://127.0.0.1:8000/serial/",
                 type:"get",
                 data:{
                         add_serial_id: id,
@@ -377,7 +377,7 @@
             id = $(this).attr("film_id");
             $.ajax(
             {
-                url: "http://127.0.0.1:8000/films/",
+                url: "http://127.0.0.1:8000/film/",
                 type:"get",
                 data:{
                         add_film_id: id,

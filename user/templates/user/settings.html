@@ -5,7 +5,7 @@
 {% block content %}
 <form method="post" enctype="multipart/form-data">
     
-<div class="settings mt-2">
+<div class="settings pt-2">
     {% if messages %}
         {% for message in messages %}
             {% if message.tags == "success" %}
@@ -30,7 +30,7 @@
         <div class="col-lg-9">
             <div class="row">
                 <div class="col-12">
-                    <h2>Profile</h2>
+                    <h4>Profile</h4>
                 </div>
                 <div class="col-6">
                     {% csrf_token %}

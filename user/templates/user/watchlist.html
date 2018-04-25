@@ -1,35 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row mt-2">
-    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
-        <h1 class="">Your watchlist</h1>
+<div class="row">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-4">
+        <h4 class="">Your watchlist</h4>
         <form>
-                <div class="form-row">
-                    <div class="form-group col-xl-5 col-lg-5 col-md-4 col-sm-4 col-4">
-                        <select class="form-control" name="sort_by">
-                        <option value="" selected disabled hidden>Sort by:</option>
-                        <option {% if request.GET.sort_by == 'Data added' %}selected{% endif %}>Data added</option>
-                        <option {% if request.GET.sort_by == 'Popularity' %}selected{% endif %}>Popularity</option>
-                        <option {% if request.GET.sort_by == 'Global rating' %}selected{% endif %}>Global rating</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-                            <select class="form-control" name="order">
-                            <option value="" selected disabled hidden>Order:</option>
-                            <option {% if request.GET.order == 'Ascending' %}selected{% endif %}>Ascending</option>
-                            <option {% if request.GET.order == 'Descending' %}selected{% endif %}>Descending</option>
-                            </select>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-                        <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;" title="Filter objects">
-                    </div>
-                    <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
-                        <a class="btn btn-danger btn-block" href="{% url 'user_watchlist' %}" role="button" title="Reset filters"><i class="fa fa-times" aria-hidden="true"></i></a>
-                    </div>
+            <div class="form-row">
+                <div class="form-group col-xl-5 col-lg-5 col-md-4 col-sm-4 col-4">
+                    <select class="form-control" name="sort_by">
+                    <option value="" selected disabled hidden>Sort by:</option>
+                    <option {% if request.GET.sort_by == 'Data added' %}selected{% endif %}>Data added</option>
+                    <option {% if request.GET.sort_by == 'Popularity' %}selected{% endif %}>Popularity</option>
+                    <option {% if request.GET.sort_by == 'Global rating' %}selected{% endif %}>Global rating</option>
+                    </select>
                 </div>
-            </form>
-        <h4 class="text-muted">Sorted by:{% if request.GET %} {{ request.GET.sort_by|lower }} {{ request.GET.order|lower|slice:"3" }} {% else %} default {% endif %}</h4>
-        <div class="row mt-3">
+                <div class="form-group col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                        <select class="form-control" name="order">
+                        <option value="" selected disabled hidden>Order:</option>
+                        <option {% if request.GET.order == 'Ascending' %}selected{% endif %}>Ascending</option>
+                        <option {% if request.GET.order == 'Descending' %}selected{% endif %}>Descending</option>
+                        </select>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                    <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;" title="Filter objects">
+                </div>
+                <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                    <a class="btn btn-danger btn-block" href="{% url 'user_watchlist' %}" role="button" title="Reset filters"><i class="fa fa-times" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </form>
+        <h5 class="text-muted">Sorted by:{% if request.GET %} {{ request.GET.sort_by|lower }} {{ request.GET.order|lower|slice:"3" }} {% else %} default {% endif %}</h5>
+        <div class="row">
             {% for i in watchlist_all %}
                 {% if i.film %}
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-2">
@@ -115,9 +115,9 @@
             {% endif %}
         </div>
     </div>
-    <div class="col-xl-3 d-xl-block d-none">
+    <div class="col-xl-3 d-xl-block d-none mt-4">
         {% if latest_article %}
-        <div class="latest-article">
+        <div class="latest-article-top">
             <h5>Latest article:</h5>
             <div class="card" >
                 <div class="card-body">

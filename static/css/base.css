@@ -135,7 +135,7 @@ a.detail.active a {
 }
 
 .profileactive {
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid rgb(0, 104, 104);
 }
 
 .profiledeactive a {
@@ -148,6 +148,27 @@ a.detail.active a {
 
 .breadcrumb-color {
     background-color: rgb(0, 104, 104) !important;
+}
+
+.page-item.active .page-link {
+    background-color: rgb(0, 104, 104);
+    border-color: rgb(0, 104, 104);
+}
+
+.page-link {
+    color: rgb(43, 38, 38);
+}
+
+.page-link:hover {
+    color: rgb(43, 38, 38);
+}
+
+.page-link:active {
+    color: rgb(43, 38, 38);
+}
+
+.page-link:focus {
+    color: rgb(43, 38, 38);
 }
 
 ol li a, ol li a:visited {
@@ -222,10 +243,6 @@ a.detfilmo:hover, a.detfilmo:active {
 a.detfilmo.active {
     color: #212529 !important;
     font-weight: 600;
-}
-
-.poster-border {
-    border: 1px solid #afafaf;
 }
 
 .pointer {
@@ -435,4 +452,14 @@ blockquote {
 .g-recaptcha {
     transform-origin: left top;
     -webkit-transform-origin: left top;
+}
+
+.custom-card-shadow {
+    border: 0 !important;
+    box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2) !important;
+}
+
+.custom-card-shadow2 {
+    border: 0 !important;
+    box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.05) !important;
 }

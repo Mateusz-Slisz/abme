@@ -30,7 +30,7 @@
         
             <div class="col-lg-9 col-md-8 col-sm-6 col-12">
                 {% if all_votes %}
-                <div class="chart" >
+                <div class="chart mb-3 mt-sm-0 mt-3">
                     <div class="row">
                         <div class="col-lg-7 mx-auto">
                             <canvas id="myChart" width="200" height="100"></canvas>
@@ -46,13 +46,13 @@
                     </div>
                 {% endif %}
                 {% if user_films_count > 3 %}
-                <div class="bestratefilms">
+                <div class="bestratefilms mb-3">
                     <h5>Best rated movies:</h5>
                     <ul class="p-0">
                     <div class="row">
                         
                         {% for ratings in f_ratings %}
-                        <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
+                        <li class="col-lg-3 col-md-6 col-sm-12 col-6 d-inline-block mb-3">
                             <a class="detail" href="{% url 'film_detail' slug=ratings.film.slug pk=ratings.film.pk %}">
                                 <img class="pull-left poster poster-border" src="{{ ratings.film.image.url }}" height="77px" width="55px">
                             </a>
@@ -75,7 +75,7 @@
                     <ul class="p-0">
                         <div class="row">
                         {% for ratings in s_ratings %}
-                        <li class="col-lg-3 col-md-6 col-sm-12 d-inline-block mb-3">
+                        <li class="col-lg-3 col-md-6 col-sm-12 col-6 d-inline-block mb-3">
                                 <a class="detail" href="{% url 'serial_detail' slug=ratings.serial.slug pk=ratings.serial.pk %}">
                                     <img class="pull-left poster poster-border" src="{{ ratings.serial.image.url }}" height="77px" width="55px">
                                 </a>

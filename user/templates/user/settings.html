@@ -18,7 +18,7 @@
     {% endif %}
     <div class="row">
         {% with p=profile_form u=user_form %}
-        <div class="col-lg-3">
+        <div class="col-md-3">
                 <div class="card">
                     <h6 class="card-header">Profile settings</h6>
                     <ul class="list-group list-group-flush">
@@ -27,12 +27,12 @@
                     </ul>
                 </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-md-9">
             <div class="row">
-                <div class="col-12">
+                <div class="col-sm-12 d-none d-sm-block">
                     <h4>Profile</h4>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-sm-6 order-2 order-sm-1">
                     {% csrf_token %}
                     {{ u|crispy }}
                     {{ p.birth_date|as_crispy_field }}
@@ -44,8 +44,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="mr-auto mx-auto" style=" width: 200px;">
+                <div class="col-12 col-sm-6 order-1 order-sm-2">
+                    <div class="mr-sm-auto mx-sm-auto" style=" width: 200px;">
                         <label>Picture</label>
                         <img class="rounded" height="200" width="200" src="{{ request.user.profile.picture.url }}">
                         {% csrf_token %}

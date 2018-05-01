@@ -2,8 +2,8 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="row">
-    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-4">
+<div class="row pt-3">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
         {% if request.GET.q == '' %}
         <h3 class="text-center">Enter the word!</h3>
         <form>
@@ -44,7 +44,7 @@
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:result_list.start_index }}</span>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6">
                     <a class="detail" href="{% url 'film_detail' slug=i.slug pk=i.pk %}">
                         <img class="poster" height="105" width="75" src="{{ i.image.url }}">
                     </a>
@@ -58,7 +58,7 @@
                         <span class="text-muted">Film</span>
                     </h6>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 d-none d-sm-block">
                     <h6>
                         <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                         {{ i.average_score }}
@@ -92,7 +92,7 @@
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:result_list.start_index }}</span>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6">
                     <a class="detail" href="{% url 'serial_detail' slug=i.slug pk=i.pk %}">
                         <img class="poster" height="105" width="75" src="{{ i.image.url }}">
                     </a>
@@ -106,7 +106,7 @@
                         <span class="text-muted">TV Series</span>
                     </h6>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 d-none d-sm-block">
                     <h6>
                         <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                         {{ i.average_score }}
@@ -140,7 +140,7 @@
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:result_list.start_index }}</span>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6">
                     <a class="detail" href="{% url 'person_detail' slug=i.slug pk=i.pk %}">
                         <img class="poster" height="105" width="105" src="{{ i.photo.url }}">
                     </a>
@@ -153,7 +153,7 @@
                         <span class="text-muted">Person</span>
                     </h6>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 d-none d-sm-block">
                     <h6>
                         {{ i.birthdate }}
                     </h6>
@@ -175,7 +175,7 @@
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:result_list.start_index }}</span>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3" >
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6" >
                     <a class="detail" href="{% url 'article_detail' slug=i.slug pk=i.pk %}">
                         <img class="poster" height="105" width="105" src="{{ i.image.url }}">
                     </a>
@@ -188,7 +188,7 @@
                         <span class="text-muted">Article</span>
                     </h6>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 d-none d-sm-block">
                     <h6>
                         {{ i.created_date|date:"F d, Y"}}
                     </h6>
@@ -253,11 +253,11 @@
         </form>
         {% endif %}
     </div>
-    <div class="col-xl-3 d-xl-block d-none  mt-4">
+    <div class="col-xl-3 d-xl-block d-none">
         {% if latest_article %}
         <div class="latest-article-top">
             <h5>Latest article:</h5>
-            <div class="card" >
+            <div class="card custom-card-shadow" >
                 <div class="card-body">
                     <p class="article-date">
                     <i class="fa fa-calendar" aria-hidden="true"></i>

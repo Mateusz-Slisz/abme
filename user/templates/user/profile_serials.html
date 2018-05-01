@@ -19,18 +19,18 @@
     <table class="table">
         <thead>
             <tr class="row mr-auto ml-auto">
-                <th scope="col" class="col-2 col-lg-1"></th>
-                <th scope="col" class="col-2 col-lg-4">
+                <th scope="col" class="col-4 col-sm-2 col-lg-1"></th>
+                <th scope="col" class="col-6 col-sm-2 col-lg-4">
                     <a href="?order_by={% if request.GET.order_by == '-film' %}film{% else %}-film{% endif %}" class="text-dark">
                         Name <i class="fa fa-sort{% if request.GET.order_by == '-film' %}-desc{% elif request.GET.order_by == 'film' %}-asc{% endif %}" aria-hidden="true"></i>
                     </a>
                 </th>
-                <th scope="col" class="col-6 col-lg-4">
+                <th scope="col" class="col-sm-6 col-lg-4 d-none d-sm-block">
                     <a href="?order_by={% if request.GET.order_by == '-rate' %}rate{% else %}-rate{% endif %}" class="text-dark">
                         Rate <i class="fa fa-sort{% if request.GET.order_by == '-rate' %}-desc{% elif request.GET.order_by == 'rate' %}-asc{% endif %}" aria-hidden="true"></i>
                     </a>
                 </th>
-                <th scope="col" class="col-2 col-lg-3">
+                <th scope="col" class="col-sm-2 col-lg-3 d-none d-sm-block">
                     <a href="?order_by={% if request.GET.order_by == 'date' %}-date{% else %}date{% endif %}" class="text-dark">
                         Date <i class="fa fa-sort{% if request.GET.order_by == '-date' %}-desc{% elif request.GET.order_by == 'date' %}-asc{% elif not request.GET.order_by %}-desc{% endif %}" aria-hidden="true"></i>
                     </a>
@@ -40,19 +40,23 @@
         <tbody>
         {% for rating in s_ratings %}
         <tr class="row mr-auto ml-auto">
-            <td class="col-2 col-lg-1"><a class="detail" href="{% url 'serial_detail' slug=rating.serial.slug pk=rating.serial.pk %}"><img class="poster" height="70" width="50" src="{{ rating.serial.image.url }}"></a></td>
-            <td class="col-2 col-lg-4">
+            <td class="col-4 col-sm-2 col-lg-1">
+                <a class="detail" href="{% url 'serial_detail' slug=rating.serial.slug pk=rating.serial.pk %}">
+                    <img class="poster" height="70" width="50" src="{{ rating.serial.image.url }}">
+                </a>
+            </td>
+            <td class="col-6 col-sm-2 col-lg-4">
                 <a class="detail" href="{% url 'serial_detail' slug=rating.serial.slug pk=rating.serial.pk %}">
                     <h6>{{ rating.serial.title }}</h6>
                 </a>
                 ({{ rating.serial.year }})
             </td>
-            <td class="col-6 col-lg-4">
+            <td class="col-sm-6 col-lg-4 d-none d-sm-block">
                 <div class="rating" data-score="{{ rating.rate }}">
                     <span class="h6">{{ rating.rate }}</span>
                 </div>
             </td>
-            <td class="col-2">
+            <td class="col-sm-2 col-lg-3 d-none d-sm-block">
                 <h6>{{ rating.date|date:"d F Y" }}</h6>
             </td>
         </tr>

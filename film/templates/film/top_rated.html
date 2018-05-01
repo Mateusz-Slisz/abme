@@ -5,14 +5,14 @@
 {% block content %}
 
 
-    <div class="row">
-        <div class="top-rated-list col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-4">
+    <div class="row pt-3">
+        <div class="top-rated-list col-xl-9 col-lg-12 col-md-12 col-sm-12">
             <h3 class="text-center"><span class="top100">Top 100</span> rated films</h1>
             <h6 class="text-muted text-center">Placing the film requires a minimum 10 votes.</h6>
             <div class="main-box mt-4">
-                <form>
+                <form class="mb-3">
                     <div class="form-row">
-                        <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
+                        <div class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-5 col-8">
                             <select class="form-control" name="category">
                             <option value="" selected disabled hidden>Choose category...</option>
                             {% for category in categories %}
@@ -20,13 +20,13 @@
                             {% endfor %}
                             </select>
                         </div>
-                        <div class="form-group col-xl-4 col-lg-4 col-md-3 col-sm-3 col-3">
+                        <div class="form-group col-xl-4 col-lg-4 col-md-3 col-sm-3 col-4">
                             <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Insert year..." name="year" {% if request.GET.year %}value="{{ request.GET.year }}"{% endif %}>
                         </div>
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-8">
                             <input class="btn btn-secondary btn-block" role="button" type="submit" value="Filter" style="cursor: pointer;">
                         </div>
-                        <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                        <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-4">
                             <a class="btn btn-danger btn-block" href="{% url 'film_top_rated' %}" role="button" title="Reset filters"><i class="fa fa-times" aria-hidden="true"></i></a>
                         </div>
                     </div>
@@ -36,18 +36,18 @@
                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                         <span class="h6">{{ forloop.counter0|add:films.start_index }}</span>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-5">
                         <a class="detail" href="{% url 'film_detail' slug=film.slug pk=film.pk %}">
                             <img class="poster" height="105" width="75" src="{{ film.image.url }}">
                         </a>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-5">
                         <a class="detail" href="{% url 'film_detail' slug=film.slug pk=film.pk %}">
                             <h6>{{ film.title }}</h6>
                         </a>
                         ({{ film.year }})
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 d-none d-sm-block">
                         <h6>
                             <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                             {{ film.average_score }}
@@ -78,7 +78,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-xl-3 d-xl-block d-none mt-4">
+        <div class="col-xl-3 d-xl-block d-none">
             <div class="search">
                 <form action="{% url 'search_film_list' %}">
                     <div class="input-group stylish-input-group">
@@ -94,7 +94,7 @@
             {% if latest_article %}
             <div class="latest-article">
                 <h5>Latest article:</h5>
-                <div class="card" >
+                <div class="card custom-card-shadow" >
                     <div class="card-body">
                         <p class="article-date">
                         <i class="fa fa-calendar" aria-hidden="true"></i>

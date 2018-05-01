@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  <div class="col-xl-9 col-lg-9 col-md-12 mt-4">
-    <h4 id="news">General news</h4>
+<div class="row pt-3">
+  <div class="col-xl-9 col-lg-9 col-md-12">
     <div class="articles row">
       {% for article in articles %}
-          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
-            <div class="card no-border">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 {% if forloop.first %}{% else %} mt-3 {% endif %}">
+            <div class="card no-border custom-card-shadow2">
               <div class="row">
                 <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12" style="height: 200px;">
                     <a href="{% url 'article_detail' slug=article.slug pk=article.pk %}" id="articlehover ">
@@ -32,7 +31,6 @@
                     <a href="{% url 'article_detail' slug=article.slug pk=article.pk %}" class="article-title">
                       <h4 class="card-title">{{ article.title|truncatechars:48 }}</h4>
                     </a>
-                    <a href="{% url 'article_detail' slug=article.slug pk=article.pk %}" id="readmore" class="pull-right">Read More</a>
                   </div>
                 </div>
               </div>
@@ -74,7 +72,7 @@
     </div>
     {% endif %}
   </div>
-  <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none mt-4">
+  <div class="col-xl-3 col-lg-3 d-xl-block d-lg-block d-none">
       <div class="search">
           <form action="{% url 'search_article_list' %}">
               <div class="input-group stylish-input-group">
@@ -89,7 +87,7 @@
       </div>
       <div class="getting-started">
         <h5>Getting started</h5>
-        <div class="card bg-white">
+        <div class="card bg-white custom-card-shadow">
             <ul class="list-group list-group-flush">
               <li class="list-group-item bg-white">
                 {% if not user.first_name %} 

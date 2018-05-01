@@ -2,10 +2,10 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="row">
-    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-2">
+<div class="row pt-3">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
         {% if request.GET.q == '' %}
-        <h1 class="text-center">Enter the word!</h1>
+        <h3 class="text-center">Enter the word!</h3>
         <form>
             <div class="input-group stylish-input-group">
                 <input type="text" class="form-control" placeholder="Search" name="q">
@@ -17,7 +17,7 @@
             </div>
         </form>
         {% elif request.GET.q %}
-        <h1 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h1>
+        <h3 class="text-center"><span class="main-list">Search </span>result for "{{ request.GET.q }}"</h3>
         <form>
             <div class="input-group stylish-input-group">
                 <input type="text" class="form-control" placeholder="Search" name="q">
@@ -43,18 +43,18 @@
                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
                     <span class="h6">{{ forloop.counter0|add:serials.start_index }}</span>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-5">
                     <a class="detail" href="{% url 'serial_detail' slug=serial.slug pk=serial.pk %}">
                         <img class="poster" height="105" width="75" src="{{ serial.image.url }}">
                     </a>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-5">
                     <a class="detail" href="{% url 'serial_detail' slug=serial.slug pk=serial.pk %}">
                         <h6>{{ serial.title }}</h6>
                     </a>
                     ({{ serial.year }}- )
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 d-none d-sm-block">
                     <h6>
                         <i class="fa fa-star" aria-hidden="true" style="color:gold"></i>
                         {{ serial.average_score }}
@@ -135,11 +135,11 @@
         </form>
         {% endif %}
     </div>
-    <div class="col-xl-3 d-xl-block d-none mt-2">
+    <div class="col-xl-3 d-xl-block d-none">
         {% if latest_article %}
-        <div class="latest-article">
+        <div class="latest-article-top">
             <h5>Latest article:</h5>
-            <div class="card" >
+            <div class="card custom-card-shadow" >
                 <div class="card-body">
                     <p class="article-date">
                     <i class="fa fa-calendar" aria-hidden="true"></i>

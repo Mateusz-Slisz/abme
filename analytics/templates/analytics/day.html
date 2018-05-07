@@ -44,10 +44,10 @@
     <div class="main">
     <div class="row mt-3">
         <div class="col-2">
-            <h3 class="text-dark">Day</h3>
+            <h5 class="text-dark">Day</h5>
         </div>
         <div class="col-10">
-            <div class="h3 clock text-right text-dark">
+            <div class="h5 clock text-right text-dark">
 
             </div>
         </div>
@@ -63,9 +63,9 @@
             <div class="card-body">
               <div class="row">
                 <div class="chart col-12 col-xl-10">
-                    <canvas id="myChart" height="100" width="300"></canvas>
+                    <canvas id="myChart" height="100" width="200"></canvas>
                 </div>
-                <div class="col-12 col-xl-2 text-center my-auto">
+                <div class="col-sm-12 col-xl-2 d-none d-sm-block text-center my-auto">
                     <div class="row">
                         <div class="col-6 col-xl-12">
                             <div class="h4" style="color: #3e7899">Votes</div>
@@ -111,10 +111,10 @@
                 </div>
                 <div class="card-body">
                   <div class="row">
-                    <div class="chart col-10">
+                    <div class="chart col-sm-10 col-12">
                         <canvas id="aorChart" height="40" width="100"></canvas>
                     </div>
-                    <div class="col-2 text-center my-auto">
+                    <div class="col-sm-2 d-none d-sm-block text-center my-auto">
                       <div class="h4 text-primary">{{ sum_rate_votes }} votes</div>
                       <div class="small text-muted">TOTAL AMOUNT</div>
                       <hr>
@@ -124,7 +124,7 @@
               </div>
             </div>
 
-            <div class="col-6">
+            <div class="col-sm-6 col-12">
               <div class="card mb-3">
                   <div class="card-header">
                     <i class="fa fa-pie-chart"></i>
@@ -138,7 +138,7 @@
               </div>
             </div>
 
-            <div class="col-6">
+            <div class="col-sm-6 col-12">
                 <div class="card mb-3">
                     <div class="card-header">
                       <i class="fa fa-pie-chart"></i>
@@ -162,7 +162,7 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-6 text-center my-auto mr-auto ml-auto">
+                <div class="col-sm-6 d-none d-sm-block text-center my-auto mr-auto ml-auto">
                     <div class="h4">{{ sum_new_things }} new things</div>
                     <hr>
                 </div>

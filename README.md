@@ -21,8 +21,18 @@
 &nbsp;&nbsp;&nbsp;&nbsp;`$ python manage.py makemigrations`<br>
 &nbsp;&nbsp;&nbsp;&nbsp;`$ python manage.py migrate`<br>
 &nbsp;&nbsp;&nbsp;&nbsp;`$ python manage.py runserver`<br>
-### 2. Requirements
-* Python == 3.6
-* Django == 1.11
-### 3. Visualization
+### 2. Used technologies
+* Python 3.6
+  * Django 1.11
+  * Django REST framework
+* HTML5
+* CSS
+  * Bootstrap 4
+* Javascript
+  * Jquery
+  * Ajax
+* Database
+  * SQLite (local)
+  * PostgreSQL (heroku)
+### 3. Database visualization
 ![alt text](https://i.imgur.com/I8oT51U.png)

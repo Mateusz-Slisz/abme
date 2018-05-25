@@ -2,8 +2,15 @@
 {% load staticfiles %}
 
 
+{% block scripts %}
+    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{% static 'lib/jquery.raty.js' %}"></script>
+{% endblock scripts %}
+
+
 {% block content %}
-<div class="">
+<div>
         <div class="row">
             <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="bg-dark text-white" >
@@ -179,14 +186,15 @@
         </div>
     
     </div>
-    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="{% static 'lib/jquery.raty.js' %}"></script>
     
     <script type="text/javascript">
         
         $('.demo').raty({
-            path: '{% static "lib/images" %}',
+            starHalf:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/star-half.png',
+            starOff:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/star-off.png',
+            starOn:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/star-on.png' ,
+            cancelOff:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/cancel-off.png',
+            cancelOn:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/cancel-on.png',
             number: 10,
             hints:['1','2','3','4','5','6','7','8','9','10'],
             click: function(score, evt) {
@@ -194,6 +202,7 @@
                 id = $(this).attr("serial_id");
                 $.ajax(
                 {
+                    url: this.url,
                     type:"get",
                     data:{
                             add_serial_id: id,
@@ -211,6 +220,7 @@
             rate = $(this).attr("rate_data-catid");
             $.ajax(
             {
+                url: this.url,
                 type:"get",
                 data:{
                         rate: rate,

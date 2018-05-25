@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+
+{% block scripts %}
+    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{% static 'lib/jquery.raty.js' %}"></script>
+{% endblock scripts %}
+
+
 {% block content %}
     <nav role="navigation" class="pt-2">
         <div class="row mr-auto ml-auto profile-nav">
@@ -108,14 +116,13 @@
         </div>
     </div>
     {% endif %}
-
-    <link rel="stylesheet" href="{% static 'lib/jquery.raty.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="{% static 'lib/jquery.raty.js' %}"></script>
-
     <script type="text/javascript">
         $('.rating').raty({
-            path: '{% static "lib/images" %}',
+            starHalf:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/star-half.png',
+            starOff:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/star-off.png',
+            starOn:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/star-on.png' ,
+            cancelOff:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/cancel-off.png',
+            cancelOn:'https://cdnjs.cloudflare.com/ajax/libs/raty/2.8.0/images/cancel-on.png',
             number: 10,
             hints:['1','2','3','4','5','6','7','8','9','10'],
             readOnly: true 

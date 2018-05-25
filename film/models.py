@@ -5,6 +5,7 @@ from django.utils import timezone
 
 CHOICES = [(i, i) for i in range(11)]
 
+
 class FilmRating(models.Model):
     user = models.ForeignKey(User)
     film = models.ForeignKey(Film)
